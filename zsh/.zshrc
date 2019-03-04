@@ -73,6 +73,7 @@ plugins=(
   docker 
   docker-compose 
   vault
+  encode64
   )
 
 source $ZSH/oh-my-zsh.sh
