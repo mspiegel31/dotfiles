@@ -74,6 +74,7 @@ plugins=(
   docker-compose 
   vault
   encode64
+  archlinux #TODO move to desktop-specific config
   )
 
 source $ZSH/oh-my-zsh.sh
@@ -108,14 +109,3 @@ source $ZSH/oh-my-zsh.sh
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 export VISUAL="code --wait"
 export EDITOR="nano"
-
-# load $HOST specific setting
-# https://superuser.com/questions/677961/strategy-to-maintain-dotfiles-for-different-oss-i-e-osx-and-ubuntu
-if [[ -f ~/.zshrc-$HOST ]]; then
-   [[ ! -f ~/.zshrc-$HOST.zwc || ~/.zshrc-$HOST -nt ~/.zshrc-$HOST.zwc ]] && { zcompile ~/.zshrc-$HOST; print - compiled \~/.zshrc-$HOST. }
-   source ~/.zshrc-$HOST
-fi
-
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
