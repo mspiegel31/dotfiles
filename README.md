@@ -10,5 +10,3 @@ portable configuratio at its finest
 
 ## Installation snippets
 1. vscode [command reference](https://github.com/Microsoft/vscode/issues/42994#issuecomment-453184324) - `cat vscode/extensions.list | grep -v '^#' | xargs -L1 code --install-extension`
-
-1. desktop files - `stow -t ~/.config/autostart desktop`
