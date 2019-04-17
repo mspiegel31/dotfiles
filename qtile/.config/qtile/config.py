@@ -1,61 +1,20 @@
+# pylint: disable=invalid-name
+
+"""
+configs for qtile
+"""
 import subprocess
-import os
-
-from libqtile.config import Key, Screen, Group, Drag, Click
-from libqtile.command import lazy
-from libqtile import layout, bar, widget
-from libqtile import hook
-
 from typing import List
 
-mod = "mod4"
+from libqtile import layout
+from libqtile import hook
 
-keys = [
-    # Switch between windows in current stack pane
-    Key([mod], "k", lazy.layout.down()),
-    Key([mod], "j", lazy.layout.up()),
+from groups import groups # pylint: disable=unresolved-import
+from screens import screens # pylint: disable=unresolved-import
+from mouse import mouse
+from keys import keys
+from layouts import layouts
 
-    # Move windows up or down in current stack
-    Key([mod, "control"], "k", lazy.layout.shuffle_down()),
-    Key([mod, "control"], "j", lazy.layout.shuffle_up()),
-
-    # Switch window focus to other pane(s) of stack
-    Key([mod], "space", lazy.layout.next()),
-
-    # Swap panes of split stack
-    Key([mod, "shift"], "space", lazy.layout.rotate()),
-
-    # Toggle between split and unsplit sides of stack.
-    # Split = all windows displayed
-    # Unsplit = 1 window displayed, like Max layout, but still with
-    # multiple stack panes
-    Key([mod, "shift"], "Return", lazy.layout.toggle_split()),
-    Key([mod], "Return", lazy.spawn("xterm")),
-
-    # Toggle between different layouts as defined below
-    Key([mod], "Tab", lazy.next_layout()),
-    Key([mod], "w", lazy.window.kill()),
-
-    Key([mod, "control"], "r", lazy.restart()),
-    Key([mod, "control"], "q", lazy.shutdown()),
-    Key([mod], "r", lazy.spawncmd()),
-]
-
-groups = [Group(i) for i in "asdfuiop"]
-
-for i in groups:
-    keys.extend([
-        # mod1 + letter of group = switch to group
-        Key([mod], i.name, lazy.group[i.name].toscreen()),
-
-        # mod1 + shift + letter of group = switch to & move focused window to group
-        Key([mod, "shift"], i.name, lazy.window.togroup(i.name)),
-    ])
-
-layouts = [
-    layout.Max(),
-    layout.Stack(num_stacks=2)
-]
 
 widget_defaults = dict(
     font='sans',
@@ -64,30 +23,6 @@ widget_defaults = dict(
 )
 extension_defaults = widget_defaults.copy()
 
-screens = [
-    Screen(
-        bottom=bar.Bar(
-            [
-                widget.GroupBox(),
-                widget.Prompt(),
-                widget.WindowName(),
-                widget.TextBox("default config", name="default"),
-                widget.Systray(),
-                widget.Clock(format='%Y-%m-%d %a %I:%M %p'),
-            ],
-            24,
-        ),
-    ),
-]
-
-# Drag floating layouts.
-mouse = [
-    Drag([mod], "Button1", lazy.window.set_position_floating(),
-         start=lazy.window.get_position()),
-    Drag([mod], "Button3", lazy.window.set_size_floating(),
-         start=lazy.window.get_size()),
-    Click([mod], "Button2", lazy.window.bring_to_front())
-]
 
 dgroups_key_binder = None
 dgroups_app_rules: List = []
@@ -124,17 +59,8 @@ focus_on_window_activation = "smart"
 # java that happens to be on java's whitelist.
 wmname = "LG3D"
 
-### hooks
-@hook.subscribe.startup
-def dbus_register():
-    id = os.environ.get('DESKTOP_AUTOSTART_ID')
-    if not id:
-        return
-    subprocess.Popen(['dbus-send',
-                      '--session',
-                      '--print-reply',
-                      '--dest=org.gnome.SessionManager',
-                      '/org/gnome/SessionManager',
-                      'org.gnome.SessionManager.RegisterClient',
-                      'string:qtile',
-                      'string:' + id])
+# hooks
+@hook.subscribe.startup_once
+def autostart():
+    # start .desktop files
+    subprocess.call(["dex", "-a"])
