@@ -3,5 +3,5 @@ export NVM_DIR="$HOME/.nvm"
   [ -s "/usr/local/opt/nvm/etc/bash_completion" ] && . "/usr/local/opt/nvm/etc/bash_completion"  # This loads nvm bash_completion
 
 alias chrome="/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome"
-export PATH="$HOME/.jenv/bin:$PATH"
+export PATH="$HOME/.jenv/bin:$HOME/go/bin:$PATH"
 eval "$(jenv init -)"
