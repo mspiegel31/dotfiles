@@ -116,5 +116,3 @@ if [[ -f ~/.zshrc-$HOST ]]; then
    [[ ! -f ~/.zshrc-$HOST.zwc || ~/.zshrc-$HOST -nt ~/.zshrc-$HOST.zwc ]] && { zcompile ~/.zshrc-$HOST; print - compiled \~/.zshrc-$HOST. }
    source ~/.zshrc-$HOST
 fi
-export PATH="$HOME/.jenv/bin:$PATH"
-eval "$(jenv init -)"
