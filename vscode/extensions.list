@@ -3,6 +3,7 @@ alexkrechik.cucumberautocomplete
 anseki.vscode-color
 ArgyleWolfLabs.vscode-groovy
 asvetliakov.snapshot-tools
+auchenberg.vscode-browser-preview
 chintans98.markdown-jira
 christian-kohler.path-intellisense
 codezombiech.gitignore
@@ -17,8 +18,10 @@ emilast.LogFileHighlighter
 esbenp.prettier-vscode
 flowtype.flow-for-vscode
 GabrielBB.vscode-lombok
+Gruntfuggly.todo-tree
 humao.rest-client
 IBM.output-colorizer
+jebbs.plantuml
 jerriepelser.copy-markdown-as-html
 joaompinto.asciidoctor-vscode
 mathiasfrohlich.Kotlin
@@ -35,7 +38,10 @@ QassimFarid.ejs-language-support
 redhat.java
 redhat.vscode-xml
 rkostrzewski.monitor-file
+rogalmic.bash-debug
 shd101wyy.markdown-preview-enhanced
+sohibe.java-generate-setters-getters
+SonarSource.sonarlint-vscode
 swyphcosmo.spellchecker
 VisualStudioExptTeam.vscodeintellicode
 vscjava.vscode-java-debug
@@ -45,4 +51,5 @@ vscjava.vscode-java-test
 vscjava.vscode-maven
 vscjava.vscode-spring-boot-dashboard
 vscjava.vscode-spring-initializr
+wayou.vscode-todo-highlight
 ziyasal.vscode-open-in-github
