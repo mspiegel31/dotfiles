@@ -108,7 +108,7 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 alias ci="code-insiders"
-export VISUAL="code --wait"
+export VISUAL="ci --wait"
 export EDITOR="nano"
 
 # load $HOST specific setting
