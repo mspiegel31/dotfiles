@@ -50,8 +50,8 @@ beautiful.notification_font = "Noto Sans Bold 14"
 -- This is used later as the default terminal and editor to run.
 browser = "exo-open --launch WebBrowser" or "firefox"
 filemanager = "exo-open --launch FileManager" or "thunar"
-gui_editor = "mousepad"
-terminal = os.getenv("TERMINAL") or "lxterminal"
+gui_editor = "code-insiders"
+terminal = "tilix"
 
 -- Default modkey.
 -- Usually, Mod4 is the key with a logo between Control and Alt.
@@ -59,6 +59,7 @@ terminal = os.getenv("TERMINAL") or "lxterminal"
 -- I suggest you to remap Mod4 to another key using xmodmap or other tools.
 -- However, you can use another modifier like Mod1, but it may interact with others.
 modkey = "Mod4"
+altmodkey = "Mod1"
 -- Table of layouts to cover with awful.layout.inc, order matters.
 awful.layout.layouts = {
     awful.layout.suit.tile,
@@ -307,7 +308,7 @@ globalkeys = gears.table.join(
     -- Standard program
     awful.key({ modkey,           }, "Return", function () awful.spawn(terminal) end,
               {description = "open a terminal", group = "launcher"}),
-    awful.key({ modkey,           }, "z", function () awful.spawn(terminal) end,
+    awful.key({ altmodkey,           }, "space", function () awful.spawn("tilix --quake", { floating = true }) end,
               {description = "open a terminal", group = "launcher"}),
     awful.key({ modkey, "Control" }, "r", awesome.restart,
               {description = "reload awesome", group = "awesome"}),
