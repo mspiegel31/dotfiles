@@ -308,7 +308,7 @@ globalkeys = gears.table.join(
     -- Standard program
     awful.key({ modkey,           }, "Return", function () awful.spawn(terminal) end,
               {description = "open a terminal", group = "launcher"}),
-    awful.key({ altmodkey,           }, "space", function () awful.spawn("tilix --quake", { floating = true }) end,
+    awful.key({ modkey,           }, "space", function () awful.spawn("tilix --quake", { floating = true }) end,
               {description = "open a terminal", group = "launcher"}),
     awful.key({ modkey, "Control" }, "r", awesome.restart,
               {description = "reload awesome", group = "awesome"}),
