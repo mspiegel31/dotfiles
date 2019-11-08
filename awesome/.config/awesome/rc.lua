@@ -51,7 +51,7 @@ beautiful.wallpaper = awful.util.get_configuration_dir() .. "galaxy.jpg"
 -- This is used later as the default terminal and editor to run.
 browser = "exo-open --launch WebBrowser" or "firefox"
 filemanager = "exo-open --launch FileManager" or "thunar"
-gui_editor = "code-insiders"
+gui_editor = "code"
 terminal = "tilix"
 
 -- Default modkey.
