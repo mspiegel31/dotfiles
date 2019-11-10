@@ -46,7 +46,7 @@ beautiful.bg_normal         = "#141A1B"
 beautiful.bg_focus          = "#222B2E"
 beautiful.font              = "Noto Sans Regular 10"
 beautiful.notification_font = "Noto Sans Bold 14"
-beautiful.wallpaper = awful.util.get_configuration_dir() .. "galaxy.jpg"
+beautiful.wallpaper = awful.util.get_configuration_dir() .. "night-sky.jpg"
 
 -- This is used later as the default terminal and editor to run.
 browser = "exo-open --launch WebBrowser" or "firefox"
