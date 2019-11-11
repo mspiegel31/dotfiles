@@ -46,11 +46,12 @@ beautiful.bg_normal         = "#141A1B"
 beautiful.bg_focus          = "#222B2E"
 beautiful.font              = "Noto Sans Regular 10"
 beautiful.notification_font = "Noto Sans Bold 14"
+beautiful.wallpaper = awful.util.get_configuration_dir() .. "night-sky.jpg"
 
 -- This is used later as the default terminal and editor to run.
 browser = "exo-open --launch WebBrowser" or "firefox"
 filemanager = "exo-open --launch FileManager" or "thunar"
-gui_editor = "code-insiders"
+gui_editor = "code"
 terminal = "tilix"
 
 -- Default modkey.
@@ -206,7 +207,7 @@ awful.screen.connect_for_each_screen(function(s)
     set_wallpaper(s)
 
     -- Each screen has its own tag table.
-    awful.tag({ "1", "2", "3", "4", "5", "6" }, s, awful.layout.layouts[1])
+    awful.tag({ "1", "2", "3", "4", "5", "6", "7", "8", "9" }, s, awful.layout.layouts[1])
 
     -- Create a promptbox for each screen
     s.mypromptbox = awful.widget.prompt()
@@ -269,6 +270,8 @@ globalkeys = gears.table.join(
               {description = "view next", group = "tag"}),
     awful.key({ modkey,           }, "Escape", awful.tag.history.restore,
               {description = "go back", group = "tag"}),
+
+    -- awful.key({"Control"}, "Page_Down", function() {})
 
     awful.key({ modkey,           }, "j",
         function ()
@@ -339,7 +342,9 @@ globalkeys = gears.table.join(
               {description = "capture a screenshot", group = "screenshot"}),
     awful.key({"Control"          }, "Print", function () awful.spawn("/usr/bin/i3-scrot -w")   end,
               {description = "capture a screenshot of active window", group = "screenshot"}),
-    awful.key({"Shift"            }, "Print", function () awful.spawn("/usr/bin/i3-scrot -s")   end,
+    
+    -- https://www.reddit.com/r/awesomewm/comments/7ktca8/hotkey_for_scrot_s_not_working_while_scrot_and/
+    awful.key({"Shift"            }, "Print", function () awful.spawn.with_shell("sleep 0.1 && /usr/bin/i3-scrot -s")   end,
               {description = "capture a screenshot of selection", group = "screenshot"}),
 
     awful.key({ modkey, "Control" }, "n",

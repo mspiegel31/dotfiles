@@ -117,3 +117,8 @@ if [[ -f ~/.zshrc-$HOST ]]; then
    [[ ! -f ~/.zshrc-$HOST.zwc || ~/.zshrc-$HOST -nt ~/.zshrc-$HOST.zwc ]] && { zcompile ~/.zshrc-$HOST; print - compiled \~/.zshrc-$HOST. }
    source ~/.zshrc-$HOST
 fi
+
+function bwUnlock() {
+  # requires bitwarden cli
+  export BW_SESSION=$(bw unlock --raw)
+}
