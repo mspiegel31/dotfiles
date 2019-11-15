@@ -25,6 +25,9 @@ if (command -v system-config-printer-applet && ! pgrep applet.py ); then
   system-config-printer-applet &
 fi
 
+#remap caps to escape
+setxkbmap -option caps:escape
+
 run xfsettingsd
 run nm-applet
 run light-locker
