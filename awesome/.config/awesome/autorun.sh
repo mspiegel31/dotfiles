@@ -28,6 +28,9 @@ fi
 #remap caps to escape
 setxkbmap -option caps:escape
 
+# run make scrolling a little faster
+run imwheel -b 45
+
 run xfsettingsd
 run nm-applet
 run light-locker
