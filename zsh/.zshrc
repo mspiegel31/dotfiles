@@ -118,7 +118,18 @@ if [[ -f ~/.zshrc-$HOST ]]; then
    source ~/.zshrc-$HOST
 fi
 
+
+function startImwheel() {
+  if command_exists imwheel; then
+    imwheel -b 45
+  fi
+}
+
 function bwUnlock() {
   # requires bitwarden cli
   export BW_SESSION=$(bw unlock --raw)
+}
+
+function command_exists() {
+    type "$1" &> /dev/null ;
 }
