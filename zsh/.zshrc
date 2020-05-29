@@ -110,7 +110,7 @@ source $ZSH/oh-my-zsh.sh
 alias ci="code-insiders"
 export VISUAL="code --wait"
 export EDITOR="nano"
-
+export AIRFLOW_HOME=~/airflow
 # load $HOST specific setting
 # https://superuser.com/questions/677961/strategy-to-maintain-dotfiles-for-different-oss-i-e-osx-and-ubuntu
 if [[ -f ~/.zshrc-$HOST ]]; then
