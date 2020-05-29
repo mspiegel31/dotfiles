@@ -345,7 +345,7 @@ globalkeys = gears.table.join(
               {description = "capture a screenshot of active window", group = "screenshot"}),
     
     -- https://www.reddit.com/r/awesomewm/comments/7ktca8/hotkey_for_scrot_s_not_working_while_scrot_and/
-    awful.key({"Shift"            }, "Print", function () awful.spawn.with_shell("sleep 0.1 && /usr/bin/i3-scrot -s")   end,
+    awful.key({modkey, "Shift"            }, "s", function () awful.spawn.with_shell("sleep 0.1 && /usr/bin/i3-scrot -s")   end,
               {description = "capture a screenshot of selection", group = "screenshot"}),
 
     awful.key({ modkey, "Control" }, "n",
