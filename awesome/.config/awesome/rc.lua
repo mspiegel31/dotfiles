@@ -65,8 +65,8 @@ modkey = "Mod4"
 altmodkey = "Mod1"
 -- Table of layouts to cover with awful.layout.inc, order matters.
 awful.layout.layouts = {
-    lain.layout.centerwork,
     awful.layout.suit.tile,
+    lain.layout.centerwork,
     -- awful.layout.suit.floating,
     --awful.layout.suit.tile.left,
     -- awful.layout.suit.tile.bottom,
