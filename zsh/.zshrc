@@ -66,15 +66,14 @@ ZSH_THEME="ys"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
-  git 
+  git
+  git-prune
   colored-man-pages 
-  mvn 
   nvm 
   docker 
   docker-compose 
   vault
   encode64
-  archlinux #TODO move to desktop-specific config
   )
 
 source $ZSH/oh-my-zsh.sh
