@@ -81,7 +81,9 @@
       <property name="mpris-players" type="string" value="firefox.instance20889;firefox.instance23704"/>
     </property>
     <property name="plugin-8" type="string" value="whiskermenu"/>
-    <property name="plugin-5" type="string" value="clock"/>
+    <property name="plugin-5" type="string" value="clock">
+      <property name="digital-format" type="string" value="%a %d %b, %l:%m %p"/>
+    </property>
     <property name="plugin-1" type="string" value="showdesktop"/>
   </property>
   <property name="configver" type="int" value="2"/>
