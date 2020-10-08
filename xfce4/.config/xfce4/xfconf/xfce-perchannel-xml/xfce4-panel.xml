@@ -58,6 +58,8 @@
       </property>
       <property name="show-frame" type="bool" value="false"/>
       <property name="names-ordered" type="array">
+        <value type="string" value="psensor"/>
+        <value type="string" value="zoom"/>
         <value type="string" value="slack"/>
         <value type="string" value="steam"/>
         <value type="string" value="bluetooth enabled"/>
@@ -78,11 +80,11 @@
     </property>
     <property name="plugin-9" type="string" value="pulseaudio">
       <property name="enable-keyboard-shortcuts" type="bool" value="true"/>
-      <property name="mpris-players" type="string" value="firefox.instance20889;firefox.instance23704"/>
+      <property name="mpris-players" type="string" value="firefox.instance20889;firefox.instance23704;firefox.instance3876"/>
     </property>
     <property name="plugin-8" type="string" value="whiskermenu"/>
     <property name="plugin-5" type="string" value="clock">
-      <property name="digital-format" type="string" value="%a %d %b, %l:%m %p"/>
+      <property name="digital-format" type="string" value="%a %d %b, %l:%M %p"/>
     </property>
     <property name="plugin-1" type="string" value="showdesktop"/>
   </property>

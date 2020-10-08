@@ -1,5 +1,5 @@
 favorites=exo-terminal-emulator.desktop,exo-file-manager.desktop,exo-web-browser.desktop,exo-mail-reader.desktop
-recent=parsecd.desktop,slack_slack.desktop,nvidia-settings.desktop,xfce-wmtweaks-settings.desktop,firefox-developer-edition.desktop,xfce-settings-manager.desktop,timeshift-gtk.desktop,xfce-wm-settings.desktop,xfce-keyboard-settings.desktop,xfce4-accessibility-settings.desktop
+recent=psensor.desktop,parsecd.desktop,org.gnome.Cheese.desktop,Zoom.desktop,xfce-wm-settings.desktop,xfce4-power-manager-settings.desktop,plexmediaplayer.desktop,nvidia-settings.desktop,slack_slack.desktop,xfce-wmtweaks-settings.desktop
 button-icon=/usr/share/icons/whiskermenu-manjaro.svg
 button-single-row=false
 show-button-title=false
