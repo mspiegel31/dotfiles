@@ -1,8 +1,0 @@
-export VAULT_ADDR=https://vault.cengage.info
-export NVM_DIR="$HOME/.nvm"
-  [ -s "/usr/local/opt/nvm/nvm.sh" ] && . "/usr/local/opt/nvm/nvm.sh"  # This loads nvm
-  [ -s "/usr/local/opt/nvm/etc/bash_completion" ] && . "/usr/local/opt/nvm/etc/bash_completion"  # This loads nvm bash_completion
-
-alias chrome="/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome"
-export PATH="$HOME/.jenv/bin:$HOME/go/bin:$PATH"
-eval "$(jenv init -)"
