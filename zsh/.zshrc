@@ -67,6 +67,7 @@ ZSH_THEME="ys"
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
   git
+  kubectl 
   colored-man-pages 
   nvm 
   docker 
