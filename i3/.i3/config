@@ -61,7 +61,7 @@ bindsym $mod+Ctrl+m exec pavucontrol
 # Start Applications
 bindsym $mod+Ctrl+b exec terminal -e 'bmenu'
 bindsym $mod+$alt+b exec firefox-developer-edition
-bindsym $mod+F3 exec pcmanfm
+bindsym $mod+$alt+e exec pcmanfm
 
 # bindsym $mod+F3 exec ranger
 bindsym $mod+Shift+F3 exec pcmanfm_pkexec
