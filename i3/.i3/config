@@ -273,6 +273,11 @@ mode "resize" {
         bindsym Escape mode "default"
 }
 
+# Resizing by 10
+bindsym $mod+Ctrl+j resize shrink width 5 px or 5 ppt
+bindsym $mod+Ctrl+k resize grow height 5 px or 5 ppt
+bindsym $mod+Ctrl+l resize shrink height 5 px or 5 ppt
+bindsym $mod+Ctrl+semicolon resize grow width 5 px or 5 ppt
 # Lock screen
 bindsym $mod+9 exec --no-startup-id blurlock
 
