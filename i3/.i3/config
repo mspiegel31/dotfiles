@@ -72,16 +72,16 @@ bindsym $mod+Shift+d --release exec "killall dunst; exec notify-send 'restart du
 bindsym Print exec --no-startup-id i3-scrot
 bindsym $mod+Print --release exec --no-startup-id i3-scrot -w
 bindsym $mod+Shift+Print --release exec --no-startup-id i3-scrot -s
-bindsym $mod+Shift+h exec xdg-open /usr/share/doc/manjaro/i3_help.pdf
+# bindsym $mod+Shift+h exec xdg-open /usr/share/doc/manjaro/i3_help.pdf
 bindsym $mod+Ctrl+x --release exec --no-startup-id xkill
 
 # focus_follows_mouse no
 
 # change focus
-bindsym $mod+j focus left
-bindsym $mod+k focus down
-bindsym $mod+l focus up
-bindsym $mod+semicolon focus right
+bindsym $mod+h focus left
+bindsym $mod+j focus down
+bindsym $mod+k focus up
+bindsym $mod+l focus right
 
 # alternatively, you can use the cursor keys:
 bindsym $mod+Left focus left
@@ -90,16 +90,16 @@ bindsym $mod+Up focus up
 bindsym $mod+Right focus right
 
 # move focused window
-bindsym $mod+ctrl+j move left
-bindsym $mod+ctrl+k move down
-bindsym $mod+ctrl+l move up
-bindsym $mod+ctrl+semicolon move right
+bindsym $mod+ctrl+h move left
+bindsym $mod+ctrl+j move down
+bindsym $mod+ctrl+k move up
+bindsym $mod+ctrl+l move right
 
 # Resizing
-bindsym $mod+Shift+j resize shrink width 5 px or 5 ppt
-bindsym $mod+Shift+k resize grow height 5 px or 5 ppt
-bindsym $mod+Shift+l resize shrink height 5 px or 5 ppt
-bindsym $mod+Shift+semicolon resize grow width 5 px or 5 ppt
+bindsym $mod+Shift+h resize shrink width 5 px or 5 ppt
+bindsym $mod+Shift+j resize grow height 5 px or 5 ppt
+bindsym $mod+Shift+k resize shrink height 5 px or 5 ppt
+bindsym $mod+Shift+l resize grow width 5 px or 5 ppt
 
 # alternatively, you can use the cursor keys:
 bindsym $mod+Shift+Left move left
@@ -113,7 +113,8 @@ bindsym $mod+b workspace back_and_forth
 bindsym $mod+Shift+b move container to workspace back_and_forth; workspace back_and_forth
 
 # split orientation
-bindsym $mod+h split h;exec notify-send 'tile horizontally'
+# p for 'parallel'
+bindsym $mod+p split h;exec notify-send 'tile horizontally'
 bindsym $mod+v split v;exec notify-send 'tile vertically'
 bindsym $mod+q split toggle
 
