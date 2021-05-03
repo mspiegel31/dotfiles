@@ -67,6 +67,7 @@ ZSH_THEME="ys"
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
   git
+  kube-ps1
   kubectl 
   colored-man-pages 
   nvm 
@@ -136,3 +137,6 @@ function command_exists() {
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+# Created by `userpath` on 2021-02-25 19:57:21
+export PATH="$PATH:/Users/mike/.local/bin"
