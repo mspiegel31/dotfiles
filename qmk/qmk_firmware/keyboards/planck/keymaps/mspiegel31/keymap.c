@@ -56,9 +56,9 @@ enum {
   P_OR_0,
 };
 qk_tap_dance_action_t tap_dance_actions[] = {
-  [DBCBR] = ACTION_TAP_DANCE_DOUBLE(KC_LCBR, KC_RCBR),  // {}
-  [DBPRN] = ACTION_TAP_DANCE_DOUBLE(KC_LPRN, KC_RPRN),  // ()
-  [DBBRC] = ACTION_TAP_DANCE_DOUBLE(KC_LBRC, KC_RBRC),     // []
+  [DBCBR]  = ACTION_TAP_DANCE_DOUBLE(KC_LCBR, KC_RCBR),  // {}
+  [DBPRN]  = ACTION_TAP_DANCE_DOUBLE(KC_LPRN, KC_RPRN),  // ()
+  [DBBRC]  = ACTION_TAP_DANCE_DOUBLE(KC_LBRC, KC_RBRC),  // []
   [Q_OR_1] = ACTION_TAP_DANCE_DOUBLE(KC_Q, KC_1),
   [W_OR_2] = ACTION_TAP_DANCE_DOUBLE(KC_W, KC_2),
   [E_OR_3] = ACTION_TAP_DANCE_DOUBLE(KC_E, KC_3),
@@ -85,10 +85,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * `-----------------------------------------------------------------------------------'
  */
 [_QWERTY] = LAYOUT_planck_grid(
-    KC_GRV,  KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,      KC_Y,     KC_U,   KC_I,    KC_O,    KC_P,    KC_BSPC,
-    KC_TAB,  KC_A,    KC_S,    KC_D,    KC_F,    KC_G,      KC_H,     KC_J,   KC_K,    KC_L,    KC_SCLN, KC_QUOT,
-    KC_LSFT, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,      KC_N,     KC_M,   KC_COMM, KC_DOT,  KC_UP,   KC_ENT,
-    KC_LCTL, FN,      KC_LALT, KC_LGUI, LOWER,   SPACE_FN,  SPACE_FN, RAISE,  KC_SLSH, KC_LEFT, KC_DOWN, KC_RIGHT
+    KC_GRV,  TD(Q_OR_1),  TD(W_OR_2),  TD(E_OR_3),  TD(R_OR_4),  TD(T_OR_5),  TD(Y_OR_6),  TD(U_OR_7),  TD(I_OR_8),  TD(O_OR_9),  TD(P_OR_0),  KC_BSPC,
+    KC_TAB,  KC_A,        KC_S,        KC_D,        KC_F,        KC_G,        KC_H,        KC_J,        KC_K,        KC_L,        KC_SCLN,     KC_QUOT,
+    KC_LSFT, KC_Z,        KC_X,        KC_C,        KC_V,        KC_B,        KC_N,        KC_M,        KC_COMM,     KC_DOT,      KC_UP,       KC_ENT,
+    KC_LCTL, FN,          KC_LALT,     KC_LGUI,     LOWER,       SPACE_FN,    SPACE_FN,    RAISE,       KC_SLSH,     KC_LEFT,     KC_DOWN,     KC_RIGHT
 ),
 
 
