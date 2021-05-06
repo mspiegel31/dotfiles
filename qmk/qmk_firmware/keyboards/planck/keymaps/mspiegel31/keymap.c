@@ -41,13 +41,14 @@ enum planck_keycodes {
 
 // Tap Dance
 enum {
-  LPN,
-  RPN,
+  DBCBR,
+  DBPRN,
+  DBBRC
 };
 qk_tap_dance_action_t tap_dance_actions[] = {
-  [LPN] = ACTION_TAP_DANCE_DOUBLE(KC_LBRC, KC_LPRN),
-  [RPN] = ACTION_TAP_DANCE_DOUBLE(KC_RBRC, KC_RPRN),
-
+  [DBCBR] = ACTION_TAP_DANCE_DOUBLE(KC_LCBR, KC_RBRC),
+  [DBPRN] = ACTION_TAP_DANCE_DOUBLE(KC_LPRN, KC_RPRN),
+  [DBBRC] = ACTION_TAP_DANCE_DOUBLE(KC_LBRC, KC_RBRC),
 };
 
 /* Template
