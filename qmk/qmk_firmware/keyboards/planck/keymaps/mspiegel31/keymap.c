@@ -34,8 +34,8 @@ enum planck_keycodes {
 };
 
 // Fillers to make layering more clear
-#define LOWER MO(_LOWER)
-#define RAISE MO(_RAISE)
+#define LOWER OSL(_LOWER)
+#define RAISE OSL(_RAISE)
 #define FN MO(_FN)
 #define SPACE_FN LT(_SPACE_FN, KC_SPC)
 
@@ -164,7 +164,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       XXXXXXX,  XXXXXXX, XXXXXXX,  XXXXXXX,   XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX, XXXXXXX,  XXXXXXX,     XXXXXXX,    XXXXXXX, 
       XXXXXXX,  XXXXXXX, XXXXXXX,  XXXXXXX,   XXXXXXX,  _______,  _______,  XXXXXXX, KC__MUTE, KC__VOLDOWN, KC__VOLUP,  XXXXXXX
   ),
-\
+  
 /* Adjust (Lower + Raise)
  *                      v------------------------RGB CONTROL--------------------v
  * ,-----------------------------------------------------------------------------------.
