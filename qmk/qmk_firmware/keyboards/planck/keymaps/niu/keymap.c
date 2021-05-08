@@ -44,7 +44,7 @@ enum {
   DBCBR,
   DBPRN,
   DBBRC,
-  GRV_OR_TILD
+  GRV_OR_TILD,
 };
 qk_tap_dance_action_t tap_dance_actions[] = {
   [DBCBR] = ACTION_TAP_DANCE_DOUBLE(KC_LCBR, KC_RCBR),  // {}
@@ -107,7 +107,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 [_LOWER] = LAYOUT_planck_grid(
     KC_ESC,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_BSPC,
     KC_DEL,  _______, _______, _______, _______, _______, KC_LBRC, KC_RBRC, KC_BSLS, KC_QUOT, _______, _______,
-    _______, _______, _______, _______, _______, _______, KC_MINS, KC_EQL,  _______, KC_MUTE, KC_VOLU, KC_MPLY,
+    _______, _______, _______, _______, _______, _______, KC_MINS, KC_EQL,  KC_LT,   KC_GT,   KC_VOLU, KC_MPLY,
     _______, _______, _______, _______, _______, _______, _______, _______, _______, KC_MPRV, KC_VOLD, KC_MNXT
 ),
 
