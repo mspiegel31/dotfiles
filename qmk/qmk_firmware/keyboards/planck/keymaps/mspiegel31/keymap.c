@@ -137,18 +137,18 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
   /* Space FN
   * ,-----------------------------------------------------------------------------------.
-  * |KC_ESC |      |  UP  |      |      |      |      |      |      |      |      |SLEEP |
+  * |KC_ESC |      |  UP  |      |      |      |      |      |SCL_UP|      |      |      |
   * |-------+------+------+------+------+-------------+------+------+------+------+------|
-  * |       | LEFT | DOWN | RIGHT|      |      |      | LEFT | DOWN |  UP  | RIGHT|      |
+  * |       | LEFT | DOWN | RIGHT|      |      |      |SCL_LT|SCL_DN|SCL_RT|      |      |
   * |-------+------+------+------+------+------|------+------+------+------+------+------| 
   * |       |      |      |      |      |      |      |      |      |      |      |      |
   * |-------+------+------+------+------+------+------+------+------+------+------+------|
-  * |       |      |      |      |      |             |      | MUTE |VOLDWN|VOL UP|      |
+  * |       |      |      |      |      |             |      |      |      |      |      |
   * `-----------------------------------------------------------------------------------'
   */
   [_SPACE_FN] = LAYOUT_planck_grid(
-      KC_ESC,   KC_BTN1, KC_MS_U,  KC_BTN2,   XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX, KC_UP,   XXXXXXX,  XXXXXXX, KC_SLEP, 
-      XXXXXXX,  KC_MS_L, KC_MS_D,  KC_MS_R,  XXXXXXX,  XXXXXXX,  XXXXXXX,  KC_LEFT, KC_DOWN, KC_RIGHT, XXXXXXX, XXXXXXX, 
+      KC_ESC,   KC_BTN1, KC_MS_U,  KC_BTN2,   XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX, KC_WH_U, XXXXXXX,  XXXXXXX, XXXXXXX, 
+      XXXXXXX,  KC_MS_L, KC_MS_D,  KC_MS_R,   XXXXXXX,  XXXXXXX,  XXXXXXX,  KC_WH_L, KC_WH_D, KC_WH_R,  XXXXXXX, XXXXXXX, 
       XXXXXXX,  XXXXXXX, XXXXXXX,  XXXXXXX,   XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX,  XXXXXXX, XXXXXXX, 
       XXXXXXX,  XXXXXXX, XXXXXXX,  XXXXXXX,   XXXXXXX,  _______,  _______,  XXXXXXX, XXXXXXX, XXXXXXX,  XXXXXXX, XXXXXXX
   ),
