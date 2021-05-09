@@ -44,6 +44,8 @@ enum {
   DBCBR,
   DBPRN,
   DBBRC,
+  OBROBRK,
+  CBRCBRK,
   GRV_OR_TILD,
   MUTE_OR_PLAY
 };
@@ -51,6 +53,8 @@ qk_tap_dance_action_t tap_dance_actions[] = {
   [DBCBR] = ACTION_TAP_DANCE_DOUBLE(KC_LCBR, KC_RCBR),  // {}
   [DBPRN] = ACTION_TAP_DANCE_DOUBLE(KC_LPRN, KC_RPRN),  // ()
   [DBBRC] = ACTION_TAP_DANCE_DOUBLE(KC_LBRC, KC_RBRC),  // []
+  [OBROBRK] = ACTION_TAP_DANCE_DOUBLE(KC_LBRC, KC_LCBR),  // [{
+  [CBRCBRK] = ACTION_TAP_DANCE_DOUBLE(KC_RBRC, KC_RBRC),  // ]}
   [GRV_OR_TILD] = ACTION_TAP_DANCE_DOUBLE(KC_GRV, KC_TILD),  // ` or ~
 
 };
@@ -80,7 +84,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * ,-----------------------------------------------------------------------------------.
  * |  ~   |   !  |   @  |   #  |   $  |   %  |   ^  |   &  |  *   |   (  |  )   | Bksp |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
- * | Del  |      |      |      |      |      |  {   |   }  |  |   |      |      |  |   |
+ * | Del  |      |      |      |      |      |  {   |   }  |  |   |  "   |      |  |   |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
  * |      |      |      |      |      |      |  _   |   +  |      |      | PgUp |  \   |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
@@ -98,7 +102,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * ,-----------------------------------------------------------------------------------.
  * | Esc  |   1  |   2  |   3  |   4  |   5  |   6  |   7  |   8  |   9  |   0  | Bksp |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
- * | Del  |      |      |      |      |      |  [   |   ]  |   \  |  "   | Mute |      |
+ * | Del  |      |      |      |      |      |  [   |   ]  |   \  |  "   |      |      |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
  * |      |      |      |      |      |      |   -  |   =  |  <   |  >   | Vol+ | Play |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
@@ -107,7 +111,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  */
 [_LOWER] = LAYOUT_planck_grid(
     KC_ESC,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_BSPC,
-    KC_DEL,  _______, _______, _______, _______, _______, KC_LBRC, KC_RBRC, KC_BSLS, KC_QUOT, _______, KC_MUTE,
+    KC_DEL,  _______, _______, _______, _______, _______, KC_LBRC, KC_RBRC, _______, KC_QUOT, _______, _______,
     _______, _______, _______, _______, _______, _______, KC_MINS, KC_EQL,  KC_LT,   KC_GT,   KC_VOLU, KC_MPLY,
     _______, _______, _______, _______, _______, _______, _______, _______, _______, KC_MPRV, KC_VOLD, KC_MNXT
 ),
