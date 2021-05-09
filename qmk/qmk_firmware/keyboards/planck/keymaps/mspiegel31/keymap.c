@@ -54,7 +54,7 @@ qk_tap_dance_action_t tap_dance_actions[] = {
   [DBPRN] = ACTION_TAP_DANCE_DOUBLE(KC_LPRN, KC_RPRN),  // ()
   [DBBRC] = ACTION_TAP_DANCE_DOUBLE(KC_LBRC, KC_RBRC),  // []
   [OBROBRK] = ACTION_TAP_DANCE_DOUBLE(KC_LBRC, KC_LCBR),  // [{
-  [CBRCBRK] = ACTION_TAP_DANCE_DOUBLE(KC_RBRC, KC_RBRC),  // ]}
+  [CBRCBRK] = ACTION_TAP_DANCE_DOUBLE(KC_RBRC, KC_RCBR),  // ]}
   [GRV_OR_TILD] = ACTION_TAP_DANCE_DOUBLE(KC_GRV, KC_TILD),  // ` or ~
 
 };
@@ -84,7 +84,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * ,-----------------------------------------------------------------------------------.
  * |  ~   |   !  |   @  |   #  |   $  |   %  |   ^  |   &  |  *   |   (  |  )   | Bksp |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
- * | Del  |      |      |      |      |      |  {   |   }  |  |   |  "   |      |  |   |
+ * | Del  |      |      |      |      |      |      |      |  |   |  "   |      |  |   |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
  * |      |      |      |      |      |      |  _   |   +  |      |      | PgUp |  \   |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
@@ -93,7 +93,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  */
 [_RAISE] = LAYOUT_planck_grid(
     KC_TILD, KC_EXLM, KC_AT,   KC_HASH, KC_DLR,  KC_PERC, KC_CIRC, KC_AMPR,  KC_ASTR,  KC_LPRN, KC_RPRN, KC_BSPC,
-    KC_DEL,  _______, _______, _______, _______, _______, KC_LCBR, KC_RCBR,  KC_PIPE,  KC_DQUO, _______, KC_PIPE,
+    KC_DEL,  _______, _______, _______, _______, _______, _______, _______,  KC_PIPE,  KC_DQUO, _______, KC_PIPE,
     _______, _______, _______, _______, _______, _______, KC_UNDS, KC_PLUS,  _______,  _______, KC_PGUP, KC_BSLS,
     _______, _______, _______, _______, _______, _______, _______, _______,  _______,  KC_HOME, KC_PGDN, KC_END
 ),
