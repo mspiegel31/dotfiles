@@ -36,7 +36,7 @@ enum planck_keycodes {
 // Fillers to make layering more clear
 #define LOWER OSL(_LOWER)
 #define RAISE OSL(_RAISE)
-#define FN2    OSL(_FN2)
+#define FN2   OSL(_FN2)
 #define SPACE_FN LT(_SPACE_FN, KC_SPC)
 
 // Tap Dance
