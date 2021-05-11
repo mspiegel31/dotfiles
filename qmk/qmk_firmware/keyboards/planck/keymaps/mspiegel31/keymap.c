@@ -84,6 +84,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_LCTL, FN2,     KC_LALT, KC_LGUI, LOWER,   SPACE_FN,  SPACE_FN, RAISE,  KC_LEFT,       KC_DOWN, KC_UP,       KC_RIGHT
 ),
 
+
 /* Lower
  * ,-----------------------------------------------------------------------------------.
  * | Esc  |   1  |   2  |   3  |   4  |   5  |   6  |   7  |   8  |   9  |   0  | Bksp |
@@ -97,8 +98,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  */
 [_LOWER] = LAYOUT_planck_grid(
     KC_ESC,  KC_1,    KC_2,    KC_3,    KC_4,     KC_5,    KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_BSPC,
-    KC_DEL,  KC_LEFT, KC_DOWN, KC_UP,   KC_RIGHT, _______, _______, KC_LBRC, KC_RBRC, _______, _______, _______,
-    _______, _______, _______, _______, _______,  _______, KC_MINS, KC_EQL,  KC_LT,   KC_GT,   KC_BSLS, _______,
+    KC_DEL,  KC_MPRV, KC_VOLU, KC_VOLD, KC_MNXT, _______, _______, KC_LBRC, KC_RBRC, _______, _______, _______,
+    _______, _______, _______, KC_MUTE, KC_MPLY,  _______, KC_MINS, KC_EQL,  KC_LT,   KC_GT,   KC_BSLS, _______,
     _______, _______, _______, _______, _______,  _______, _______, _______, KC_HOME, KC_PGUP, KC_PGDN, KC_END
 ),
 
@@ -115,9 +116,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  */
 [_RAISE] = LAYOUT_planck_grid(
     KC_TILD, KC_EXLM, KC_AT,   KC_HASH, KC_DLR,  KC_PERC, KC_CIRC, KC_AMPR,  KC_ASTR, KC_LPRN, KC_RPRN,  KC_BSPC,
-    _______, _______, _______, _______, _______, _______, _______, KC_MPRV,  KC_VOLU, KC_VOLD, KC_MNXT,  _______,
-    _______, _______, _______, _______, _______, _______, KC_UNDS, KC_MUTE,  KC_MPLY, _______, _______,  _______,
-    _______, _______, _______, _______, _______, _______, _______, _______,  _______, KC_BRIU, KC_BRID,  _______
+    _______, _______, _______, _______, _______, _______, _______, KC_LEFT,  KC_DOWN, KC_UP,   KC_RIGHT, _______,
+    _______, _______, KC_BRID, KC_BRIU, _______, _______, KC_UNDS, _______,  _______, _______, _______,  _______,
+    _______, _______, _______, _______, _______, _______, _______, _______,  _______, _______, _______,  _______
 ),
 
   /* FN2
