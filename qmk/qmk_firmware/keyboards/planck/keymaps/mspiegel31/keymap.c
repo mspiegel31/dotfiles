@@ -142,9 +142,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
   /* Space FN
   * ,-----------------------------------------------------------------------------------.
-  * |KC_ESC |      |  UP  |      |      |      |      |      |SCL_UP|      |      |      |
+  * |KC_ESC |      |      |      |      |      |      |      |SCL_UP|      |      |      |
   * |-------+------+------+------+------+-------------+------+------+------+------+------|
-  * |       | LEFT | DOWN | RIGHT|      |      |      |SCL_LT|SCL_DN|SCL_RT|      |      |
+  * |       | LEFT |  UP  | RIGHT|RIGHT |      |      |SCL_LT|SCL_DN|SCL_RT|      |      |
   * |-------+------+------+------+------+------|------+------+------+------+------+------| 
   * |       |      |      |      |      |      |      |      |      |      |      |      |
   * |-------+------+------+------+------+------+------+------+------+------+------+------|
@@ -152,8 +152,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   * `-----------------------------------------------------------------------------------'
   */
   [_SPACE_FN] = LAYOUT_planck_grid(
-      KC_ESC,   KC_BTN1, KC_MS_U,  KC_BTN2,   XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX, KC_WH_U, XXXXXXX,  XXXXXXX, XXXXXXX, 
-      XXXXXXX,  KC_MS_L, KC_MS_D,  KC_MS_R,   XXXXXXX,  XXXXXXX,  XXXXXXX,  KC_WH_L, KC_WH_D, KC_WH_R,  XXXXXXX, XXXXXXX, 
+      KC_ESC,   XXXXXXX, XXXXXXX,  KC_BTN1,   KC_BTN2,  XXXXXXX,  XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX,  XXXXXXX, XXXXXXX, 
+      XXXXXXX,  KC_MS_L, KC_MS_D,  KC_MS_U,   KC_MS_R,  XXXXXXX,  XXXXXXX,  KC_WH_L, KC_WH_D, KC_WH_U,  KC_WH_R, XXXXXXX, 
       XXXXXXX,  XXXXXXX, XXXXXXX,  XXXXXXX,   XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX,  XXXXXXX, XXXXXXX, 
       XXXXXXX,  XXXXXXX, XXXXXXX,  XXXXXXX,   XXXXXXX,  _______,  _______,  XXXXXXX, XXXXXXX, XXXXXXX,  XXXXXXX, XXXXXXX
   ),
@@ -172,9 +172,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  */
 [_ADJUST] = LAYOUT_planck_grid(
     _______, RESET,   DEBUG,   RGB_TOG, RGB_MOD, RGB_HUI, RGB_HUD, RGB_SAI, RGB_SAD,  RGB_VAI, RGB_VAD, RESET ,
-    _______, _______, MU_MOD,  AU_ON,   AU_OFF,  AG_NORM, AG_SWAP, QWERTY,  _______,  _______,  _______,  _______,
-    _______, MUV_DE,  MUV_IN,  MU_ON,   MU_OFF,  MI_ON,   MI_OFF,  TERM_ON, TERM_OFF, _______, _______, _______,
-    _______, _______, _______, _______, _______, _______, _______, _______, _______,  _______, _______, _______
+    _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
+    _______, _______, _______, _______, _______, _______, _______,  _______, _______, _______, _______, _______,
+    _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
 )
 
 };
