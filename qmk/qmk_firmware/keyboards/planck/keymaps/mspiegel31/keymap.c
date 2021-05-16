@@ -53,14 +53,14 @@ enum {
   GRV_OR_TILD,
 };
 qk_tap_dance_action_t tap_dance_actions[] = {
-  [DBCBR] = ACTION_TAP_DANCE_DOUBLE(KC_LCBR, KC_RCBR),     // {}
-  [DBPRN] = ACTION_TAP_DANCE_DOUBLE(KC_LPRN, KC_RPRN),     // ()
-  [DBBRC] = ACTION_TAP_DANCE_DOUBLE(KC_LBRC, KC_RBRC),     // []
-  [OBROBRK] = ACTION_TAP_DANCE_DOUBLE(KC_LBRC, KC_LCBR),   // [{
-  [CBRCBRK] = ACTION_TAP_DANCE_DOUBLE(KC_RBRC, KC_RCBR),   // ]}
-  [SQUODQUO] = ACTION_TAP_DANCE_DOUBLE(KC_QUOT, KC_DQUO),  // ' "
-  [SEMI_EQ] = ACTION_TAP_DANCE_DOUBLE(KC_SCLN, KC_EQL),    // ; =
-  [SLASH_MIN] = ACTION_TAP_DANCE_DOUBLE(KC_SLSH, KC_MINS), // / -
+  [DBCBR]     = ACTION_TAP_DANCE_DOUBLE(KC_LCBR, KC_RCBR),  // {}
+  [DBPRN]     = ACTION_TAP_DANCE_DOUBLE(KC_LPRN, KC_RPRN),  // ()
+  [DBBRC]     = ACTION_TAP_DANCE_DOUBLE(KC_LBRC, KC_RBRC),  // []
+  [OBROBRK]   = ACTION_TAP_DANCE_DOUBLE(KC_LBRC, KC_LCBR),  // [{
+  [CBRCBRK]   = ACTION_TAP_DANCE_DOUBLE(KC_RBRC, KC_RCBR),  // ]}
+  [SQUODQUO]  = ACTION_TAP_DANCE_DOUBLE(KC_QUOT, KC_DQUO),  // ' "
+  [SEMI_EQ]   = ACTION_TAP_DANCE_DOUBLE(KC_SCLN, KC_EQL),   // ; =
+  [SLASH_MIN] = ACTION_TAP_DANCE_DOUBLE(KC_SLSH, KC_MINS),  // / -
   [COMMA_MIN] = ACTION_TAP_DANCE_DOUBLE(KC_COMM, KC_MINS),  // , -
 };
 
@@ -85,40 +85,40 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 ),
 
 
-/* Lower
- * ,-----------------------------------------------------------------------------------.
- * | Esc  |   1  |   2  |   3  |   4  |   5  |   6  |   7  |   8  |   9  |   0  | Bksp |
- * |------+------+------+------+------+------+------+------+------+------+------+------|
- * |      |      |      |  (   |  )   |  =   |  _   |  {   |  [   |  ]   |  }   |      |
- * |------+------+------+------+------+------+------+------+------+------+------+------|
- * |      |      |      |  -   |  +   |      |      |  |   |  <   |  >   |  /   |      |
- * |------+------+------+------+------+------+------+------+------+------+------+------|
- * |      |      |      |      |      |             |      | Home | PgUp | PgDn | End  |
- * `-----------------------------------------------------------------------------------'
- */
-[_LOWER] = LAYOUT_planck_grid(
-    KC_ESC,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_BSPC,
-    _______, _______, _______, KC_LPRN, KC_RPRN, KC_EQL,  KC_UNDS, KC_LCBR, KC_LBRC, KC_RBRC, KC_RCBR, _______,
-    _______, _______, _______, KC_PLUS, KC_MINS, _______, _______, KC_PIPE, KC_LT,   KC_GT,   KC_BSLS, _______,
-    _______, _______, _______, _______, _______, _______, _______, _______, KC_HOME, KC_PGDN, KC_PGUP, KC_END
-),
-
 /* Raise
  * ,-----------------------------------------------------------------------------------.
  * |  ~   |   !  |   @  |   #  |   $  |   %  |   ^  |   &  |  *   |   (  |  )   | Bksp |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
- * |      | Prev | Vol+ | Vol- | Next | Bri- | Bri+ | Left | Down |  Up  |Right |      |
+ * |      |  _   |  <   |  >   |  =   |      |      |  {   |  [   |  ]   |  }   |      |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
- * |      |      |      |  -   |  +   |      |      | Mute | Play |      |      |      |
+ * |      |      |      |  +   |  -   |      |      |  |   |  <   |  >   |  /   |      |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
- * |      |      |      |      |      |             |      |      |      |      |      |
+ * |      |      |      |      |      |             |      | Home | PgUp | PgDn | End  |
  * `-----------------------------------------------------------------------------------'
  */
 [_RAISE] = LAYOUT_planck_grid(
-    KC_TILD, KC_EXLM, KC_AT,   KC_HASH, KC_DLR,  KC_PERC, KC_CIRC, KC_AMPR,  KC_ASTR, KC_LPRN, KC_RPRN,  KC_BSPC,
-    _______, KC_MPRV, KC_VOLU, KC_VOLD, KC_MNXT, KC_BRID, KC_BRIU, KC_LEFT,  KC_DOWN, KC_UP,   KC_RIGHT, _______,
-    _______, _______, _______, KC_PLUS, KC_MINS, _______, _______, KC_MUTE,  KC_MPLY, _______, _______,  _______,
-    _______, _______, _______, _______, _______, _______, _______, _______,  _______, _______, _______,  _______
+    KC_TILD, KC_EXLM, KC_AT,   KC_HASH, KC_DLR,  KC_PERC, KC_CIRC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN, KC_BSPC,
+    _______, KC_UNDS, KC_LT,   KC_GT,   KC_EQL,  _______, _______, KC_LCBR, KC_LBRC, KC_RBRC, KC_RCBR, _______,
+    _______, _______, _______, KC_PLUS, KC_MINS, _______, _______, KC_PIPE, KC_LT,   KC_GT,   KC_BSLS, _______,
+    _______, _______, _______, _______, _______, _______, _______, _______, KC_HOME, KC_PGDN, KC_PGUP, KC_END
+),
+
+/* Lower
+ * ,-----------------------------------------------------------------------------------.
+ * | Esc  |   1  |   2  |   3  |   4  |   5  |   6  |   7  |   8  |   9  |   0  | Bksp |
+ * |------+------+------+------+------+------+------+------+------+------+------+------|
+ * |      | Prev | Vol+ | Vol- | Next | Play | Mute |   4  |   5  |   6  |   -  |      |
+ * |------+------+------+------+------+------+------+------+------+------+------+------|
+ * |      | Home | PgUp | PgDn | End  |      |      |   1  |   2  |   3  |   +  |      |
+ * |------+------+------+------+------+------+------+------+------+------+------+------|
+ * |      |      |      |      |      |             |      |   0  |   .  |   =  |      |
+ * `-----------------------------------------------------------------------------------'
+ */
+[_LOWER] = LAYOUT_planck_grid(
+    KC_ESC,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_6,     KC_7,    KC_8,    KC_9,    KC_0,    KC_BSPC,
+    _______, KC_MPRV, KC_VOLD, KC_VOLU, KC_MNXT, KC_MPLY, KC_MUTE,  KC_4,    KC_5,    KC_6,    KC_MINS, _______,
+    _______, KC_HOME, KC_PGUP, KC_PGDN, KC_END,  KC_BRID, KC_BRIU,  KC_1,    KC_2,    KC_3,    KC_PLUS, _______,
+    _______, _______, _______, _______, _______, _______, _______,  _______, KC_0,    KC_DOT,  KC_EQL,  _______
 ),
 
   /* FN2
