@@ -72,7 +72,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |------+------+------+------+------+------+------+------+------+------+------+------|
  * | Tab  |   A  |   S  |   D  |   F  |   G  |   H  |   J  |   K  |   L  |  ;=  |  '   |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
- * | Shift|   Z  |   X  |   C  |   V  |   B  |   N  |   M  |   ,  |   .  |  /   |Enter |
+ * | Shift|   Z  |   X  |   C  |   V  |   B  |   N  |   M  |   ,- |   .  |  /   |Enter |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
  * | Ctrl |  FN2  | Alt  | GUI  |Lower|    Space    |Raise |  Up  | Left | Down |Right |
  * `-----------------------------------------------------------------------------------`
@@ -85,7 +85,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 ),
 
 
-/* Raise
+/* Lower
  * ,-----------------------------------------------------------------------------------.
  * |  ~   |   !  |   @  |   #  |   $  |   %  |   ^  |   &  |  *   |   (  |  )   | Bksp |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
@@ -98,24 +98,24 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  */
 [_LOWER] = LAYOUT_planck_grid(
     KC_ESC,  KC_EXLM, KC_AT,   KC_HASH, KC_DLR,  KC_PERC, KC_CIRC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN, KC_BSPC,
-    _______, KC_UNDS, KC_LT,   KC_GT,   KC_EQL,  _______, _______, KC_LCBR, KC_LBRC, KC_RBRC, KC_RCBR, _______,
+    _______, KC_UNDS, KC_LT,   KC_GT,   KC_EQL,  KC_AMPR, KC_PIPE, KC_LCBR, KC_LBRC, KC_RBRC, KC_RCBR, _______,
     _______, _______, _______, KC_PLUS, KC_MINS, _______, _______, KC_PIPE, KC_LT,   KC_GT,   KC_BSLS, _______,
     _______, _______, _______, _______, _______, _______, _______, _______, KC_HOME, KC_PGDN, KC_PGUP, KC_END
 ),
 
-/* Lower
+/* Raise
  * ,-----------------------------------------------------------------------------------.
  * | Esc  |   1  |   2  |   3  |   4  |   5  |   6  |   7  |   8  |   9  |   0  | Bksp |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
  * |      | Prev | Vol+ | Vol- | Next | Play | Mute |   4  |   5  |   6  |   -  |      |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
- * |      | Home | PgUp | PgDn | End  |      |      |   1  |   2  |   3  |   +  |      |
+ * |      | Home | PgUp | PgDn | End  | Bri- | Bri+ |   1  |   2  |   3  |   +  |      |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
  * |      |      |      |      |      |             |      |   0  |   .  |   =  |      |
  * `-----------------------------------------------------------------------------------'
  */
 [_RAISE] = LAYOUT_planck_grid(
-    KC_TILD,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_6,     KC_7,    KC_8,    KC_9,    KC_0,    KC_BSPC,
+    KC_TILD, KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_6,     KC_7,    KC_8,    KC_9,    KC_0,    KC_BSPC,
     _______, KC_MPRV, KC_VOLD, KC_VOLU, KC_MNXT, KC_MPLY, KC_MUTE,  KC_4,    KC_5,    KC_6,    KC_MINS, _______,
     _______, KC_HOME, KC_PGUP, KC_PGDN, KC_END,  KC_BRID, KC_BRIU,  KC_1,    KC_2,    KC_3,    KC_PLUS, _______,
     _______, _______, _______, _______, _______, _______, _______,  _______, KC_0,    KC_DOT,  KC_EQL,  _______
@@ -133,9 +133,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   * `-----------------------------------------------------------------------------------'
   */
   [_FN2] = LAYOUT_planck_grid(
-      XXXXXXX,  KC_F1,   KC_F2,   KC_F3,   KC_F4,    KC_F5,    KC_F6,    KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_DEL, 
-      XXXXXXX,  KC_F11,  KC_F12,  XXXXXXX, XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, 
-      XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, 
+      XXXXXXX,  KC_F1,   KC_F2,   KC_F3,   KC_F4,    KC_F5,    KC_F6,    KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_DEL,
+      XXXXXXX,  KC_F11,  KC_F12,  XXXXXXX, XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+      XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
       XXXXXXX,  _______, XXXXXXX, XXXXXXX, XXXXXXX,  KC_SPC,   KC_SPC,   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX
   ),
 
@@ -145,19 +145,19 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   * |KC_ESC |      |      |Lclick|Rclick|      |      |      |      |      |      |      |
   * |-------+------+------+------+------+-------------+------+------+------+------+------|
   * |       | LEFT |  UP  | Down |RIGHT |      |      |SCL_LT|SCL_DN|SCL_UP|SCL_RT|      |
-  * |-------+------+------+------+------+------|------+------+------+------+------+------| 
+  * |-------+------+------+------+------+------|------+------+------+------+------+------|
   * |       |      |      |      |      |      |      |      |      |      |      |      |
   * |-------+------+------+------+------+------+------+------+------+------+------+------|
   * |       |      |      |      |      |             |      |      |      |      |      |
   * `-----------------------------------------------------------------------------------'
   */
   [_SPACE_FN] = LAYOUT_planck_grid(
-      KC_ESC,   XXXXXXX, XXXXXXX,  KC_BTN1,   KC_BTN2,  XXXXXXX,  XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX,  XXXXXXX, XXXXXXX, 
-      XXXXXXX,  KC_MS_L, KC_MS_D,  KC_MS_U,   KC_MS_R,  XXXXXXX,  XXXXXXX,  KC_WH_L, KC_WH_D, KC_WH_U,  KC_WH_R, XXXXXXX, 
-      XXXXXXX,  XXXXXXX, XXXXXXX,  XXXXXXX,   XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX,  XXXXXXX, XXXXXXX, 
+      KC_ESC,   XXXXXXX, XXXXXXX,  KC_BTN1,   KC_BTN2,  XXXXXXX,  XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX,  XXXXXXX, XXXXXXX,
+      XXXXXXX,  KC_MS_L, KC_MS_D,  KC_MS_U,   KC_MS_R,  XXXXXXX,  XXXXXXX,  KC_WH_L, KC_WH_D, KC_WH_U,  KC_WH_R, XXXXXXX,
+      XXXXXXX,  XXXXXXX, XXXXXXX,  XXXXXXX,   XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX,  XXXXXXX, XXXXXXX,
       XXXXXXX,  XXXXXXX, XXXXXXX,  XXXXXXX,   XXXXXXX,  _______,  _______,  XXXXXXX, XXXXXXX, XXXXXXX,  XXXXXXX, XXXXXXX
   ),
-  
+
 /* Adjust (Lower + Raise)
  *                      v------------------------RGB CONTROL--------------------v
  * ,-----------------------------------------------------------------------------------.
