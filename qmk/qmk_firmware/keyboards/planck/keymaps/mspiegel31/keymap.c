@@ -74,7 +74,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |------+------+------+------+------+------+------+------+------+------+------+------|
  * | Shift|   Z  |   X  |   C  |   V  |   B  |   N  |   M  |   ,- |   .  |  /   |Enter |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
- * | Ctrl |  FN  | Alt  | GUI  |Lower|    Space    |Raise |  Up  | Left | Down  |Right |
+ * | Ctrl |  FN  | Alt  | GUI  |Lower|    Space     |Raise |  Up  | Left | Down  |Right |
  * `-----------------------------------------------------------------------------------`
  */
 [_QWERTY] = LAYOUT_planck_grid(
