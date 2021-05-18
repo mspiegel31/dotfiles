@@ -30,7 +30,8 @@ enum planck_layers {
 enum planck_keycodes {
   QWERTY = SAFE_RANGE,
   BACKLIT,
-  EXT_PLV
+  EXT_PLV,
+  MACOS_FORCE_QUIT
 };
 
 // Fillers to make layering more clear
@@ -171,10 +172,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * `-----------------------------------------------------------------------------------'
  */
 [_ADJUST] = LAYOUT_planck_grid(
-    _______, RESET,   DEBUG,   RGB_TOG, RGB_MOD, RGB_HUI, RGB_HUD, RGB_SAI, RGB_SAD,  RGB_VAI, RGB_VAD, RESET ,
-    _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
-    _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
-    _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
+    MACOS_FORCE_QUIT, _______,   DEBUG,   RGB_TOG, RGB_MOD, RGB_HUI, RGB_HUD, RGB_SAI, RGB_SAD,  RGB_VAI, RGB_VAD, RESET ,
+    _______,          _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
+    _______,          _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
+    _______,          _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
 )
 
 };
@@ -206,6 +207,17 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       if (record->event.pressed) {
         print("mode just switched to qwerty and this is a huge string\n");
         set_single_persistent_default_layer(_QWERTY);
+      }
+      return false;
+      break;
+    
+    case MACOS_FORCE_QUIT:
+      if (record->event.pressed) {
+        register_code(KC_LALT);
+        register_code(KC_LGUI);
+        tap_code(KC_ESC);
+        unregister_code(KC_LALT);
+        unregister_code(KC_LGUI);
       }
       return false;
       break;
