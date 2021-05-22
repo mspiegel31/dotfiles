@@ -42,37 +42,38 @@ enum preonic_keycodes {
 #define TAB_RAISE LT(_RAISE, KC_TAB)
 
 enum {
-  DBCBR,
-  DBPRN,
-  DBBRC,
-  OBROBRK,
-  CBRCBRK,
-  SQUODQUO,
-  SEMI_EQ,
-  SLASH_MIN,
-  COMMA_MIN,
+  _DBCBR,
+  _DBPRN,
+  _DBBRC,
+  _OBROBRK,
+  _CBRCBRK,
+  _SQUODQUO,
+  _SEMI_EQ,
+  _SLASH_MIN,
+  _COMMA_MIN,
   GRV_OR_TILD,
 };
 qk_tap_dance_action_t tap_dance_actions[] = {
-  [DBCBR]     = ACTION_TAP_DANCE_DOUBLE(KC_LCBR, KC_RCBR),  // {}
-  [DBPRN]     = ACTION_TAP_DANCE_DOUBLE(KC_LPRN, KC_RPRN),  // ()
-  [DBBRC]     = ACTION_TAP_DANCE_DOUBLE(KC_LBRC, KC_RBRC),  // []
-  [OBROBRK]   = ACTION_TAP_DANCE_DOUBLE(KC_LBRC, KC_LCBR),  // [{
-  [CBRCBRK]   = ACTION_TAP_DANCE_DOUBLE(KC_RBRC, KC_RCBR),  // ]}
-  [SQUODQUO]  = ACTION_TAP_DANCE_DOUBLE(KC_QUOT, KC_DQUO),  // ' "
-  [SEMI_EQ]   = ACTION_TAP_DANCE_DOUBLE(KC_SCLN, KC_EQL),   // ; =
-  [SLASH_MIN] = ACTION_TAP_DANCE_DOUBLE(KC_SLSH, KC_MINS),  // / -
-  [COMMA_MIN] = ACTION_TAP_DANCE_DOUBLE(KC_COMM, KC_MINS),  // , -
+  [_DBCBR]     = ACTION_TAP_DANCE_DOUBLE(KC_LCBR, KC_RCBR),  // {}
+  [_DBPRN]     = ACTION_TAP_DANCE_DOUBLE(KC_LPRN, KC_RPRN),  // ()
+  [_DBBRC]     = ACTION_TAP_DANCE_DOUBLE(KC_LBRC, KC_RBRC),  // []
+  [_OBROBRK]   = ACTION_TAP_DANCE_DOUBLE(KC_LBRC, KC_LCBR),  // [{
+  [_CBRCBRK]   = ACTION_TAP_DANCE_DOUBLE(KC_RBRC, KC_RCBR),  // ]}
+  [_SQUODQUO]  = ACTION_TAP_DANCE_DOUBLE(KC_QUOT, KC_DQUO),  // ' "
+  [_SEMI_EQ]   = ACTION_TAP_DANCE_DOUBLE(KC_SCLN, KC_EQL),   // ; =
+  [_SLASH_MIN] = ACTION_TAP_DANCE_DOUBLE(KC_SLSH, KC_MINS),  // / -
+  [_COMMA_MIN] = ACTION_TAP_DANCE_DOUBLE(KC_COMM, KC_MINS),  // , -
 };
 
+#define SEMI_EQ TD(_SEMI_EQ)
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 /* Qwerty
  * ,-----------------------------------------------------------------------------------.
- * | ESC  |   1  |   2  |   3  |   4  |   5  |   6  |   7  |   8  |   9  |   0  | Bksp |
+ * | ESC  |   1  |   2  |   3  |   4  |   5  |   6  |   7  |   8  |   9  |   0  |   \  |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
- * |   `  |   Q  |   W  |   E  |   R  |   T  |   Y  |   U  |   I  |   O  |   P  | Del  |
+ * |   `  |   Q  |   W  |   E  |   R  |   T  |   Y  |   U  |   I  |   O  |   P  | Bksp |
  * |------+------+------+------+------+-------------+------+------+------+------+------|
  * | Esc  |   A  |   S  |   D  |   F  |   G  |   H  |   J  |   K  |   L  |   ;= |  '   |
  * |------+------+------+------+------+------|------+------+------+------+------+------|
@@ -82,11 +83,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * `-----------------------------------------------------------------------------------'
  */
 [_QWERTY] = LAYOUT_preonic_grid(
-  KC_ESC,     KC_1,    KC_2,    KC_3,    KC_4,    KC_5,      KC_6,     KC_7,   KC_8,    KC_9,    KC_0,        KC_BSLS,
-  KC_GRV,     KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,      KC_Y,     KC_U,   KC_I,    KC_O,    KC_P,        KC_BSPC,
-  TAB_RAISE,  KC_A,    KC_S,    KC_D,    KC_F,    KC_G,      KC_H,     KC_J,   KC_K,    KC_L,    TD(SEMI_EQ), KC_QUOT,
-  KC_LSFT,    KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,      KC_N,     KC_M,   KC_COMM, KC_DOT,  KC_SLSH,     KC_SFTENT,
-  KC_LCTL,    FN,      KC_LALT, KC_LGUI, LOWER,   SPACE_FN,  SPACE_FN, RAISE,  KC_LEFT, KC_DOWN, KC_UP,       KC_RIGHT
+  KC_ESC,     KC_1,    KC_2,    KC_3,    KC_4,    KC_5,      KC_6,     KC_7,   KC_8,    KC_9,    KC_0,     KC_BSLS,
+  KC_GRV,     KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,      KC_Y,     KC_U,   KC_I,    KC_O,    KC_P,     KC_BSPC,
+  TAB_RAISE,  KC_A,    KC_S,    KC_D,    KC_F,    KC_G,      KC_H,     KC_J,   KC_K,    KC_L,    SEMI_EQ,  KC_QUOT,
+  KC_LSFT,    KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,      KC_N,     KC_M,   KC_COMM, KC_DOT,  KC_SLSH,  KC_SFTENT,
+  KC_LCTL,    FN,      KC_LALT, KC_LGUI, LOWER,   SPACE_FN,  SPACE_FN, RAISE,  KC_LEFT, KC_DOWN, KC_UP,    KC_RIGHT
 ),
 
 /* Raise
