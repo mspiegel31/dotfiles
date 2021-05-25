@@ -105,9 +105,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  */
 [_RAISE] = LAYOUT_preonic_grid(
   _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
-  KC_TILD, _______, _______, _______, KC_UNDS, _______, _______, KC_LPRN, KC_RPRN, KC_AMPR, KC_PIPE, _______,
-  _______, _______, KC_LT,   KC_GT,   KC_EQL,  _______, _______, KC_LCBR, KC_RCBR, _______, _______, _______,
-  _______, _______, KC_PERC, KC_PLUS, KC_MINS, _______, _______, KC_LBRC, KC_RBRC, _______, _______, _______,
+  KC_TILD, _______, _______, _______, _______, _______, _______, KC_PIPE, KC_LPRN, KC_RPRN, _______, _______,
+  _______, _______, KC_LT,   KC_GT,   KC_EQL,  _______, _______, KC_AMPR, KC_LCBR, KC_RCBR, _______, _______,
+  _______, _______, KC_PERC, KC_PLUS, KC_MINS, _______, _______, KC_UNDS, KC_LBRC, KC_RBRC, _______, _______,
   _______, _______, _______, _______, _______, _______, _______, _______, KC_HOME, KC_PGDN, KC_PGUP, KC_END
 ),
 // KC_AMPR, KC_ASTR,
