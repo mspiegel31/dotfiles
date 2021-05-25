@@ -30,8 +30,7 @@ enum preonic_keycodes {
   QWERTY = SAFE_RANGE,
   LOWER,
   RAISE,
-  BACKLIT,
-  MACOS_FORCE_QUIT
+  BACKLIT
 };
 
 // Fillers to make layering more clear
@@ -40,6 +39,7 @@ enum preonic_keycodes {
 #define FN         MO(_FN)
 #define SPACE_FN   LT(_SPACE_FN, KC_SPC)
 #define TAB_RAISE LT(_RAISE, KC_TAB)
+#define MACOS_FORCE_QUIT LALT(LGUI(KC_ESC))
 
 enum {
   _DBCBR,
@@ -215,16 +215,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         case QWERTY:
           if (record->event.pressed) {
             set_single_persistent_default_layer(_QWERTY);
-          }
-          return false;
-          break;
-        case MACOS_FORCE_QUIT:
-          if (record->event.pressed) {
-            register_code(KC_LALT);
-            register_code(KC_LGUI);
-            tap_code(KC_ESC);
-            unregister_code(KC_LALT);
-            unregister_code(KC_LGUI);
           }
           return false;
           break;
