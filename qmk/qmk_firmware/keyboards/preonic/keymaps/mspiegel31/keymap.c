@@ -19,11 +19,12 @@
 
 enum preonic_layers {
   _QWERTY,
+  _GAME_MODE,
   _LOWER,
   _RAISE,
   _FN,
   _SPACE_FN,
-  _ADJUST
+  _ADJUST,
 };
 
 enum preonic_keycodes {
@@ -34,11 +35,12 @@ enum preonic_keycodes {
 };
 
 // Fillers to make layering more clear
-#define LOWER      MO(_LOWER)
-#define RAISE      MO(_RAISE)
-#define FN         MO(_FN)
-#define SPACE_FN   LT(_SPACE_FN, KC_SPC)
-#define TAB_RAISE LT(_RAISE, KC_TAB)
+#define GAME_MODE        DF(_GAME_MODE)
+#define LOWER            MO(_LOWER)
+#define RAISE            MO(_RAISE)
+#define FN               MO(_FN)
+#define SPACE_FN         LT(_SPACE_FN, KC_SPC)
+#define TAB_RAISE        LT(_RAISE, KC_TAB)
 #define MACOS_FORCE_QUIT LALT(LGUI(KC_ESC))
 
 enum {
@@ -87,7 +89,28 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   KC_GRV,     KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,      KC_Y,     KC_U,   KC_I,    KC_O,    KC_P,     KC_BSPC,
   TAB_RAISE,  KC_A,    KC_S,    KC_D,    KC_F,    KC_G,      KC_H,     KC_J,   KC_K,    KC_L,    SEMI_EQ,  KC_QUOT,
   KC_LSFT,    KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,      KC_N,     KC_M,   KC_COMM, KC_DOT,  KC_SLSH,  KC_SFTENT,
-  KC_LCTL,    FN,      KC_LALT, KC_LGUI, LOWER,   KC_SPC,    KC_SPC, RAISE,  KC_LEFT, KC_DOWN, KC_UP,    KC_RIGHT
+  KC_LCTL,    FN,      KC_LALT, KC_LGUI, LOWER,   SPACE_FN,  SPACE_FN, RAISE,  KC_LEFT, KC_DOWN,   KC_UP,    KC_RIGHT
+),
+
+/* Game Mode
+ * ,-----------------------------------------------------------------------------------.
+ * | ESC  |   1  |   2  |   3  |   4  |   5  |   6  |   7  |   8  |   9  |   0  |   \  |
+ * |------+------+------+------+------+------+------+------+------+------+------+------|
+ * |   `  |   Q  |   W  |   E  |   R  |   T  |   Y  |   U  |   I  |   O  |   P  | Bksp |
+ * |------+------+------+------+------+-------------+------+------+------+------+------|
+ * | Esc  |   A  |   S  |   D  |   F  |   G  |   H  |   J  |   K  |   L  |   ;= |  '   |
+ * |------+------+------+------+------+------|------+------+------+------+------+------|
+ * | Shift|   Z  |   X  |   C  |   V  |   B  |   N  |   M  |   ,  |   .  |   /  |Enter |
+ * |------+------+------+------+------+------+------+------+------+------+------+------|
+ * | Ctrl |  FN  | Alt  | GUI  |Lower|    Space     |Raise |  Up  | Left | Down |Right |
+ * `-----------------------------------------------------------------------------------'
+ */
+[_GAME_MODE] = LAYOUT_preonic_grid(
+  KC_ESC,     KC_1,    KC_2,    KC_3,    KC_4,    KC_5,      KC_6,     KC_7,   KC_8,    KC_9,    KC_0,     KC_BSLS,
+  KC_GRV,     KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,      KC_Y,     KC_U,   KC_I,    KC_O,    KC_P,     KC_BSPC,
+  TAB_RAISE,  KC_A,    KC_S,    KC_D,    KC_F,    KC_G,      KC_H,     KC_J,   KC_K,    KC_L,    SEMI_EQ,  KC_QUOT,
+  KC_LSFT,    KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,      KC_N,     KC_M,   KC_COMM, KC_DOT,  KC_SLSH,  KC_SFTENT,
+  KC_LCTL,    FN,      KC_LALT, KC_LGUI, LOWER,   KC_SPC,    KC_SPC,   RAISE,  KC_LEFT, KC_DOWN, KC_UP,    KC_RIGHT
 ),
 
 /* Raise
@@ -186,11 +209,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * `-----------------------------------------------------------------------------------'
  */
 [_ADJUST] = LAYOUT_preonic_grid(
-  MACOS_FORCE_QUIT, _______, DEBUG,   RGB_TOG, RGB_MOD, RGB_HUI, RGB_HUD, RGB_SAI, RGB_SAD,  RGB_VAI, RGB_VAD, RESET,
-  _______,          _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
-  _______,          _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
-  _______,          _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
-  _______,          _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
+  MACOS_FORCE_QUIT, _______, DEBUG,   RGB_TOG, RGB_MOD, RGB_HUI, RGB_HUD, RGB_SAI, RGB_SAD,   RGB_VAI, RGB_VAD, RESET,
+  _______,          _______, _______, _______, _______, _______, _______, _______, _______,   _______, _______, _______,
+  _______,          _______, _______, _______, _______, _______, _______, QWERTY,  GAME_MODE, _______, _______, _______,
+  _______,          _______, _______, _______, _______, _______, _______, _______, _______,   _______, _______, _______,
+  _______,          _______, _______, _______, _______, _______, _______, _______, _______,   _______, _______, _______
 )
 
 
