@@ -20,50 +20,55 @@
 
 enum planck_layers {
   _QWERTY,
+  _GAME_MODE,
   _LOWER,
   _RAISE,
-  _ADJUST,
   _FN,
-  _SPACE_FN
+  _SPACE_FN,
+  _ADJUST,
 };
 
 enum planck_keycodes {
   QWERTY = SAFE_RANGE,
-  BACKLIT,
-  EXT_PLV,
-  MACOS_FORCE_QUIT
+  LOWER,
+  RAISE,
+  BACKLIT
 };
 
 // Fillers to make layering more clear
-#define LOWER    OSL(_LOWER)
-#define RAISE    OSL(_RAISE)
-#define FN       OSL(_FN)
-#define SPACE_FN LT(_SPACE_FN, KC_SPC)
+#define GAME_MODE        DF(_GAME_MODE)
+#define LOWER            MO(_LOWER)
+#define RAISE            MO(_RAISE)
+#define FN               MO(_FN)
+#define SPACE_FN         LT(_SPACE_FN, KC_SPC)
+#define TAB_RAISE        LT(_RAISE, KC_TAB)
+#define SEMI_EQ TD(_SEMI_EQ)
+#define MACOS_FORCE_QUIT LALT(LGUI(KC_ESC))
 
-// Tap Dance
 enum {
-  DBCBR,
-  DBPRN,
-  DBBRC,
-  OBROBRK,
-  CBRCBRK,
-  SQUODQUO,
-  SEMI_EQ,
-  SLASH_MIN,
-  COMMA_MIN,
+  _DBCBR,
+  _DBPRN,
+  _DBBRC,
+  _OBROBRK,
+  _CBRCBRK,
+  _SQUODQUO,
+  _SEMI_EQ,
+  _SLASH_MIN,
+  _COMMA_MIN,
   GRV_OR_TILD,
 };
 qk_tap_dance_action_t tap_dance_actions[] = {
-  [DBCBR]     = ACTION_TAP_DANCE_DOUBLE(KC_LCBR, KC_RCBR),  // {}
-  [DBPRN]     = ACTION_TAP_DANCE_DOUBLE(KC_LPRN, KC_RPRN),  // ()
-  [DBBRC]     = ACTION_TAP_DANCE_DOUBLE(KC_LBRC, KC_RBRC),  // []
-  [OBROBRK]   = ACTION_TAP_DANCE_DOUBLE(KC_LBRC, KC_LCBR),  // [{
-  [CBRCBRK]   = ACTION_TAP_DANCE_DOUBLE(KC_RBRC, KC_RCBR),  // ]}
-  [SQUODQUO]  = ACTION_TAP_DANCE_DOUBLE(KC_QUOT, KC_DQUO),  // ' "
-  [SEMI_EQ]   = ACTION_TAP_DANCE_DOUBLE(KC_SCLN, KC_EQL),   // ; =
-  [SLASH_MIN] = ACTION_TAP_DANCE_DOUBLE(KC_SLSH, KC_MINS),  // / -
-  [COMMA_MIN] = ACTION_TAP_DANCE_DOUBLE(KC_COMM, KC_MINS),  // , -
+  [_DBCBR]     = ACTION_TAP_DANCE_DOUBLE(KC_LCBR, KC_RCBR),  // {}
+  [_DBPRN]     = ACTION_TAP_DANCE_DOUBLE(KC_LPRN, KC_RPRN),  // ()
+  [_DBBRC]     = ACTION_TAP_DANCE_DOUBLE(KC_LBRC, KC_RBRC),  // []
+  [_OBROBRK]   = ACTION_TAP_DANCE_DOUBLE(KC_LBRC, KC_LCBR),  // [{
+  [_CBRCBRK]   = ACTION_TAP_DANCE_DOUBLE(KC_RBRC, KC_RCBR),  // ]}
+  [_SQUODQUO]  = ACTION_TAP_DANCE_DOUBLE(KC_QUOT, KC_DQUO),  // ' "
+  [_SEMI_EQ]   = ACTION_TAP_DANCE_DOUBLE(KC_SCLN, KC_EQL),   // ; =
+  [_SLASH_MIN] = ACTION_TAP_DANCE_DOUBLE(KC_SLSH, KC_MINS),  // / -
+  [_COMMA_MIN] = ACTION_TAP_DANCE_DOUBLE(KC_COMM, KC_MINS),  // , -
 };
+
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
@@ -75,7 +80,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |------+------+------+------+------+------+------+------+------+------+------+------|
  * | Shift|   Z  |   X  |   C  |   V  |   B  |   N  |   M  |   ,- |   .  |  /   |Enter |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
- * | Ctrl |  FN  | Alt  | GUI  |Lower|    Space     |Raise |  Up  | Left | Down |Right |
+ * | Ctrl |  FN  | Alt  | GUI  |Lower|    Space     |Raise |  Up  | Left | Down  |Right |
  * `-----------------------------------------------------------------------------------`
  */
 [_QWERTY] = LAYOUT_planck_grid(
@@ -110,7 +115,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |------+------+------+------+------+------+------+------+------+------+------+------|
  * |      |   4  |   5  |   6  |   +  |   \  |      | Prev | Vol- | Vol+ | Next |      |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
- * |      |   7  |   8  |   9  |   -  |   *  |      | Play | Mute |      |      |      |
+ * |      |   7  |   8  |   9  |   -  |   *  |      | Mute | Play |      |      |      |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
  * |      |      |      |      |      |             |      |      |      |      |      |
  * `-----------------------------------------------------------------------------------'
@@ -118,7 +123,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 [_LOWER] = LAYOUT_planck_grid(
     KC_ESC,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_6,     KC_7,    KC_8,    KC_9,    KC_0,    KC_BSPC,
     _______, KC_4,    KC_5,    KC_6,    KC_PLUS, KC_BSLS, _______,  KC_MPRV, KC_VOLD, KC_VOLU, KC_MNXT, _______,
-    _______, KC_7,    KC_8,    KC_9,    KC_MINS, KC_ASTR, _______,  KC_MPLY, KC_MUTE, _______, _______, _______,
+    _______, KC_7,    KC_8,    KC_9,    KC_MINS, KC_ASTR, _______,  KC_MUTE, KC_MPLY, _______, _______, _______,
     _______, _______, _______, _______, _______, _______, _______,  _______, _______, _______, _______, _______
 ),
 
@@ -171,14 +176,15 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |      |      |      |      |      |             |      |      |      |      |      |
  * `-----------------------------------------------------------------------------------'
  */
-  [_ADJUST] = LAYOUT_planck_grid(
-      MACOS_FORCE_QUIT, _______, DEBUG,   RGB_TOG, RGB_MOD, RGB_HUI, RGB_HUD, RGB_SAI, RGB_SAD,  RGB_VAI, RGB_VAD, RESET ,
-      _______,          _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
-      _______,          _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
-      _______,          _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
-  )
+[_ADJUST] = LAYOUT_planck_grid(
+    MACOS_FORCE_QUIT, _______, DEBUG,   RGB_TOG, RGB_MOD, RGB_HUI, RGB_HUD, RGB_SAI, RGB_SAD,  RGB_VAI, RGB_VAD, RESET ,
+    _______,          _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
+    _______,          _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
+    _______,          _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
+)
 
-}
+};
+
 /* Template
  * ,-----------------------------------------------------------------------------------.
  * | Tab  |   Q  |   W  |   E  |   R  |   T  |   Y  |   U  |   I  |   O  |   P  | Bksp |
@@ -209,17 +215,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       }
       return false;
       break;
-    
-    case MACOS_FORCE_QUIT:
-      if (record->event.pressed) {
-        register_code(KC_LALT);
-        register_code(KC_LGUI);
-        tap_code(KC_ESC);
-        unregister_code(KC_LALT);
-        unregister_code(KC_LGUI);
-      }
-      return false;
-      break;
 
     case BACKLIT:
       if (record->event.pressed) {
@@ -234,15 +229,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         unregister_code(KC_RSFT);
         #ifdef KEYBOARD_planck_rev5
           writePinHigh(E6);
-        #endif
-      }
-      return false;
-      break;
-
-    case EXT_PLV:
-      if (record->event.pressed) {
-        #ifdef AUDIO_ENABLE
-          PLAY_SONG(plover_gb_song);
         #endif
       }
       return false;
