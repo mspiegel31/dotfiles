@@ -30,13 +30,13 @@ enum planck_layers {
 
 enum planck_keycodes {
   QWERTY = SAFE_RANGE,
+  GAME_MODE,
   LOWER,
   RAISE,
   BACKLIT
 };
 
 // Fillers to make layering more clear
-#define GAME_MODE        DF(_GAME_MODE)
 #define LOWER            OSL(_LOWER)
 #define RAISE            MO(_RAISE)
 #define FN               MO(_FN)
@@ -54,7 +54,7 @@ enum {
   _SQUODQUO,
   _SEMI_EQ,
   _SLASH_MIN,
-  _COMMA_MIN, `
+  _COMMA_MIN,
   GRV_OR_TILD,
 };
 qk_tap_dance_action_t tap_dance_actions[] = {
@@ -224,12 +224,23 @@ layer_state_t layer_state_set_user(layer_state_t state) {
   return update_tri_layer_state(state, _LOWER, _RAISE, _ADJUST);
 }
 
+float qwerty_song[][2] = SONG(QWERTY_SOUND);
+float ode_to_joy[][2] = SONG(ODE_TO_JOY);
+
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   switch (keycode) {
     case QWERTY:
       if (record->event.pressed) {
-        print("mode just switched to qwerty and this is a huge string\n");
+        PLAY_SONG(qwerty_song);
         set_single_persistent_default_layer(_QWERTY);
+      }
+      return false;
+      break;
+
+    case GAME_MODE:
+      if (record->event.pressed) {
+        PLAY_SONG(ode_to_joy);
+        set_single_persistent_default_layer(_GAME_MODE);
       }
       return false;
       break;
