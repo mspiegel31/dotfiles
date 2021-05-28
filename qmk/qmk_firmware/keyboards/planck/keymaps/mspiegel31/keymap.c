@@ -37,8 +37,8 @@ enum planck_keycodes {
 
 // Fillers to make layering more clear
 #define GAME_MODE        DF(_GAME_MODE)
-#define LOWER            MO(_LOWER)
-#define RAISE            MO(_RAISE)
+#define LOWER            OSL(_LOWER)
+#define RAISE            OSL(_RAISE)
 #define FN               MO(_FN)
 #define SPACE_FN         LT(_SPACE_FN, KC_SPC)
 #define TAB_RAISE        LT(_RAISE, KC_TAB)
