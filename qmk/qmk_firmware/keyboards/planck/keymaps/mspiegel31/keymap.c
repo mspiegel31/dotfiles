@@ -38,11 +38,11 @@ enum planck_keycodes {
 // Fillers to make layering more clear
 #define GAME_MODE        DF(_GAME_MODE)
 #define LOWER            OSL(_LOWER)
-#define RAISE            OSL(_RAISE)
+#define RAISE            MO(_RAISE)
 #define FN               MO(_FN)
 #define SPACE_FN         LT(_SPACE_FN, KC_SPC)
 #define TAB_RAISE        LT(_RAISE, KC_TAB)
-#define SEMI_EQ TD(_SEMI_EQ)
+#define SEMI_EQ          TD(_SEMI_EQ)
 #define MACOS_FORCE_QUIT LALT(LGUI(KC_ESC))
 
 enum {
@@ -54,7 +54,7 @@ enum {
   _SQUODQUO,
   _SEMI_EQ,
   _SLASH_MIN,
-  _COMMA_MIN,
+  _COMMA_MIN, `
   GRV_OR_TILD,
 };
 qk_tap_dance_action_t tap_dance_actions[] = {
