@@ -5,6 +5,16 @@
     // #define STARTUP_SONG SONG(NO_SOUND)
 
    //  #define DEFAULT_LAYER_SONGS { SONG(QWERTY_SOUND) }
+   #undef MARIO_THEME
+   #define MARIO_THEME \
+    Q__NOTE(_E5), \
+    H__NOTE(_E5), \
+    H__NOTE(_E5), \
+    Q__NOTE(_C5), \
+    H__NOTE(_E5), \
+    W__NOTE(_G5), \
+    Q__NOTE(_G4),
+
 #endif
 
 /*

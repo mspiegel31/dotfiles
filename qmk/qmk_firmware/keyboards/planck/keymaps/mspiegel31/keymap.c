@@ -225,7 +225,7 @@ layer_state_t layer_state_set_user(layer_state_t state) {
 }
 
 float qwerty_song[][2] = SONG(QWERTY_SOUND);
-float ode_to_joy[][2] = SONG(ODE_TO_JOY);
+float mario_theme[][2] = SONG(MARIO_THEME);
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   switch (keycode) {
@@ -239,7 +239,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
     case GAME_MODE:
       if (record->event.pressed) {
-        PLAY_SONG(ode_to_joy);
+        PLAY_SONG(mario_theme);
         set_single_persistent_default_layer(_GAME_MODE);
       }
       return false;
