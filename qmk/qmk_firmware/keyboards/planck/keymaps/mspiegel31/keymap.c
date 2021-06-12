@@ -37,7 +37,7 @@ enum planck_keycodes {
 };
 
 // Fillers to make layering more clear
-#define LOWER            OSL(_LOWER)
+#define LOWER            MO(_LOWER)
 #define RAISE            MO(_RAISE)
 #define FN               MO(_FN)
 #define SPACE_FN         LT(_SPACE_FN, KC_SPC)
@@ -120,8 +120,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |      |      |      |      |      |             |      | Home | PgUp | PgDn | End  |
  * `-----------------------------------------------------------------------------------'
  */
-[_RAISE] = LAYOUT_planck_grid(
-    KC_TILD, KC_EXLM, KC_AT,   KC_HASH, KC_DLR,  KC_PERC, KC_CIRC, KC_AMPR,  KC_ASTR, KC_LPRN, KC_RPRN, KC_BSPC,
+[_LOWER] = LAYOUT_planck_grid(
+    KC_ESC,  KC_EXLM, KC_AT,   KC_HASH, KC_DLR,  KC_PERC, KC_CIRC, KC_AMPR,  KC_ASTR, KC_LPRN, KC_RPRN, KC_BSPC,
     _______, _______, KC_LT,   KC_GT,   KC_EQL,  KC_AMPR, KC_PIPE, KC_LCBR,  KC_LBRC, KC_RBRC, KC_RCBR, KC_BSLS,
     _______, _______, KC_PERC, KC_UNDS, KC_MINS, KC_PLUS, _______, KC_LPRN,  KC_RPRN, _______, _______, _______,
     _______, _______, _______, _______, _______, _______, _______, _______,  KC_HOME, KC_PGDN, KC_PGUP, KC_END
@@ -138,11 +138,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |      |      |      |      |      |             |      |      |      |      |      |
  * `-----------------------------------------------------------------------------------'
  */
-[_LOWER] = LAYOUT_planck_grid(
-    KC_ESC,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_BSPC,
-    _______, KC_MPRV, KC_VOLD, KC_VOLU, KC_MNXT, _______, _______, _______, _______, _______, _______, KC_BSLS,
-    _______, KC_MPLY, KC_MUTE, KC_PLUS, KC_MINS, _______, _______, _______, _______, _______, _______, _______,
-    _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
+[_RAISE] = LAYOUT_planck_grid(
+    KC_TILD,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_BSPC,
+    _______, _______, KC_LT,   KC_GT,   KC_EQL,  _______, _______, KC_LCBR, KC_LBRC, KC_RBRC, KC_RCBR, KC_BSLS,
+    _______, _______, _______, KC_PLUS, KC_MINS, _______, _______, KC_MPLY, KC_MUTE, _______, _______, _______,
+    _______, _______, _______, _______, _______, _______, _______, _______, KC_MPRV, KC_VOLD, KC_VOLU, KC_MNXT
 ),
 
   /* FN
@@ -197,8 +197,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 [_ADJUST] = LAYOUT_planck_grid(
     MACOS_FORCE_QUIT, _______, DEBUG,   RGB_TOG, RGB_MOD, RGB_HUI, RGB_HUD, RGB_SAI, KC_BRID,   KC_BRIU, RGB_VAD, RESET ,
     _______,          _______, _______, _______, _______, _______, _______, QWERTY,  GAME_MODE, _______, _______, _______,
-    _______,          _______, _______, _______, _______, _______, _______, _______, _______,   _______, _______, _______,
-    _______,          _______, _______, _______, _______, _______, _______, _______, _______,   _______, _______, _______
+    _______,          _______, _______, _______, _______, _______, _______, KC_MPLY, KC_MUTE,   _______, _______, _______,
+    _______,          _______, _______, _______, _______, _______, _______, _______, KC_MPRV,   KC_VOLD, KC_VOLU, KC_MNXT
 )
 
 };
