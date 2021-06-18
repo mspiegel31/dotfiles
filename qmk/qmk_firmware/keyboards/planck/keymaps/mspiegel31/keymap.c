@@ -70,6 +70,19 @@ qk_tap_dance_action_t tap_dance_actions[] = {
 };
 
 
+// https://beta.docs.qmk.fm/using-qmk/software-features/feature_unicodeqw
+enum unicode_names {
+    BANG,
+    IRONY,
+    SNEK
+};
+
+const uint32_t PROGMEM unicode_map[] = {
+    [BANG]  = 0x203D,  // ‽
+    [IRONY] = 0x2E2E,  // ⸮
+    [SNEK]  = 0x1F40D, // 🐍
+};
+
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 /* Qwerty
@@ -121,10 +134,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * `-----------------------------------------------------------------------------------'
  */
 [_LOWER] = LAYOUT_planck_grid(
-    KC_ESC,  KC_EXLM, KC_AT,   KC_HASH, KC_DLR,  KC_PERC, KC_CIRC, KC_AMPR,  KC_ASTR, KC_LPRN, KC_RPRN, KC_BSPC,
-    _______, _______, KC_LT,   KC_GT,   KC_EQL,  KC_AMPR, KC_PIPE, KC_LCBR,  KC_LBRC, KC_RBRC, KC_RCBR, KC_BSLS,
-    _______, _______, KC_PERC, KC_UNDS, KC_MINS, KC_PLUS, _______, KC_LPRN,  KC_RPRN, _______, _______, _______,
-    _______, _______, _______, _______, _______, _______, _______, _______,  KC_HOME, KC_PGDN, KC_PGUP, KC_END
+    KC_ESC,    KC_EXLM, KC_AT,   KC_HASH, KC_DLR,  KC_PERC, KC_CIRC, KC_AMPR,  KC_ASTR, KC_LPRN, KC_RPRN, KC_BSPC,
+    C(KC_GRV), _______, KC_LT,   KC_GT,   KC_EQL,  KC_AMPR, KC_PIPE, KC_LCBR,  KC_LBRC, KC_RBRC, KC_RCBR, KC_BSLS,
+    _______,   _______, KC_PERC, KC_UNDS, KC_MINS, KC_PLUS, _______, KC_LPRN,  KC_RPRN, _______, _______, _______,
+    _______,   _______, _______, _______, _______, _______, _______, _______,  KC_HOME, KC_PGDN, KC_PGUP, KC_END
 ),
 
 /* Lower
@@ -175,12 +188,12 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   * |       |      |      |      |      |             |      |      |      |      |      |
   * `-----------------------------------------------------------------------------------'
   */
-  [_SPACE_FN] = LAYOUT_planck_grid(
-      C(KC_GRV), XXXXXXX, KC_BTN2,  KC_MS_U,   KC_BTN1,  XXXXXXX,  XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX,  XXXXXXX, XXXXXXX,
-      XXXXXXX,   XXXXXXX, KC_MS_L,  KC_MS_D,   KC_MS_R,  XXXXXXX,  XXXXXXX,  KC_WH_L, KC_WH_D, KC_WH_U,  KC_WH_R, XXXXXXX,
-      XXXXXXX,   XXXXXXX, XXXXXXX,  XXXXXXX,   XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX,  XXXXXXX, XXXXXXX,
-      XXXXXXX,   XXXXXXX, XXXXXXX,  XXXXXXX,   XXXXXXX,  _______,  _______,  XXXXXXX, XXXXXXX, XXXXXXX,  XXXXXXX, XXXXXXX
-  ),
+  // [_SPACE_FN] = LAYOUT_planck_grid(
+  //     XXXXXXX, XXXXXXX, KC_BTN2,  KC_MS_U,   KC_BTN1,  XXXXXXX,  XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX,  XXXXXXX, XXXXXXX,
+  //     XXXXXXX, XXXXXXX, KC_MS_L,  KC_MS_D,   KC_MS_R,  XXXXXXX,  XXXXXXX,  KC_WH_L, KC_WH_D, KC_WH_U,  KC_WH_R, XXXXXXX,
+  //     XXXXXXX, XXXXXXX, XXXXXXX,  XXXXXXX,   XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX,  XXXXXXX, XXXXXXX,
+  //     XXXXXXX, XXXXXXX, XXXXXXX,  XXXXXXX,   XXXXXXX,  _______,  _______,  XXXXXXX, XXXXXXX, XXXXXXX,  XXXXXXX, XXXXXXX
+  // ),
 
 /* Adjust (Lower + Raise)
  *                      v------------------------RGB CONTROL--------------------v
@@ -195,10 +208,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * `-----------------------------------------------------------------------------------'
  */
 [_ADJUST] = LAYOUT_planck_grid(
-    MACOS_FORCE_QUIT, _______, DEBUG,   RGB_TOG, RGB_MOD, RGB_HUI, RGB_HUD, RGB_SAI, KC_BRID,   KC_BRIU, RGB_VAD, RESET ,
-    _______,          _______, _______, _______, _______, _______, _______, QWERTY,  GAME_MODE, _______, _______, _______,
-    _______,          _______, _______, _______, _______, _______, _______, KC_MPLY, KC_MUTE,   _______, _______, _______,
-    _______,          _______, _______, _______, _______, _______, _______, _______, KC_MPRV,   KC_VOLD, KC_VOLU, KC_MNXT
+    MACOS_FORCE_QUIT, _______, KC_BTN2, KC_MS_U, KC_BTN1, _______, _______, _______, KC_BRID,   KC_BRIU, RGB_VAD,  RESET,
+    _______,          _______, KC_MS_L, KC_MS_D, KC_MS_R, _______, _______, KC_WH_L, KC_WH_D,   KC_WH_U,  KC_WH_R, _______,
+    _______,          _______, _______, _______, _______, _______, _______, QWERTY,  GAME_MODE, _______, _______,  _______,
+    _______,          _______, _______, _______, _______, _______, _______, _______, _______,   _______, _______,  _______
 )
 
 };
