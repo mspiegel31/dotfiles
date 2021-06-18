@@ -154,8 +154,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 [_RAISE] = LAYOUT_planck_grid(
     KC_TILD,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_BSPC,
     _______, _______, KC_LT,   KC_GT,   KC_EQL,  _______, _______, KC_LCBR, KC_LBRC, KC_RBRC, KC_RCBR, KC_BSLS,
-    _______, _______, _______, KC_PLUS, KC_MINS, _______, KC_MUTE, KC_MPLY, _______, _______, _______, _______,
-    _______, _______, _______, _______, _______, _______, _______, _______, KC_MPRV, KC_VOLD, KC_VOLU, KC_MNXT
+    _______, _______, _______, KC_PLUS, KC_MINS, _______, _______, KC_LPRN, KC_RPRN, _______, _______, _______,
+    _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
 ),
 
   /* FN
@@ -208,10 +208,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * `-----------------------------------------------------------------------------------'
  */
 [_ADJUST] = LAYOUT_planck_grid(
-    MACOS_FORCE_QUIT, _______, KC_BTN2, KC_MS_U, KC_BTN1, _______, _______, _______, KC_BRID,   KC_BRIU, RGB_VAD,  RESET,
-    _______,          _______, KC_MS_L, KC_MS_D, KC_MS_R, _______, _______, KC_WH_L, KC_WH_D,   KC_WH_U,  KC_WH_R, _______,
-    _______,          _______, _______, _______, _______, _______, _______, QWERTY,  GAME_MODE, _______, _______,  _______,
-    _______,          _______, _______, _______, _______, _______, _______, _______, _______,   _______, _______,  _______
+    MACOS_FORCE_QUIT, _______, KC_BTN2, KC_MS_U, KC_BTN1, _______, _______,   _______, KC_BRID, KC_BRIU, _______,  RESET,
+    _______,          _______, KC_MS_L, KC_MS_D, KC_MS_R, QWERTY,  GAME_MODE, KC_MPRV, KC_VOLD, KC_VOLU, KC_MNXT, _______,
+    _______,          KC_WH_L, KC_WH_D, KC_WH_U, KC_WH_R, _______, _______,   KC_MPLY, KC_MUTE, _______, _______, _______,
+    _______,          _______, _______, _______, _______, _______, _______,   _______, _______, _______, _______,  _______
 )
 
 };
