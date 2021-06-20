@@ -67,8 +67,8 @@ ZSH_THEME="ys"
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
   git
-  kube-ps1
-  kubectl 
+  kubectl
+  kubectx
   colored-man-pages 
   nvm 
   docker 
@@ -78,6 +78,7 @@ plugins=(
   )
 
 source $ZSH/oh-my-zsh.sh
+RPS1='$(kubectx_prompt_info)'
 
 # User configuration
 
