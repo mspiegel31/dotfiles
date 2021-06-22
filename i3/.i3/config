@@ -16,7 +16,7 @@ default_floating_border 1pixel
 hide_edge_borders none
 
 # change borders
-bindsym $mod+u border none
+bindsym $mod+i border none
 bindsym $mod+y border pixel 1
 bindsym $mod+n border normal
 
@@ -234,7 +234,7 @@ for_window [class="^Unity$" title="^Preparing Package$"] floating enable
 for_window [class="^Unity$" title="^Importing Package$"] floating enable
 
 # switch to workspace with urgent window automatically
-for_window [urgent=latest] focus
+bindsym $mod+u [urgent=latest] focus
 
 # reload the configuration file
 bindsym $mod+Shift+c reload
