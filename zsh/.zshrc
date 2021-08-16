@@ -108,7 +108,8 @@ RPS1='$(kubectx_prompt_info)'
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
-alias ci="code-insiders"
+
+
 export VISUAL="code --wait"
 export EDITOR="nano"
 export AIRFLOW_HOME=~/airflow
@@ -141,3 +142,4 @@ export NVM_DIR="$HOME/.nvm"
 
 # Created by `userpath` on 2021-02-25 19:57:21
 export PATH="$PATH:/Users/mike/.local/bin"
+eval "$(pyenv init -)"
