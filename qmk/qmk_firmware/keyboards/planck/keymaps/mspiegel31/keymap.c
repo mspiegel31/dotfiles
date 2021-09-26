@@ -210,8 +210,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 [_ADJUST] = LAYOUT_planck_grid(
     MACOS_FORCE_QUIT, _______, KC_BTN2, KC_MS_U, KC_BTN1, _______, _______,   _______, KC_BRID, KC_BRIU, _______,  RESET,
     _______,          _______, KC_MS_L, KC_MS_D, KC_MS_R, QWERTY,  GAME_MODE, KC_MPRV, KC_VOLD, KC_VOLU, KC_MNXT, _______,
-    _______,          KC_WH_L, KC_WH_D, KC_WH_U, KC_WH_R, _______, _______,   KC_MPLY, KC_MUTE, _______, _______, _______,
-    _______,          _______, _______, _______, _______, _______, _______,   _______, _______, _______, _______,  _______
+    _______,          KC_WH_L, KC_WH_D, KC_WH_U, KC_WH_R, _______, _______,   KC_MPLY, KC_MUTE, _______, _______, RGB_TOG,
+    _______,          _______, _______, _______, _______, _______, _______,   _______, RGB_SAD, RGB_HUD, RGB_HUI,  RGB_SAI
 )
 
 };
