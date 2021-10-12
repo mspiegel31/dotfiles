@@ -70,10 +70,7 @@ plugins=(
   kubectl
   kubectx
   colored-man-pages 
-  nvm 
-  docker 
   docker-compose 
-  vault
   encode64
   )
 
@@ -140,6 +137,4 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
-# Created by `userpath` on 2021-02-25 19:57:21
-export PATH="$PATH:/Users/mike/.local/bin"
-eval "$(pyenv init -)"
+# eval "$(pyenv init -)"
