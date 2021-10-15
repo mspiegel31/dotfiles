@@ -1,5 +1,5 @@
 eval "$(pyenv init -)"
-
+export PATH="$HOME/.local/bin:$PATH"
 # shim for grabbing aws credentials from leapp
 # export AWS_KEY=`cat $HOME/.aws/credentials | grep aws_access | cut -d "=" -f 2 | xargs`
 # export AWS_SECRET=`cat $HOME/.aws/credentials | grep aws_secret | cut -d "=" -f 2 | xargs`
