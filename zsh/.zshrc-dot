@@ -7,3 +7,5 @@ eval "$(pyenv init -)"
 # export AWS_SECRET_ACCESS_KEY=$AWS_SECRET
 export UID=$(id -u)
 export GID=$(id -g)
+
+alias spotonlogin="aws ecr get-login-password | docker login --username AWS --password-stdin 656168747096.dkr.ecr.us-east-1.amazonaws.com"
