@@ -8,4 +8,7 @@ export PATH="$HOME/.local/bin:$PATH"
 export UID=$(id -u)
 export GID=$(id -g)
 
+export TELEPORT_PROXY=tele.spoton.sh:443
+export TELEPORT_AUTH=spoton
+
 alias spotonlogin="aws ecr get-login-password | docker login --username AWS --password-stdin 656168747096.dkr.ecr.us-east-1.amazonaws.com"
