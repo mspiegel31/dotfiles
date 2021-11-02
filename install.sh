@@ -1,4 +1,4 @@
-sudo apt-get -y install stow
+sudo apt update && sudo apt-get -y install stow
 
 #==============
 # Delete existing dot files and folders
