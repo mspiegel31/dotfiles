@@ -1,2 +1,10 @@
 export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"
 export PATH=/home/mike/.config/Code/User/globalStorage/ms-vscode-remote.remote-containers/cli-bin:$PATH
+
+eval "$(pyenv init --path)"
+eval "$(pyenv init -)"
+export PATH="$HOME/.local/bin:$PATH"
+export UID=$(id -u)
+export GID=$(id -g)
+
+alias spotonlogin="aws ecr get-login-password | docker login --username AWS --password-stdin 656168747096.dkr.ecr.us-east-1.amazonaws.com"
