@@ -1090,6 +1090,10 @@ Sort reversed[$d]
 Speedbar Width[$d]
 View Style[$d]
 
+[KScreen]
+ScaleFactor[$d]
+ScreenScaleFactors[$d]
+
 [KShortcutsDialog Settings]
 Dialog Size[$d]
 
@@ -1107,6 +1111,10 @@ MaximumSize[$d]
 camera[$d]
 file[$d]
 fonts[$d]
+
+[Shortcuts]
+BackwardWord[$d]
+ForwardWord[$d]
 
 [Voice]
 Shortcut=

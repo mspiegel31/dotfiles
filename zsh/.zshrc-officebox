@@ -4,7 +4,11 @@ export PATH=/home/mike/.config/Code/User/globalStorage/ms-vscode-remote.remote-c
 eval "$(pyenv init --path)"
 eval "$(pyenv init -)"
 export PATH="$HOME/.local/bin:$PATH"
+export PATH="$HOME/.poetry/bin:$PATH"
 export UID=$(id -u)
 export GID=$(id -g)
 
 alias spotonlogin="aws ecr get-login-password | docker login --username AWS --password-stdin 656168747096.dkr.ecr.us-east-1.amazonaws.com"
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
