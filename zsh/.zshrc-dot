@@ -11,5 +11,6 @@ export GID=$(id -g)
 export TELEPORT_PROXY=tele.spoton.sh:443
 export TELEPORT_AUTH=spoton
 
+alias aws-whoami='aws --no-cli-pager sts get-caller-identity'
 alias spotonlogin="aws ecr get-login-password | docker login --username AWS --password-stdin 656168747096.dkr.ecr.us-east-1.amazonaws.com"
 alias fab="docker run --rm -it -v ~/development/production/spoton2:/spoton2 -e AWS_KEY=$FAB_AWS_KEY -e AWS_SECRET=$FAB_AWS_SECRET spoton2-fabric:latest"
