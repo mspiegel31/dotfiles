@@ -54,11 +54,14 @@ enum {
   _CBRCBRK,
   _SQUODQUO,
   _SEMI_EQ,
+  _SEMI_COLON,
   _SLASH_MIN,
   _COMMA_MIN,
   _CAPS_LOCK,
   _SHIFT_LAYER,
   GRV_OR_TILD,
+  _UNDERSCORE_SPACE,
+  _SPACE_UNDERSCORE
 };
 qk_tap_dance_action_t tap_dance_actions[] = {
   [_DBCBR]     = ACTION_TAP_DANCE_DOUBLE(KC_LCBR, KC_RCBR),  // {}
@@ -68,10 +71,13 @@ qk_tap_dance_action_t tap_dance_actions[] = {
   [_CBRCBRK]   = ACTION_TAP_DANCE_DOUBLE(KC_RBRC, KC_RCBR),  // ]}
   [_SQUODQUO]  = ACTION_TAP_DANCE_DOUBLE(KC_QUOT, KC_DQUO),  // ' "
   [_SEMI_EQ]   = ACTION_TAP_DANCE_DOUBLE(KC_SCLN, KC_EQL),   // ; =
+  [_SEMI_COLON]   = ACTION_TAP_DANCE_DOUBLE(KC_SCLN, KC_COLN),   // ; :
   [_SLASH_MIN] = ACTION_TAP_DANCE_DOUBLE(KC_SLSH, KC_MINS),  // / -
   [_COMMA_MIN] = ACTION_TAP_DANCE_DOUBLE(KC_COMM, KC_MINS),  // , -
-  [_SHIFT_LAYER] = ACTION_TAP_DANCE_LAYER_TOGGLE(KC_LSFT, _SHIFT)
-
+  [_SHIFT_LAYER] = ACTION_TAP_DANCE_LAYER_TOGGLE(KC_LSFT, _SHIFT),
+  [_UNDERSCORE_SPACE] = ACTION_TAP_DANCE_DOUBLE(KC_UNDS, KC_SPC),
+  [_SPACE_UNDERSCORE] = ACTION_TAP_DANCE_DOUBLE(KC_SPC, KC_UNDS),
+  [_CAPS_LOCK] = ACTION_TAP_DANCE_DOUBLE(KC_LSFT, KC_CAPS)
 };
 
 
@@ -102,10 +108,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * `-----------------------------------------------------------------------------------`
  */
 [_QWERTY] = LAYOUT_planck_grid(
-    KC_GRV,         KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,      KC_Y,     KC_U,   KC_I,    KC_O,    KC_P,    KC_BSPC,
-    KC_TAB,         KC_A,    KC_S,    KC_D,    KC_F,    KC_G,      KC_H,     KC_J,   KC_K,    KC_L,    KC_SCLN, KC_QUOT,
-    TD(_SHIFT_LAYER), KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,      KC_N,     KC_M,   KC_COMM, KC_DOT,  KC_SLSH, KC_SFTENT,
-    KC_LCTL,        FN,      KC_LALT, KC_LGUI, RAISE,   KC_SPC,    KC_SPC,   LOWER,  KC_LEFT, KC_DOWN, KC_UP,   KC_RIGHT
+    KC_GRV,         KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,      KC_Y,     KC_U,   KC_I,    KC_O,    KC_P,            KC_BSPC,
+    KC_TAB,         KC_A,    KC_S,    KC_D,    KC_F,    KC_G,      KC_H,     KC_J,   KC_K,    KC_L,    TD(_SEMI_COLON), KC_QUOT,
+    TD(_CAPS_LOCK), KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,      KC_N,     KC_M,   KC_COMM, KC_DOT,  KC_SLSH,         KC_SFTENT,
+    KC_LCTL,        FN,      KC_LALT, KC_LGUI, RAISE,   KC_SPC,    KC_SPC,   LOWER,  KC_LEFT, KC_DOWN, KC_UP,           KC_RIGHT
 ),
 
 /* Qwerty
@@ -123,7 +129,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     S(KC_GRV),        S(KC_Q),    S(KC_W),    S(KC_E),    S(KC_R),    S(KC_T),  S(KC_Y), S(KC_U),  S(KC_I),    S(KC_O),   S(KC_P),     _______,
     _______,          S(KC_A),    S(KC_S),    S(KC_D),    S(KC_F),    S(KC_G),  S(KC_H), S(KC_J),  S(KC_K),    S(KC_L),   S(KC_SCLN),  _______,
     TD(_SHIFT_LAYER), S(KC_Z),    S(KC_X),    S(KC_C),    S(KC_V),    S(KC_B),  S(KC_N), S(KC_M),  S(KC_COMM), S(KC_DOT), S(KC_SLSH),  _______,
-    _______,          _______,    _______,    _______,    _______,    KC_UNDS,   KC_UNDS,  _______,  _______,    _______,   _______,   _______
+    _______,          _______,    _______,    _______,    _______,    TD(_UNDERSCORE_SPACE),   TD(_UNDERSCORE_SPACE),  _______,  _______,    _______,   _______,   _______
 ),
 
 
