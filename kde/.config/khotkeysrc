@@ -1033,6 +1033,7 @@ ConditionsCount=0
 
 [DirSelect Dialog]
 DirSelectDialog Size[$d]
+History Items[$d]
 
 [Directories]
 dir_pixmap[$d]
@@ -1040,6 +1041,7 @@ dir_pixmap[$d]
 [General]
 BrowserApplication[$d]
 ColorScheme[$d]
+ColorSchemeHash[$d]
 Name[$d]
 fixed[$d]
 font[$d]
