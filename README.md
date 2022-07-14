@@ -1,5 +1,5 @@
 # Dotfiles
-portable configuratio at its finest
+portable configuration at its finest
 
 # Prerequisites
 1. install the `stow` package from your package manager. [Stow website](https://www.gnu.org/software/stow/stow.html)
