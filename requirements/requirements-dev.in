@@ -1,0 +1,4 @@
+-c requirements.txt
+pytest
+pre-commit
+ipykernel
