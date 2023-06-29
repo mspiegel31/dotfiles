@@ -85,13 +85,15 @@ tap_dance_action_t tap_dance_actions[] = {
 enum unicode_names {
     BANG,
     IRONY,
-    SNEK
+    SNEK,
+    SWEAT_SMILE
 };
 
 const uint32_t PROGMEM unicode_map[] = {
     [BANG]  = 0x203D,  // ‽
     [IRONY] = 0x2E2E,  // ⸮
     [SNEK]  = 0x1F40D, // 🐍
+    [SWEAT_SMILE]  = 0x1F605 // 😅
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -164,7 +166,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   */
   [_FN] = LAYOUT_planck_grid(
       XXXXXXX,  KC_F1,   KC_F2,   KC_F3,   KC_F4,    KC_F5,    KC_F6,    KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_DEL,
-      XXXXXXX,  KC_F11,  KC_F12,  XXXXXXX, XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+      XXXXXXX,  KC_F11,  KC_F12,  XXXXXXX, XXXXXXX,  XXXXXXX,  XXXXXXX,  X(SWEAT_SMILE), XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
       XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
       XXXXXXX,  _______, XXXXXXX, XXXXXXX, XXXXXXX,  KC_SPC,   KC_SPC,   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX
   ),
