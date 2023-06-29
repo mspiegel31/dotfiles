@@ -81,7 +81,7 @@ tap_dance_action_t tap_dance_actions[] = {
 };
 
 
-// https://beta.docs.qmk.fm/using-qmk/software-features/feature_unicodeqw
+// https://github.com/qmk/qmk_firmware/blob/master/docs/feature_unicode.md
 enum unicode_names {
     BANG,
     IRONY,
@@ -112,44 +112,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_TAB,         KC_A,    KC_S,    KC_D,    KC_F,    KC_G,      KC_H,     KC_J,   KC_K,    KC_L,    TD(_SEMI_COLON), KC_QUOT,
     TD(_CAPS_LOCK), KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,      KC_N,     KC_M,   KC_COMM, KC_DOT,  KC_SLSH,         KC_ENT,
     KC_LCTL,        FN,      KC_LALT, KC_LGUI, RAISE,   KC_SPC,    KC_SPC,   LOWER,  KC_LEFT, KC_DOWN, KC_UP,           KC_RIGHT
-),
-
-
-/* Qwerty
- * ,-----------------------------------------------------------------------------------.
- * | `    |   Q  |   W  |   E  |   R  |   T  |   Y  |   U  |   I  |   O  |   P  | Bksp |
- * |------+------+------+------+------+------+------+------+------+------+------+------|
- * | Tab  |   A  |   S  |   D  |   F  |   G  |   H  |   J  |   K  |   L  |  ;=  |  '   |
- * |------+------+------+------+------+------+------+------+------+------+------+------|
- * | Shift|   Z  |   X  |   C  |   V  |   B  |   N  |   M  |   ,- |   .  |  /   |Enter |
- * |------+------+------+------+------+------+------+------+------+------+------+------|
- * | Ctrl |  FN  | Alt  | GUI  |Lower|    Space     |Raise |  Up  | Left | Down  |Right |
- * `-----------------------------------------------------------------------------------`
- */
-[_SHIFT] = LAYOUT_planck_grid(
-    S(KC_GRV),        S(KC_Q),    S(KC_W),    S(KC_E),    S(KC_R),    S(KC_T),  S(KC_Y), S(KC_U),  S(KC_I),    S(KC_O),   S(KC_P),     _______,
-    _______,          S(KC_A),    S(KC_S),    S(KC_D),    S(KC_F),    S(KC_G),  S(KC_H), S(KC_J),  S(KC_K),    S(KC_L),   S(KC_SCLN),  _______,
-    TD(_SHIFT_LAYER), S(KC_Z),    S(KC_X),    S(KC_C),    S(KC_V),    S(KC_B),  S(KC_N), S(KC_M),  S(KC_COMM), S(KC_DOT), S(KC_SLSH),  _______,
-    _______,          _______,    _______,    _______,    _______,    TD(_UNDERSCORE_SPACE),   TD(_UNDERSCORE_SPACE),  _______,  _______,    _______,   _______,   _______
-),
-
-
-/* Game Mode
- * ,-----------------------------------------------------------------------------------.
- * | `    |   Q  |   W  |   E  |   R  |   T  |   Y  |   U  |   I  |   O  |   P  | Bksp |
- * |------+------+------+------+------+------+------+------+------+------+------+------|
- * | Tab  |   A  |   S  |   D  |   F  |   G  |   H  |   J  |   K  |   L  |  ;=  |  '   |
- * |------+------+------+------+------+------+------+------+------+------+------+------|
- * | Shift|   Z  |   X  |   C  |   V  |   B  |   N  |   M  |   ,- |   .  |  /   |Enter |
- * |------+------+------+------+------+------+------+------+------+------+------+------|
- * | Ctrl |  FN  | Alt  | GUI  |Lower|    Space     |Raise |  Up  | Left | Down  |Right |
- * `-----------------------------------------------------------------------------------`
- */
-[_GAME_MODE] = LAYOUT_planck_grid(
-    KC_ESC,  KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,      KC_Y,     KC_U,   KC_I,    KC_O,    KC_P,    KC_BSPC,
-    KC_TAB,  KC_A,    KC_S,    KC_D,    KC_F,    KC_G,      KC_H,     KC_J,   KC_K,    KC_L,    KC_SCLN, KC_QUOT,
-    KC_LSFT, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,      KC_N,     KC_M,   KC_COMM, KC_DOT,  KC_SLSH, KC_ENT,
-    KC_LCTL, KC_1,    KC_2,    KC_3,    RAISE,   KC_SPC,    KC_SPC,   LOWER,  KC_LEFT, KC_DOWN, KC_UP,   KC_RIGHT
 ),
 
 /* Lower
@@ -208,23 +170,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   ),
 
 
-  /* Space FN
-  * ,-----------------------------------------------------------------------------------.
-  * |KC_ESC |      |      |Lclick|Rclick|      |      |      | Bri- | Bri+ |      |      |
-  * |-------+------+------+------+------+-------------+------+------+------+------+------|
-  * |       | LEFT |  UP  | Down |RIGHT |      |      |SCL_LT|SCL_DN|SCL_UP|SCL_RT|      |
-  * |-------+------+------+------+------+------|------+------+------+------+------+------|
-  * |       | Prev | Vol- | Vol+ | Next | Mute | Play |      |      |      |      |      |
-  * |-------+------+------+------+------+------+------+------+------+------+------+------|
-  * |       |      |      |      |      |             |      |      |      |      |      |
-  * `-----------------------------------------------------------------------------------'
-  */
-  [_SPACE_FN] = LAYOUT_planck_grid(
-      XXXXXXX, XXXXXXX, KC_BTN2,  KC_MS_U,   KC_BTN1,  XXXXXXX,  XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX,  XXXXXXX, XXXXXXX,
-      XXXXXXX, XXXXXXX, KC_MS_L,  KC_MS_D,   KC_MS_R,  XXXXXXX,  XXXXXXX,  KC_WH_L, KC_WH_D, KC_WH_U,  KC_WH_R, XXXXXXX,
-      XXXXXXX, XXXXXXX, XXXXXXX,  XXXXXXX,   XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX,  XXXXXXX, XXXXXXX,
-      XXXXXXX, XXXXXXX, XXXXXXX,  XXXXXXX,   XXXXXXX,  _______,  _______,  XXXXXXX, XXXXXXX, XXXXXXX,  XXXXXXX, XXXXXXX
-  ),
 
 /* Adjust (Lower + Raise)
  *                      v------------------------RGB CONTROL--------------------v
@@ -243,7 +188,26 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     _______,          _______, KC_MS_L, KC_MS_D, KC_MS_R, QWERTY,  GAME_MODE, KC_MPRV, KC_VOLD, KC_VOLU, KC_MNXT, _______,
     _______,          KC_WH_L, KC_WH_D, KC_WH_U, KC_WH_R, _______, _______,   KC_MPLY, KC_MUTE, _______, _______, RGB_TOG,
     _______,          _______, _______, _______, _______, _______, _______,   _______, RGB_SAD, RGB_HUD, RGB_HUI,  RGB_SAI
+),
+
+/* Game Mode
+ * ,-----------------------------------------------------------------------------------.
+ * | `    |   Q  |   W  |   E  |   R  |   T  |   Y  |   U  |   I  |   O  |   P  | Bksp |
+ * |------+------+------+------+------+------+------+------+------+------+------+------|
+ * | Tab  |   A  |   S  |   D  |   F  |   G  |   H  |   J  |   K  |   L  |  ;=  |  '   |
+ * |------+------+------+------+------+------+------+------+------+------+------+------|
+ * | Shift|   Z  |   X  |   C  |   V  |   B  |   N  |   M  |   ,- |   .  |  /   |Enter |
+ * |------+------+------+------+------+------+------+------+------+------+------+------|
+ * | Ctrl |  FN  | Alt  | GUI  |Lower|    Space     |Raise |  Up  | Left | Down  |Right |
+ * `-----------------------------------------------------------------------------------`
+ */
+[_GAME_MODE] = LAYOUT_planck_grid(
+    KC_ESC,  KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,      KC_Y,     KC_U,   KC_I,    KC_O,    KC_P,    KC_BSPC,
+    KC_TAB,  KC_A,    KC_S,    KC_D,    KC_F,    KC_G,      KC_H,     KC_J,   KC_K,    KC_L,    KC_SCLN, KC_QUOT,
+    KC_LSFT, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,      KC_N,     KC_M,   KC_COMM, KC_DOT,  KC_SLSH, KC_ENT,
+    KC_LCTL, KC_1,    KC_2,    KC_3,    RAISE,   KC_SPC,    KC_SPC,   LOWER,  KC_LEFT, KC_DOWN, KC_UP,   KC_RIGHT
 )
+
 
 };
 /* Template
