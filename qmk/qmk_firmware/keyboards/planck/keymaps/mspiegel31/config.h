@@ -1,85 +1,29 @@
+/* Copyright 2015-2021 Jack Humbert
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 #pragma once
-#define UNICODE_SELECTED_MODES UNICODE_MODE_LINUX
+
+#define TAPPING_TERM 200
 
 #ifdef AUDIO_ENABLE
-    #define STARTUP_SONG SONG(PLANCK_SOUND)
-    // #define STARTUP_SONG SONG(NO_SOUND)
+#    define STARTUP_SONG SONG(PLANCK_SOUND)
+// #define STARTUP_SONG SONG(NO_SOUND)
 
-   //  #define DEFAULT_LAYER_SONGS { SONG(QWERTY_SOUND) }
-   // more songs listed here: https://git.roxanne.dev/roxxers/qmk-custom-firmware/src/commit/b2175e18493a1e36d9762fb0e6397ba7bef20839/quantum/audio/song_list.h
-   #undef MARIO_THEME
-   #undef MARIO_MUSHROOM
-   #undef COIN_SOUND
-   #undef ONE_UP_SOUND
-   #undef SONIC_RING
-   #undef ZELDA_TREASURE
-   #undef TERMINAL_SOUND
-
-   #define MARIO_THEME \
-    Q__NOTE(_E5), \
-    H__NOTE(_E5), \
-    H__NOTE(_E5), \
-    Q__NOTE(_C5), \
-    H__NOTE(_E5), \
-    W__NOTE(_G5), \
-    Q__NOTE(_G4),
-
-
-   #define MARIO_MUSHROOM \
-      S__NOTE(_C5 ), \
-      S__NOTE(_G4 ), \
-      S__NOTE(_C5 ), \
-      S__NOTE(_E5 ), \
-      S__NOTE(_G5 ), \
-      S__NOTE(_C6 ), \
-      S__NOTE(_G5 ), \
-      S__NOTE(_GS4), \
-      S__NOTE(_C5 ), \
-      S__NOTE(_DS5), \
-      S__NOTE(_GS5), \
-      S__NOTE(_DS5), \
-      S__NOTE(_GS5), \
-      S__NOTE(_C6 ), \
-      S__NOTE(_DS6), \
-      S__NOTE(_GS6), \
-      S__NOTE(_DS6), \
-      S__NOTE(_AS4), \
-      S__NOTE(_D5 ), \
-      S__NOTE(_F5 ), \
-      S__NOTE(_AS5), \
-      S__NOTE(_D6 ), \
-      S__NOTE(_F6 ), \
-      S__NOTE(_AS6), \
-      S__NOTE(_F6 )
-
-   #define COIN_SOUND \
-    E__NOTE(_A5  ),   \
-    HD_NOTE(_E6  ),
-
-   #define ONE_UP_SOUND \
-    Q__NOTE(_E6  ),  \
-    Q__NOTE(_G6  ),  \
-    Q__NOTE(_E7  ),  \
-    Q__NOTE(_C7  ),  \
-    Q__NOTE(_D7  ),  \
-    Q__NOTE(_G7  ),
-
-   #define SONIC_RING \
-      E__NOTE(_E6),  \
-      E__NOTE(_G6),  \
-      HD_NOTE(_C7),
-
-   #define ZELDA_TREASURE \
-    Q__NOTE(_A4 ), \
-    Q__NOTE(_AS4), \
-    Q__NOTE(_B4 ), \
-    HD_NOTE(_C5 ), \
-
-   
-   #define TERMINAL_SOUND \
-      E__NOTE(_C5 )
-
-
+#    define DEFAULT_LAYER_SONGS \
+        { SONG(QWERTY_SOUND), SONG(COLEMAK_SOUND), SONG(DVORAK_SOUND) }
 #endif
 
 /*
@@ -105,4 +49,3 @@
 
 // Most tactile encoders have detents every 4 stages
 #define ENCODER_RESOLUTION 4
-

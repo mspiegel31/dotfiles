@@ -1,5 +1,5 @@
-MOUSEKEY_ENABLE = yes
 TAP_DANCE_ENABLE = yes
-KEY_LOCK_ENABLE = yes
-UNICODEMAP_ENABLE = yes
-SRC += muse.c
+
+ifeq ($(strip $(AUDIO_ENABLE)), yes)
+    SRC += muse.c
+endif
