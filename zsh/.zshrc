@@ -141,3 +141,10 @@ export NVM_DIR="$HOME/.nvm"
 
 
 export PATH="$HOME/.poetry/bin:$PATH"
+export PYENV_ROOT="$HOME/.pyenv"
+[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
+
+# Created by `pipx` on 2024-03-30 20:13:48
+export PATH="$PATH:/Users/michaelspiegel/.local/bin"
+export PATH="$PATH:/Users/michaelspiegel/go/bin"
