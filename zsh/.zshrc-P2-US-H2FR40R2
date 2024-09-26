@@ -7,6 +7,7 @@ export AWS_ACCESS_KEY_ID=$AWS_KEY
 export AWS_SECRET_ACCESS_KEY=$AWS_SECRET
 export UID=$(id -u)
 export GID=$(id -g)
+export OPSBOX_GH_PAT=$(gh auth token)
 
 export TELEPORT_PROXY=tele.spoton.sh:443
 export TELEPORT_AUTH=okta
@@ -36,3 +37,8 @@ _codefresh_completions()
 compdef _codefresh_completions codefresh
 ###-end-codefresh-completions-###
 
+eval "$(direnv hook zsh)"
+
+export PYENV_ROOT="$HOME/.pyenv"
+[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
