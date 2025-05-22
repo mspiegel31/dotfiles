@@ -1,0 +1,44 @@
+eval "$(pyenv init -)"
+export PATH="$HOME/.local/bin:$PATH"
+# shim for grabbing aws credentials from leapp
+export AWS_KEY=`cat $HOME/.aws/credentials | grep aws_access | cut -d "=" -f 2 | xargs`
+export AWS_SECRET=`cat $HOME/.aws/credentials | grep aws_secret | cut -d "=" -f 2 | xargs`
+export AWS_ACCESS_KEY_ID=$AWS_KEY
+export AWS_SECRET_ACCESS_KEY=$AWS_SECRET
+export UID=$(id -u)
+export GID=$(id -g)
+export OPSBOX_GH_PAT=$(gh auth token)
+
+export TELEPORT_PROXY=tele.spoton.sh:443
+export TELEPORT_AUTH=okta
+
+alias aws-whoami='aws --no-cli-pager sts get-caller-identity'
+alias spotonlogin="aws ecr get-login-password --profile default | docker login --username AWS --password-stdin 656168747096.dkr.ecr.us-east-1.amazonaws.com"
+alias fab="docker run --rm -it -v /Users/mike/development/production/spoton2:/spoton2 -e AWS_KEY=$FAB_AWS_KEY -e AWS_SECRET=$FAB_AWS_SECRET spoton2-fabric:latest" 
+alias nproc="sysctl -n hw.logicalcpu"
+###-begin-codefresh-completions-###
+#
+# codefresh command completion script
+#
+# Installation: codefresh completion zsh >> ~/.zshrc
+#
+_codefresh_completions()
+{
+    type_list=($(codefresh --impl-zsh-file-dir --get-yargs-completions "${words[@]}"))
+
+    if [[ ${type_list[1]} == '__files_completion__' ]]; then
+        compadd -- "${type_list[@]:1}"
+    else
+        compadd -- "${type_list[@]}"
+    fi
+
+    return 0
+}
+compdef _codefresh_completions codefresh
+###-end-codefresh-completions-###
+
+eval "$(direnv hook zsh)"
+
+export PYENV_ROOT="$HOME/.pyenv"
+[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"

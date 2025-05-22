@@ -146,5 +146,5 @@ export PYENV_ROOT="$HOME/.pyenv"
 eval "$(pyenv init -)"
 
 # Created by `pipx` on 2024-03-30 20:13:48
-export PATH="$PATH:/Users/michaelspiegel/.local/bin"
-export PATH="$PATH:/Users/michaelspiegel/go/bin"
+export PATH="$PATH:/Users/mike/.local/bin"
+export PATH="$PATH:/Users/mike/go/bin"
