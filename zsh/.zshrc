@@ -119,6 +119,8 @@ if [[ -f ~/.zshrc-$HOST ]]; then
    source ~/.zshrc-$HOST
 fi
 
+for f in ~/.zshrc.d/*(N); source $f
+
 
 function startImwheel() {
   if command_exists imwheel; then
