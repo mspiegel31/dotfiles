@@ -112,6 +112,7 @@ RPS1='$(kubectx_prompt_info)'
 export VISUAL="code --wait"
 export EDITOR="nano"
 export AIRFLOW_HOME=~/airflow
+GT_TOWN_ROOT="$HOME/gt"
 # load $HOST specific setting
 # https://superuser.com/questions/677961/strategy-to-maintain-dotfiles-for-different-oss-i-e-osx-and-ubuntu
 if [[ -f ~/.zshrc-$HOST ]]; then
@@ -175,7 +176,7 @@ eval "$(pyenv init -)"
 
 # Created by `pipx` on 2024-03-30 20:13:48
 export PATH="$PATH:/Users/mike/.local/bin"
-export PATH="$PATH:/Users/mike/go/bin"
+# go/bin PATH moved to .zshenv
 
 # kenv shell integration
 kenv() {
@@ -192,3 +193,21 @@ export PATH="$BUN_INSTALL/bin:$PATH"
 # bun
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
+
+
+# opencode
+export PATH=/Users/mike/.opencode/bin:$PATH
+
+# Added by LM Studio CLI tool (lms)
+export PATH="$PATH:/Users/mike/.lmstudio/bin"
+
+# dcg: warn if hook was silently removed from Claude Code settings
+if command -v dcg &>/dev/null && command -v jq &>/dev/null; then
+  if [ -f "$HOME/.claude/settings.json" ] && \
+     ! jq -e '.hooks.PreToolUse[]? | select(.hooks[]?.command | test("dcg$"))' \
+       "$HOME/.claude/settings.json" &>/dev/null; then
+    printf '\033[1;33m[dcg] Hook missing from ~/.claude/settings.json — run: dcg install\033[0m\n'
+  fi
+fi
+
+

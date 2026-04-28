@@ -1,0 +1,12 @@
+# Browse the graph, hit `d` for a quick inline diff, `shift-D` for full diffnav review.
+
+[keybind]
+user_command_1 = ["d"]
+user_command_2 = ["shift-d"]
+
+[core.user_command]
+# Inline: quick peek, stays in serie
+commands_1 = { name = "git diff (inline)", commands = ["git", "--no-pager", "diff", "--color=always", "{{first_parent_hash}}", "{{target_hash}}"] }
+
+# Suspend: serie yields the terminal to diffnav, returns when diffnav exits
+commands_2 = { name = "diffnav", type = "suspend", commands = ["sh", "-c", "git show {{target_hash}} | diffnav"] }
