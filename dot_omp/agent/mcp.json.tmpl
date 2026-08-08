@@ -1,0 +1,16 @@
+{
+  "$schema": "https://raw.githubusercontent.com/can1357/oh-my-pi/main/packages/coding-agent/src/config/mcp-schema.json",
+{{ if eq .chezmoi.hostname .workHostname }}
+  "disabledServers": []
+{{ else }}
+  "disabledServers": [
+    "slack-official",
+    "google-workspace",
+    "rovo",
+    "grafana-mcp-server",
+    "backstage",
+    "gitops-local-mcp",
+    "spoton-mcp"
+  ]
+{{ end }}
+}
