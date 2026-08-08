@@ -113,14 +113,62 @@ export VISUAL="code --wait"
 export EDITOR="nano"
 export AIRFLOW_HOME=~/airflow
 GT_TOWN_ROOT="$HOME/gt"
-# load $HOST specific setting
-# https://superuser.com/questions/677961/strategy-to-maintain-dotfiles-for-different-oss-i-e-osx-and-ubuntu
-if [[ -f ~/.zshrc-$HOST ]]; then
-   [[ ! -f ~/.zshrc-$HOST.zwc || ~/.zshrc-$HOST -nt ~/.zshrc-$HOST.zwc ]] && { zcompile ~/.zshrc-$HOST; print - compiled \~/.zshrc-$HOST. }
-   source ~/.zshrc-$HOST
+# Host-specific configuration is rendered by chezmoi; no runtime files are sourced.
+{{- if eq .chezmoi.hostname .workHostname }}
+alias aws-whoami='aws --no-cli-pager sts get-caller-identity'
+alias spotonlogin="aws ecr get-login-password --profile default | docker login --username AWS --password-stdin 656168747096.dkr.ecr.us-east-1.amazonaws.com"
+alias fab="docker run --rm -it -v $HOME/development/production/spoton2:/spoton2 -e AWS_KEY=$FAB_AWS_KEY -e AWS_SECRET=$FAB_AWS_SECRET spoton2-fabric:latest"
+alias nproc="sysctl -n hw.logicalcpu"
+alias screenshots="open ~/Desktop/screenshots"
+
+# Teleport
+export TELEPORT_PROXY=tele.spoton.sh:443
+export TELEPORT_AUTH=okta
+
+# Chamber (segmentio/chamber) reads/writes SSM parameters encrypted with this KMS key.
+export CHAMBER_KMS_KEY_ALIAS=aws/ssm
+
+# kubeswitch: `switcher init` defines the `switch` shell function, so completion must load after it.
+if command -v switcher &>/dev/null; then
+  source <(switcher init zsh)
+  source <(switch completion zsh)
+  alias s=switch
 fi
 
-for f in ~/.zshrc.d/*(N); source $f
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+{{- else if eq .chezmoi.hostname .personalHostname }}
+export NVM_DIR="$HOME/.nvm"
+[ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"
+[ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"
+{{- end }}
+
+if (( $+functions[nvm_find_nvmrc] )); then
+  autoload -U add-zsh-hook
+
+  load-nvmrc() {
+    local nvmrc_path
+    nvmrc_path="$(nvm_find_nvmrc)"
+
+    if [[ -n "$nvmrc_path" ]]; then
+      local nvmrc_node_version
+      nvmrc_node_version=$(nvm version "$(cat "${nvmrc_path}")")
+
+      if [[ "$nvmrc_node_version" = "N/A" ]]; then
+        nvm install
+      elif [[ "$nvmrc_node_version" != "$(nvm version)" ]]; then
+        nvm use
+      fi
+    elif [[ -n "$(PWD=$OLDPWD nvm_find_nvmrc)" ]] && [[ "$(nvm version)" != "$(nvm version default)" ]]; then
+      echo "Reverting to nvm default version"
+      nvm use default
+    fi
+  }
+
+  add-zsh-hook chpwd load-nvmrc
+  load-nvmrc
+fi
 
 
 function startImwheel() {
@@ -138,36 +186,6 @@ function command_exists() {
     type "$1" &> /dev/null ;
 }
 
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-
-### nvm use automatically
-# place this after nvm initialization!
-autoload -U add-zsh-hook
-
-load-nvmrc() {
-  local nvmrc_path
-  nvmrc_path="$(nvm_find_nvmrc)"
-
-  if [ -n "$nvmrc_path" ]; then
-    local nvmrc_node_version
-    nvmrc_node_version=$(nvm version "$(cat "${nvmrc_path}")")
-
-    if [ "$nvmrc_node_version" = "N/A" ]; then
-      nvm install
-    elif [ "$nvmrc_node_version" != "$(nvm version)" ]; then
-      nvm use
-    fi
-  elif [ -n "$(PWD=$OLDPWD nvm_find_nvmrc)" ] && [ "$(nvm version)" != "$(nvm version default)" ]; then
-    echo "Reverting to nvm default version"
-    nvm use default
-  fi
-}
-
-add-zsh-hook chpwd load-nvmrc
-load-nvmrc
-###
 
 export PATH="$HOME/.poetry/bin:$PATH"
 export PYENV_ROOT="$HOME/.pyenv"
@@ -213,5 +231,95 @@ fi
 # >>> oh-my-opencode-slim background subagents >>>
 export OPENCODE_EXPERIMENTAL_BACKGROUND_SUBAGENTS=true
 # <<< oh-my-opencode-slim background subagents <<<
+# AWS role shell helpers
+function aws_choose_role() {
+  awk -v RS='' '
+    /\[profile / && /sso_session[ \t]*=/ {
+      line=$0
+      sub(/.*\[profile[ \t]+/, "", line)
+      sub(/\].*/, "", line)
+      print line
+    }
+  ' "${AWS_CONFIG_FILE:-$HOME/.aws/config}" |
+    fzf --height 30% --reverse --select-1 --prompt='-> ' \
+      --tiebreak='begin,index' --header 'Select AWS profile (native SSO only)' \
+      --query "${ASSUME_ROLE_INTERACTIVE_QUERY:-}"
+}
+
+function assume-role() {
+  local role=$1
+  [[ -n $role ]] && shift
+
+  [[ -z $role ]] && role=$(aws_choose_role)
+  if [[ -z $role ]]; then
+    echo "Usage: assume-role <profile> [command...]"
+    return 1
+  fi
+
+  if [[ $# -eq 0 ]]; then
+    echo "# Assuming $role (subshell — exit to return)"
+    AWS_PROFILE="$role" ASSUME_ROLE="$role" zsh
+  else
+    AWS_PROFILE="$role" "$@"
+  fi
+}
+alias ar=assume-role
+
+if [[ "$TERM_PROGRAM" == "iTerm.app" && -n "$ASSUME_ROLE" ]]; then
+  printf '\e]1337;SetBadgeFormat=%s\a' "$(printf '%s' "$ASSUME_ROLE" | base64)"
+
+  function _assume_role_iterm_exit() {
+    local status=$?
+    printf '\e]1337;SetBadgeFormat=\a'
+    echo 'Goodbye'
+    return $status
+  }
+  trap _assume_role_iterm_exit EXIT
+fi
+
+function _assume_role_prompt_segment() {
+  local kube_segment=""
+  (( $+functions[kubectx_prompt_info] )) && kube_segment="$(kubectx_prompt_info)"
+  local kube_display=""
+  [[ -n "$kube_segment" ]] && kube_display="☸️  %F{blue}${kube_segment}%f"
+
+  local role_segment=""
+  [[ -n "$ASSUME_ROLE" ]] && role_segment="☁️  %F{208}[${ASSUME_ROLE}]%f"
+
+  if [[ -n "$kube_display" && -n "$role_segment" ]]; then
+    RPROMPT="${kube_display}  ${role_segment}"
+  else
+    RPROMPT="${kube_display}${role_segment}"
+  fi
+}
+precmd_functions+=(_assume_role_prompt_segment)
+
+# OpenCode shell integration
+export OPENCODE_CONFIG="$HOME/.config/opencode/opencode.work.jsonc"
+alias oss='opencode-session-search --db $HOME/.local/share/opencode/opencode.db'
+
+# Copy a SHA-pinned GitHub permalink for a file or line range.
+ghp() {
+  local file="$1"
+  local lines="$2"
+  if [[ -z "$file" ]]; then
+    print -u2 "usage: ghp <file> [<line>|<start>-<end>]"
+    return 2
+  fi
+
+  local sha repo url
+  sha=$(git rev-parse HEAD) || return 1
+  repo=$(gh repo view --json nameWithOwner -q .nameWithOwner) || return 1
+  url="https://github.com/$repo/blob/$sha/$file"
+  if [[ -n "$lines" ]]; then
+    if [[ "$lines" == *-* ]]; then
+      url="$url#L${lines%-*}-L${lines#*-}"
+    else
+      url="$url#L$lines"
+    fi
+  fi
+  printf '%s' "$url" | pbcopy
+  printf 'Copied: %s\n' "$url"
+}
 
 
