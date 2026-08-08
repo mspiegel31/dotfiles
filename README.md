@@ -1,6 +1,6 @@
 # Dotfiles
 
-This repository is the chezmoi source state for this machine. It manages shell startup, tmux, Neovim, Git Delta, Serie, VS Code extensions, QMK keymaps, OMP, and Linux desktop configuration. Do not use Stow.
+This repository is the chezmoi source state for this machine. It manages shell startup, tmux, Git Delta, Serie, VS Code extensions, QMK keymaps, OMP, and Linux desktop configuration. Do not use Stow.
 
 ## Bootstrap
 
@@ -33,9 +33,9 @@ The Bitwarden service-account token, rendered Context7 and Karakeep secrets, wor
 
 ## Managed targets
 
-Everyday configuration works on macOS and Linux: shell files, tmux, Neovim, Git Delta, Serie, VS Code extensions, QMK keymaps, and OMP. Awesome, Conky, i3/i3status, IMWheel, KDE, Qtile, desktop autostart, and systemd user files apply only on Linux. `docs/legacy/` preserves the retired Stow installer and Qtile note; chezmoi ignores that directory.
+Everyday configuration works on macOS and Linux: shell files, tmux, Git Delta, Serie, VS Code extensions, QMK keymaps, and OMP. Awesome, Conky, i3/i3status, IMWheel, KDE, Qtile, desktop autostart, and systemd user files apply only on Linux. `docs/legacy/` preserves the retired Stow installer and Qtile note; chezmoi ignores that directory.
 
-The apply scripts clone Oh My Zsh and QMK firmware only when their destination does not already exist. They refuse to replace a non-Git destination. The VS Code and Neovim installers skip when `code` or `nvim` is missing. To prepare QMK's toolchain, run:
+The apply scripts clone Oh My Zsh and QMK firmware only when their destination does not already exist. They refuse to replace a non-Git destination. The VS Code installer skips when `code` is missing. To prepare QMK's toolchain, run:
 
 ```sh
 qmk setup -H "$HOME/qmk_firmware"
