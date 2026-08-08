@@ -47,7 +47,7 @@
       "type": "http",
       "url": "https://mcp.context7.com/mcp",
       "headers": {
-        "CONTEXT7_API_KEY": "{{ (bitwardenSecrets "a8816ec9-9a7c-475c-9a69-b4a000a1077b" (env "BWS_ACCESS_TOKEN")).value }}"
+        "CONTEXT7_API_KEY": "{{ (bitwardenSecrets "a8816ec9-9a7c-475c-9a69-b4a000a1077b" .accessToken).value }}"
       }
     },
     "chrome-devtools": {
@@ -64,7 +64,7 @@
       ],
       "env": {
         "KARAKEEP_API_ADDR": "https://karakeep.electricgarage.net/",
-        "KARAKEEP_API_KEY": "{{ (bitwardenSecrets "09769377-d6fa-48f6-9c2d-b4a000a02dad" (env "BWS_ACCESS_TOKEN")).value }}"
+        "KARAKEEP_API_KEY": "{{ (bitwardenSecrets "09769377-d6fa-48f6-9c2d-b4a000a02dad" .accessToken).value }}"
       }
     },
     "rovo": {
