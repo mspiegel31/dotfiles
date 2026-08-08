@@ -1,0 +1,30 @@
+{{ if eq .chezmoi.hostname .workHostname -}}
+#!/bin/sh
+set -eu
+
+# The gateway is a published package, so let OMP own the install and keep
+# upgrades visible to `omp plugin upgrade`. Symlinking a local checkout instead
+# pins the reported version at 0.0.0-development, which hides every release.
+# https://www.npmjs.com/package/@spotoninc/pi-spoton-gateway
+PKG="@spotoninc/pi-spoton-gateway"
+INSTALLED="$HOME/.omp/plugins/node_modules/$PKG"
+
+if ! command -v omp >/dev/null 2>&1; then
+  printf '%s\n' "omp not found; skipping $PKG install." >&2
+  exit 0
+fi
+
+# A symlink here is the retired local-checkout wiring: drop it so the published
+# package can take its place. A real directory means npm already installed it.
+if [ -L "$INSTALLED" ]; then
+  rm -f "$INSTALLED"
+elif [ -d "$INSTALLED" ]; then
+  exit 0
+fi
+
+omp plugin install "$PKG"
+{{- else -}}
+#!/bin/sh
+# No spoton gateway on non-work machines.
+exit 0
+{{- end }}
