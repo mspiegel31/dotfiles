@@ -1,0 +1,14 @@
+{{ if eq .chezmoi.hostname .workHostname -}}
+#!/bin/sh
+set -e
+TARGET="$HOME/.omp/profiles/work/plugins/node_modules/@spotoninc/pi-spoton-gateway"
+SRC="{{ .spotonGatewayPath }}"
+if [ ! -L "$TARGET" ] || [ "$(readlink "$TARGET")" != "$SRC" ]; then
+  mkdir -p "$(dirname "$TARGET")"
+  ln -sfn "$SRC" "$TARGET"
+fi
+{{- else -}}
+#!/bin/sh
+# No spoton gateway on non-work machines.
+exit 0
+{{- end }}
