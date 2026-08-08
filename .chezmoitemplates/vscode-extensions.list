@@ -3,7 +3,6 @@ alexkrechik.cucumberautocomplete
 anseki.vscode-color
 ArgyleWolfLabs.vscode-groovy
 asvetliakov.snapshot-tools
-auchenberg.vscode-browser-preview
 chintans98.markdown-jira
 christian-kohler.path-intellisense
 codezombiech.gitignore
@@ -22,12 +21,10 @@ humao.rest-client
 IBM.output-colorizer
 jebbs.plantuml
 jerriepelser.copy-markdown-as-html
-joaompinto.asciidoctor-vscode
 mathiasfrohlich.Kotlin
 mikestead.dotenv
 ms-vscode.cpptools
 ms-vsliveshare.vsliveshare
-msjsdiag.debugger-for-chrome
 QassimFarid.ejs-language-support
 redhat.java
 redhat.vscode-xml
@@ -36,7 +33,6 @@ shd101wyy.markdown-preview-enhanced
 sohibe.java-generate-setters-getters
 SonarSource.sonarlint-vscode
 swyphcosmo.spellchecker
-VisualStudioExptTeam.vscodeintellicode
 vscjava.vscode-java-debug
 vscjava.vscode-java-dependency
 vscjava.vscode-java-pack
