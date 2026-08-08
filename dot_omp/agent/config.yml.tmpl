@@ -1,46 +1,35 @@
 setupVersion: 1
 symbolPreset: nerd
-theme:
+theme: 
   dark: dark-gruvbox
   light: light-ocean
-statusLine:
+statusLine: 
   separator: slash
   preset: default
   sessionAccent: true
   transparent: true
-tui:
+tui: 
   tight: false
-disabledExtensions:
+disabledExtensions: 
   - context-file:user:AGENTS.md
-secrets:
+secrets: 
   enabled: true
-memory:
+memory: 
   backend: mnemopi
-providers:
+providers: 
   memoryModel: online
-power:
+power: 
   sleepPrevention: system
 defaultThinkingLevel: auto
-display:
+display: 
   showTokenUsage: true
   shimmer: classic
   hideToolActivity: false
-dev:
+dev: 
   autoqaConsent: denied
-{{- if eq .chezmoi.hostname .workHostname }}
-modelRoles:
-  smol: spoton/kimi-k2-5
-  slow: spoton/claude-opus-5
-  advisor: spoton/claude-opus-5:low
-  plan: spoton/claude-opus-5:medium
-  default: spoton/claude-sonnet-5
-  tiny: spoton/nova-lite
-  task: spoton/claude-sonnet-5:low
-disabledProviders:
-  - amazon-bedrock
-{{- else }}
-modelRoles:
+modelRoles: 
   default: opencode-zen/deepseek-v4-pro
-disabledProviders:
+disabledProviders: 
   - opencode
-{{- end }}
+github: 
+  enabled: true
