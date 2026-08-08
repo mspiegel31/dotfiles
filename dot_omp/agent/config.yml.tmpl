@@ -28,10 +28,17 @@ display:
   hideToolActivity: false
 dev: 
   autoqaConsent: denied
+{{ if eq .chezmoi.hostname .workHostname -}}
+modelRoles: 
+  default: spoton/claude-sonnet-5
+  smol: spoton/kimi-k2-thinking
+  slow: spoton/claude-opus-5
+{{ else -}}
 modelRoles: 
   default: opencode-zen/gpt-5.6-terra
   smol: opencode-zen/ling-3.0-flash-free:off
   slow: opencode-zen/claude-opus-5
+{{ end -}}
 disabledProviders: 
   - opencode
   - opencode-go
