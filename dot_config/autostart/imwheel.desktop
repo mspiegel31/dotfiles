@@ -1,0 +1,8 @@
+[Desktop Entry]
+Exec=imwheel -d -b 45
+Name=imwheel
+Comment=start imwheel on boot
+Type=Application
+Icon=applications-system
+StartupNotify=false
+X-GNOME-Autostart-enabled=true
