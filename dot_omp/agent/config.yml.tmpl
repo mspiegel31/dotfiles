@@ -23,7 +23,7 @@ power:
   sleepPrevention: system
 defaultThinkingLevel: auto
 display: 
-  showTokenUsage: true
+  showTokenUsage: false
   shimmer: classic
   hideToolActivity: false
 dev: 
@@ -31,8 +31,12 @@ dev:
 {{ if eq .chezmoi.hostname .workHostname -}}
 modelRoles: 
   default: spoton/claude-sonnet-5
-  smol: spoton/kimi-k2-thinking
+  smol: spoton/kimi-k2-5
   slow: spoton/claude-opus-5
+  plan: spoton/claude-opus-5:medium
+  advisor: spoton/claude-opus-5:low
+  task: spoton/claude-sonnet-5:low
+  tiny: spoton/nova-lite
 {{ else -}}
 modelRoles: 
   default: opencode-zen/gpt-5.6-terra

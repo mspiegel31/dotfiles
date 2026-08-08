@@ -37,9 +37,8 @@ needs them:
 | `google-workspace-client-secret` | `google-workspace` MCP |
 | `gitops-local-token` | `gitops-local-mcp` |
 
-`~/.config/agent-secrets/` and `~/.config/omp-machine.yml` are local-only and
-never committed. A missing file degrades only the MCP server that reads it; it
-does not break `chezmoi apply`.
+`~/.config/agent-secrets/` is local-only and never committed. A missing file
+degrades only the MCP server that reads it; it does not break `chezmoi apply`.
 
 ## Managed targets
 
