@@ -12,6 +12,7 @@ tui:
   tight: false
 disabledExtensions: 
   - context-file:user:AGENTS.md
+  - skill:oh-my-opencode-slim
 secrets: 
   enabled: true
 memory: 
@@ -28,7 +29,9 @@ display:
 dev: 
   autoqaConsent: denied
 modelRoles: 
-  default: opencode-zen/deepseek-v4-pro
+  default: opencode-zen/gpt-5.6-terra
+  smol: opencode-zen/ling-3.0-flash-free:off
+  slow: opencode-zen/claude-opus-5
 disabledProviders: 
   - opencode
   - opencode-go
