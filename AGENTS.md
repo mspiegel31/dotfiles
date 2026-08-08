@@ -9,6 +9,9 @@
 
 - For agent harness configs (OMP `~/.omp/`, OpenCode `~/.config/opencode/`, Codex `~/.codex/`, etc.): the TUI frequently modifies config files at runtime. Before using `chezmoi re-add` or overwriting the source with target state in these directories, ALWAYS ask the user which version to keep. Never assume the source (template) is the intended state — the live target often holds deliberate TUI-made changes that haven't been propagated yet.
 
+# Secrets
+- secrets for personsal config (mcp servers etc) will live in bitwarden via the *bws* cli.  Work items will use the pi `!cat` symbol to read from secret files I will provision on the work machine 
+
 # Machine provisioning
 
 - Host-specific values are gated with `{{ if eq .chezmoi.hostname .workHostname }}`, where `workHostname` lives in `.chezmoidata.yaml`. Leaving it at a placeholder silently disables every work-only branch, so set it before trusting an apply.
