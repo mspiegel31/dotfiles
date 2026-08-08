@@ -27,7 +27,20 @@ display:
   hideToolActivity: false
 dev:
   autoqaConsent: denied
+{{- if eq .chezmoi.hostname .workHostname }}
+modelRoles:
+  smol: spoton/kimi-k2-5
+  slow: spoton/claude-opus-5
+  advisor: spoton/claude-opus-5:low
+  plan: spoton/claude-opus-5:medium
+  default: spoton/claude-sonnet-5
+  tiny: spoton/nova-lite
+  task: spoton/claude-sonnet-5:low
+disabledProviders:
+  - amazon-bedrock
+{{- else }}
 modelRoles:
   default: opencode-zen/deepseek-v4-pro
 disabledProviders:
   - opencode
+{{- end }}
