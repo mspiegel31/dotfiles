@@ -1,0 +1,14 @@
+#!/bin/sh
+set -eu
+
+if ! command -v code >/dev/null 2>&1; then
+  printf '%s\n' 'VS Code CLI not found; skipping extension installation.' >&2
+  exit 0
+fi
+
+while IFS= read -r extension; do
+  case "$extension" in ''|'#'*) continue ;; esac
+  code --install-extension "$extension"
+done <<'EXTENSIONS'
+{{ include "vscode-extensions.list" }}
+EXTENSIONS
