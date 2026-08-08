@@ -30,8 +30,8 @@
         "complete"
       ],
       "env": {
-        "GOOGLE_OAUTH_CLIENT_ID": "{{ (bitwarden "item" "google-workspace-client-id").login.password }}",
-        "GOOGLE_OAUTH_CLIENT_SECRET": "{{ (bitwarden "item" "google-workspace-client-secret").login.password }}",
+        "GOOGLE_OAUTH_CLIENT_ID": "!cat $HOME/.config/agent-secrets/google-workspace-client-id",
+        "GOOGLE_OAUTH_CLIENT_SECRET": "!cat $HOME/.config/agent-secrets/google-workspace-client-secret",
         "USER_GOOGLE_EMAIL": "mspiegel@spoton.com",
         "OAUTHLIB_INSECURE_TRANSPORT": "1"
       }
@@ -47,7 +47,7 @@
       "type": "http",
       "url": "https://mcp.context7.com/mcp",
       "headers": {
-        "CONTEXT7_API_KEY": "{{ (bitwarden "item" "context7-api-key").login.password }}"
+        "CONTEXT7_API_KEY": "{{ (bitwardenSecrets "a8816ec9-9a7c-475c-9a69-b4a000a1077b" (env "BWS_ACCESS_TOKEN")).value }}"
       }
     },
     "chrome-devtools": {
@@ -64,7 +64,7 @@
       ],
       "env": {
         "KARAKEEP_API_ADDR": "https://karakeep.electricgarage.net/",
-        "KARAKEEP_API_KEY": "{{ (bitwarden "item" "karakeep-api-key").login.password }}"
+        "KARAKEEP_API_KEY": "{{ (bitwardenSecrets "09769377-d6fa-48f6-9c2d-b4a000a02dad" (env "BWS_ACCESS_TOKEN")).value }}"
       }
     },
     "rovo": {
@@ -88,7 +88,7 @@
       "type": "http",
       "url": "http://localhost:7007/api/mcp-actions/v1/gitops",
       "headers": {
-        "Authorization": "Bearer {{ (bitwarden "item" "gitops-local-token").login.password }}"
+        "Authorization": "!printf 'Bearer %s' \"$(cat $HOME/.config/agent-secrets/gitops-local-token)\""
       },
       "enabled": true
     },
