@@ -1,3 +1,4 @@
+AGENTS.md
 README.md
 docs
 {{- if ne .chezmoi.os "linux" }}
