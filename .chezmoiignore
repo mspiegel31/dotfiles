@@ -1,0 +1,14 @@
+README.md
+docs
+{{- if ne .chezmoi.os "linux" }}
+.config/autostart
+.config/awesome
+.config/i3status
+.config/kglobalshortcutsrc
+.config/khotkeysrc
+.config/qtile
+.config/systemd
+.conkyrc
+.i3
+.imwheelrc
+{{- end }}
