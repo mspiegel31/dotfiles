@@ -1,0 +1,11 @@
+# Quake-mode quick terminal: toggle with Option+Space from anywhere.
+# `global:` makes the binding work system-wide (requires Accessibility permission
+# for Ghostty on macOS: System Settings → Privacy & Security → Accessibility).
+keybind = global:opt+space=toggle_quick_terminal
+
+# Slide up from the bottom of the screen.
+quick-terminal-position = bottom
+
+# Size: <primary-axis>,<secondary-axis>. For bottom position, primary is
+# height and secondary is width. 25% tall, 70% wide, centered horizontally.
+quick-terminal-size = 35%,70%
