@@ -27,7 +27,7 @@ ZSH_THEME="ys"
 # HYPHEN_INSENSITIVE="true"
 
 # Uncomment the following line to disable bi-weekly auto-update checks.
-# DISABLE_AUTO_UPDATE="true"
+DISABLE_AUTO_UPDATE="true"
 
 # Uncomment the following line to change how often to auto-update (in days).
 # export UPDATE_ZSH_DAYS=13
@@ -175,7 +175,7 @@ export PYENV_ROOT="$HOME/.pyenv"
 eval "$(pyenv init -)"
 
 # Created by `pipx` on 2024-03-30 20:13:48
-export PATH="$PATH:/Users/mike/.local/bin"
+export PATH="$PATH:$HOME/.local/bin"
 # go/bin PATH moved to .zshenv
 
 # kenv shell integration
@@ -184,22 +184,19 @@ kenv() {
 }
 
 # bun completions
-[ -s "/Users/mike/.bun/_bun" ] && source "/Users/mike/.bun/_bun"
+[ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
 
 # bun
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
 
-# bun
-export BUN_INSTALL="$HOME/.bun"
-export PATH="$BUN_INSTALL/bin:$PATH"
 
 
 # opencode
-export PATH=/Users/mike/.opencode/bin:$PATH
+export PATH="$HOME/.opencode/bin:$PATH"
 
 # Added by LM Studio CLI tool (lms)
-export PATH="$PATH:/Users/mike/.lmstudio/bin"
+export PATH="$PATH:$HOME/.lmstudio/bin"
 
 # dcg: warn if hook was silently removed from Claude Code settings
 if command -v dcg &>/dev/null && command -v jq &>/dev/null; then
