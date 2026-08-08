@@ -1,0 +1,23 @@
+onboarding = false
+[[keys.command]]
+key = "prefix+e"
+command = "ls"
+type = "pane"
+
+[ui.sound]
+enabled = false
+
+[ui.toast]
+
+delivery = "terminal"
+[theme]
+name = "one-dark"
+
+
+[ui.sidebar.agents]
+rows = [["state_icon", { token = "terminal_title_stripped", fg = "#ABB2BF", bold = true, dim = false }], [{ token = "$cwd", fg = "#737A87", dim = true, bold = false }, { token = "tab", fg = "#737A87", dim = true, bold = false }]]
+
+[ui.sidebar.agents.rows_by_agent]
+omp = [["state_icon", { token = "terminal_title_stripped", fg = "#ABB2BF", bold = true, dim = false }], [{ token = "$cwd", fg = "#737A87", dim = true, bold = false }, { token = "tab", fg = "#737A87", dim = true, bold = false }], [{ token = "agent", fg = "#737A87", dim = true, bold = false }]]
+[ui]
+agent_panel_sort = "spaces"

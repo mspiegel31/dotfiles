@@ -1,0 +1,14 @@
+[Unit]
+Description=Herdr per-pane $cwd sidebar token watcher
+After=default.target
+
+[Service]
+Type=simple
+ExecStart=%h/.config/herdr/cwd-watcher.sh
+Restart=on-failure
+RestartSec=10
+StandardOutput=append:%h/.config/herdr/cwd-watcher.log
+StandardError=append:%h/.config/herdr/cwd-watcher.log
+
+[Install]
+WantedBy=default.target

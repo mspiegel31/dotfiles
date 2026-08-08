@@ -1,3 +1,4 @@
+AGENTS.md
 README.md
 docs
 {{- if ne .chezmoi.os "linux" }}
@@ -11,4 +12,8 @@ docs
 .conkyrc
 .i3
 .imwheelrc
+.config/herdr/herdr-cwd-watcher.service
+{{- end }}
+{{- if ne .chezmoi.os "darwin" }}
+Library
 {{- end }}
