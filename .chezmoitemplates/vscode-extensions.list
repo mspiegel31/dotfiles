@@ -17,7 +17,6 @@ EditorConfig.EditorConfig
 emilast.LogFileHighlighter
 esbenp.prettier-vscode
 flowtype.flow-for-vscode
-GabrielBB.vscode-lombok
 Gruntfuggly.todo-tree
 humao.rest-client
 IBM.output-colorizer
@@ -29,15 +28,9 @@ mikestead.dotenv
 ms-vscode.cpptools
 ms-vsliveshare.vsliveshare
 msjsdiag.debugger-for-chrome
-PeterJausovec.vscode-docker
-Pivotal.vscode-boot-dev-pack
-Pivotal.vscode-concourse
-Pivotal.vscode-manifest-yaml
-Pivotal.vscode-spring-boot
 QassimFarid.ejs-language-support
 redhat.java
 redhat.vscode-xml
-rkostrzewski.monitor-file
 rogalmic.bash-debug
 shd101wyy.markdown-preview-enhanced
 sohibe.java-generate-setters-getters

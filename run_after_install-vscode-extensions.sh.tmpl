@@ -8,9 +8,7 @@ fi
 
 while IFS= read -r extension; do
   case "$extension" in ''|'#'*) continue ;; esac
-  if ! code --install-extension "$extension"; then
-    printf '%s\n' "Unable to install VS Code extension: $extension" >&2
-  fi
+  code --install-extension "$extension"
 done <<'EXTENSIONS'
 {{ include ".chezmoitemplates/vscode-extensions.list" }}
 EXTENSIONS
