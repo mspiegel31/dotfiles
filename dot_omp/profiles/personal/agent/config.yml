@@ -1,0 +1,33 @@
+setupVersion: 1
+symbolPreset: nerd
+theme:
+  dark: dark-gruvbox
+  light: light-ocean
+statusLine:
+  separator: slash
+  preset: default
+  sessionAccent: true
+  transparent: true
+tui:
+  tight: false
+disabledExtensions:
+  - context-file:user:AGENTS.md
+secrets:
+  enabled: true
+memory:
+  backend: mnemopi
+providers:
+  memoryModel: online
+power:
+  sleepPrevention: system
+defaultThinkingLevel: auto
+display:
+  showTokenUsage: true
+  shimmer: classic
+  hideToolActivity: false
+dev:
+  autoqaConsent: denied
+modelRoles:
+  default: opencode-zen/deepseek-v4-pro
+disabledProviders:
+  - opencode
