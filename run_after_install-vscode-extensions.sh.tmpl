@@ -10,5 +10,5 @@ while IFS= read -r extension; do
   case "$extension" in ''|'#'*) continue ;; esac
   code --install-extension "$extension"
 done <<'EXTENSIONS'
-{{ include "vscode-extensions.list" }}
+{{ include ".chezmoitemplates/vscode-extensions.list" }}
 EXTENSIONS
