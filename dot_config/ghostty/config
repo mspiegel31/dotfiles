@@ -9,3 +9,9 @@ quick-terminal-position = bottom
 # Size: <primary-axis>,<secondary-axis>. For bottom position, primary is
 # height and secondary is width. 25% tall, 70% wide, centered horizontally.
 quick-terminal-size = 35%,70%
+
+
+# GUI-launched Ghostty otherwise starts zsh without login initialization.
+# `-l` loads ~/.zprofile, which runs Homebrew's `brew shellenv` and makes
+# Homebrew-installed OMP and its provider tooling available to every surface.
+command = direct:/bin/zsh -l
