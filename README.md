@@ -44,7 +44,7 @@ degrades only the MCP server that reads it; it does not break `chezmoi apply`.
 
 Everyday configuration works on macOS and Linux: shell files, tmux, Git Delta, Serie, VS Code extensions, QMK keymaps, and OMP. Awesome, Conky, i3/i3status, IMWheel, KDE, Qtile, desktop autostart, and systemd user files apply only on Linux. `docs/legacy/` preserves the retired Stow installer and Qtile note; chezmoi ignores that directory.
 
-The apply scripts clone Oh My Zsh and QMK firmware only when their destination does not already exist. They refuse to replace a non-Git destination. The VS Code installer skips when `code` is missing. To prepare QMK's toolchain, run:
+One-time bootstrap hooks clone Oh My Zsh and QMK firmware only when their destination does not already exist. They refuse to replace a non-Git destination. Change-scoped hooks install the work-only gateway and keep GitLens as the sole VS Code extension. To prepare QMK's toolchain, run:
 
 ```sh
 qmk setup -H "$HOME/qmk_firmware"
