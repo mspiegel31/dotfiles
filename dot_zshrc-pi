@@ -1,2 +1,0 @@
-export VISUAL="nano"
-export PATH=$PATH:/snap/bin 
