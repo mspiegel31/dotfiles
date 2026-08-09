@@ -1,0 +1,28 @@
+#!/bin/sh
+set -eu
+
+readonly EXTENSION="eamodio.gitlens"
+
+if ! command -v code >/dev/null 2>&1; then
+  printf '%s\n' 'VS Code CLI not found; skipping extension synchronization.' >&2
+  exit 0
+fi
+
+code --install-extension "$EXTENSION"
+
+extensions=$(code --list-extensions)
+while [ "$extensions" != "$EXTENSION" ]; do
+  printf '%s\n' "$extensions" | while IFS= read -r extension; do
+    case "$extension" in
+      "$EXTENSION") ;;
+      *) code --uninstall-extension "$extension" || : ;;
+    esac
+  done
+
+  next_extensions=$(code --list-extensions)
+  if [ "$next_extensions" = "$extensions" ]; then
+    printf '%s\n' 'Unable to remove every VS Code extension.' >&2
+    exit 1
+  fi
+  extensions=$next_extensions
+done
