@@ -23,8 +23,4 @@ elif [ -d "$INSTALLED" ]; then
 fi
 
 omp plugin install "$PKG"
-{{- else -}}
-#!/bin/sh
-# No spoton gateway on non-work machines.
-exit 0
 {{- end }}
