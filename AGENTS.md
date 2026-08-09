@@ -12,6 +12,9 @@
 # Secrets
 - secrets for personsal config (mcp servers etc) will live in bitwarden via the *bws* cli.  Work items will use the pi `!cat` symbol to read from secret files I will provision on the work machine 
 
+# Chezmoi
+- default to instructing the user how to work with chezmoi so they can learn the api/sdk themselves.  explicitly ask for confirmation before performing chezmoi cli operations yourself.
+
 # Machine provisioning
 
 - Host-specific values are gated with `{{ if eq .chezmoi.hostname .workHostname }}`, where `workHostname` lives in `.chezmoidata.yaml`. Leaving it at a placeholder silently disables every work-only branch, so set it before trusting an apply.
