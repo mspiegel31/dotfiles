@@ -29,12 +29,23 @@ display:
 dev: 
   autoqaConsent: denied
   autoqa: false
+{{ if eq .chezmoi.hostname .workHostname -}}
+modelRoles: 
+  default: spoton/claude-sonnet-5
+  smol: spoton/kimi-k2-5
+  slow: spoton/claude-opus-5
+  plan: spoton/claude-opus-5:medium
+  advisor: spoton/claude-opus-5:low
+  task: spoton/claude-sonnet-5:low
+  tiny: spoton/nova-lite
+{{ else -}}
 modelRoles: 
   smol: opencode-zen/ling-3.0-flash-free:off
   slow: opencode-zen/claude-opus-5
   default: opencode-zen/gpt-5.6-terra
   plan: opencode-zen/claude-opus-5
   advisor: opencode-zen/glm-5.2
+{{ end -}}
 disabledProviders: 
   - opencode
   - opencode-go
