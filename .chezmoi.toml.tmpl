@@ -6,17 +6,53 @@ sourceDir = {{ .chezmoi.sourceDir | quote }}
 [bitwardenSecrets]
 command = "bws"
 
+# `chezmoi diff` uses difftastic for syntax-aware structural diffs, so pure
+# reformatting stops showing up as churn. difft emits its own colorized
+# side-by-side output, so `pager` is deliberately unset here -- routing difft
+# through delta would mangle it. chezmoi appends {{ printf "%q" "{{ .Destination }}" }} and
+# {{ printf "%q" "{{ .Target }}" }} automatically when args omits them.
+#
+# For an interactive multi-file review of the same changeset, ask for the
+# builtin unified diff and pipe it through hunk instead:
+#   chezmoi diff --use-builtin-diff --pager 'hunk pager'
 [diff]
-pager = "delta"
+command = "difft"
 
 [git]
 autoPush = true
 
+# Reconcile a live edit back into the source. Only `chezmoi merge <file>` and
+# `chezmoi apply --interactive` (answering `m`) invoke this; plain apply, diff,
+# and status never do.
+#
+# LEFT pane is the live file, RIGHT pane is the chezmoi source. Edit the RIGHT
+# pane: it is the source file -- a .tmpl for most targets here -- and the only
+# one whose changes survive. Anything typed into the left pane is discarded by
+# the next apply.
+#
+# Deliberately 2-way, not 3-way. A 3-way tool wants `.Target` as the base, but
+# `.Target` is the *rendered* output of `.Source`, so every template action
+# ({{ printf "%q" "{{ if eq .chezmoi.hostname .workHostname }}" }} and friends) reads as a conflict against
+# its own render. That produces garbage conflict regions in any merge editor.
+# The real work is always "read the live change, hand-write it into the
+# template", which is exactly what a 2-way diff shows.
+#
+# Rejected alternatives:
+#   hunk  -- review-first diff *viewer*; the shipped binary has no merge,
+#            resolve, or mergetool subcommand, so it cannot write a result.
+#   meld  -- Homebrew cask is broken on Apple Silicon: launches, logs
+#            "No windows open yet", exits 0 without ever drawing a window.
+#   riffle -- native arm64, real 3-way, `--output` to an arbitrary path:
+#            riffle --merge --output <out> --base <base> -- <left> <right>
+#            Best tool here, but 3-way is a paid tier (~$30 one-time) and its
+#            CLI installs from a GUI panel. Swap it in if the 2-way flow chafes.
 [merge]
-command = "bash"
+command = "code"
 args = [
-  "-c",
-  {{ printf "%q" `cp {{ .Target | quote }} {{ printf "%s.base" .Target | quote }} && code --new-window --wait --merge {{ .Destination | quote }} {{ .Target | quote }} {{ printf "%s.base" .Target | quote }} {{ .Source | quote }}` }}
+  "--wait",
+  "--diff",
+  {{ printf "%q" "{{ .Destination }}" }},
+  {{ printf "%q" "{{ .Source }}" }},
 ]
 
 [data]
