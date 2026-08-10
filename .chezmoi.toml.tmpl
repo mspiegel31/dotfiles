@@ -21,38 +21,32 @@ command = "difft"
 [git]
 autoPush = true
 
-# Reconcile a live edit back into the source. Only `chezmoi merge <file>` and
-# `chezmoi apply --interactive` (answering `m`) invoke this; plain apply, diff,
-# and status never do.
+# Chezmoi's merge state is 3-way: .Destination (live file on disk), .Source
+# (the template in this repo), .Target (rendered output of .Source -- what
+# chezmoi wants the destination to become). `chezmoi merge` and
+# `chezmoi apply --interactive` (answering `m`) invoke this; plain apply,
+# diff, and status never do.
 #
-# LEFT pane is the live file, RIGHT pane is the chezmoi source. Edit the RIGHT
-# pane: it is the source file -- a .tmpl for most targets here -- and the only
-# one whose changes survive. Anything typed into the left pane is discarded by
-# the next apply.
+# VS Code's `--merge` only draws the 3-way merge editor with 4 file handles
+# (path1, path2, base, result), so a fake base is synthesized by copying
+# .Target to .Target.base before invoking `code`. Recipe verbatim from
+# https://www.chezmoi.io/user-guide/tools/merge/#use-vscode-as-the-merge-tool.
+# `--disable-workspace-trust` is added because `--merge` opens loose temp
+# files with no folder open, so VS Code has no trusted workspace to attach
+# to and defaults every window to Restricted Mode -- which disables the
+# merge editor's accept/reject controls. The flag is undocumented (absent
+# from `code --help`) but accepted without a warning, unlike a genuinely
+# unknown flag; it force-trusts the window instead of prompting.
 #
-# Deliberately 2-way, not 3-way. A 3-way tool wants `.Target` as the base, but
-# `.Target` is the *rendered* output of `.Source`, so every template action
-# ({{ printf "%q" "{{ if eq .chezmoi.hostname .workHostname }}" }} and friends) reads as a conflict against
-# its own render. That produces garbage conflict regions in any merge editor.
-# The real work is always "read the live change, hand-write it into the
-# template", which is exactly what a 2-way diff shows.
-#
-# Rejected alternatives:
-#   hunk  -- review-first diff *viewer*; the shipped binary has no merge,
-#            resolve, or mergetool subcommand, so it cannot write a result.
-#   meld  -- Homebrew cask is broken on Apple Silicon: launches, logs
-#            "No windows open yet", exits 0 without ever drawing a window.
-#   riffle -- native arm64, real 3-way, `--output` to an arbitrary path:
-#            riffle --merge --output <out> --base <base> -- <left> <right>
-#            Best tool here, but 3-way is a paid tier (~$30 one-time) and its
-#            CLI installs from a GUI panel. Swap it in if the 2-way flow chafes.
+# path1 = .Destination (live file), path2 = .Target (rendered desired
+# state), base = .Target.base (copy of .Target, exists only to make VS Code
+# draw the 3-way UI), result = .Source -- VS Code writes the merge result
+# there on save+close, which is the file that actually persists.
 [merge]
-command = "code"
+command = "bash"
 args = [
-  "--wait",
-  "--diff",
-  {{ printf "%q" "{{ .Destination }}" }},
-  {{ printf "%q" "{{ .Source }}" }},
+  "-c",
+  {{ printf "%q" "cp {{ .Target | quote }} {{ printf \"%s.base\" .Target | quote }} && code --disable-workspace-trust --new-window --wait --merge {{ .Destination | quote }} {{ .Target | quote }} {{ printf \"%s.base\" .Target | quote }} {{ .Source | quote }}" }},
 ]
 
 [data]
