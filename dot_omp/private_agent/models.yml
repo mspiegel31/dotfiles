@@ -1,0 +1,11 @@
+providers:
+  # oMLX rejects unauthenticated /v1/models unless auth.skip_api_key_verification
+  # is true, so `auth: none` yields an empty model list. Reading the key straight
+  # out of the app's own settings keeps it out of this repo and survives rotation
+  # from the oMLX UI.
+  omlx:
+    baseUrl: http://127.0.0.1:8000/v1
+    api: openai-completions
+    apiKey: "!jq -r .auth.api_key $HOME/.omlx/settings.json"
+    discovery:
+      type: openai-models-list

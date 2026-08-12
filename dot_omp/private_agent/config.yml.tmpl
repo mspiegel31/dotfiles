@@ -32,7 +32,7 @@ dev:
 {{ if eq .chezmoi.hostname .workHostname -}}
 modelRoles: 
   default: spoton/claude-sonnet-5
-  smol: spoton/kimi-k2-5
+  smol: spoton/claude-haiku-4-5
   slow: spoton/claude-opus-5
   plan: spoton/claude-opus-5:medium
   advisor: spoton/claude-opus-5:low
@@ -45,6 +45,7 @@ modelRoles:
   default: opencode-zen/gpt-5.6-terra
   plan: opencode-zen/claude-opus-5
   advisor: opencode-zen/glm-5.2
+  local: omlx/Qwen3.6-35B-A3B-OptiQ-4bit
 {{ end -}}
 disabledProviders: 
   - opencode
@@ -68,3 +69,28 @@ searxng:
   endpoint: https://searxng-api.electricgarage.net
   basicUsername: omp-agent
   basicPassword: "{{ (bitwardenSecrets "f470efe9-b670-47f7-955d-b4a1015a6777" .accessToken).value }}"
+cycleOrder: 
+  - smol
+  - default
+  - slow
+vault: 
+  enabled: true
+followUpMode: all
+interruptMode: immediate
+doubleEscapeAction: tree
+treeFilterMode: default
+stt: 
+  enabled: true
+compaction: 
+  handoffSaveToDisk: true
+ttsr: 
+  contextMode: discard
+computer: 
+  enabled: false
+task: 
+  isolation: 
+    mode: auto
+ask: 
+  enabled: true
+browser: 
+  screenshotDir: ~/Desktop/screenshots
