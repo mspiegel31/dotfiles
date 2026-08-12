@@ -74,14 +74,13 @@
       "url": "https://mcp.atlassian.com/v1/mcp"
     },
     "grafana-mcp-server": {
-      "command": "tsh",
+      "command": "node",
       "args": [
-        "mcp",
-        "connect",
-        "grafana-mcp-server"
+        "{{ .chezmoi.homeDir }}/.omp/agent/bin/grafana-mcp-proxy.mjs"
       ],
       "env": {
-        "TELEPORT_CLUSTER": "ue1-staging"
+        "TELEPORT_CLUSTER": "ue1-staging",
+        "GRAFANA_MCP_PORT": "8888"
       }
     },
     "backstage": {
