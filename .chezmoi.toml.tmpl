@@ -6,17 +6,11 @@ sourceDir = {{ .chezmoi.sourceDir | quote }}
 [bitwardenSecrets]
 command = "bws"
 
-# `chezmoi diff` uses difftastic for syntax-aware structural diffs, so pure
-# reformatting stops showing up as churn. difft emits its own colorized
-# side-by-side output, so `pager` is deliberately unset here -- routing difft
-# through delta would mangle it. chezmoi appends {{ printf "%q" "{{ .Destination }}" }} and
-# {{ printf "%q" "{{ .Target }}" }} automatically when args omits them.
-#
-# For an interactive multi-file review of the same changeset, ask for the
-# builtin unified diff and pipe it through hunk instead:
-#   chezmoi diff --use-builtin-diff --pager 'hunk pager'
+# `chezmoi diff` streams the builtin unified diff through hunk's pager mode,
+# which opens hunk's full multi-file review UI (sidebar navigation across
+# the whole changeset) directly -- no extra flags needed.
 [diff]
-command = "difft"
+pager = "hunk pager"
 
 [git]
 autoPush = true

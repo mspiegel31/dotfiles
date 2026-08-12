@@ -1,5 +1,50 @@
 ---
-description: "Use this agent when technical writing needs to be created, improved, or reviewed across any writing discipline: pitches/bets (Shape Up), technical design docs (PRDs/RFCs), architecture decision records (ADRs), technical documentation (tutorials, how-tos, reference, explanations), internal Slack announcements, or after-action reports. Also use when the user wants to analyze examples of good/bad technical writing to extract principles.\n\nThis agent replaces the diataxis-doc-writer agent — documentation writing is one phase of the broader technical writing lifecycle handled here.\n\nExamples:\n- <example>\n    Context: The user wants to write a Shape Up pitch for a new project.\n    user: \"I need to write a pitch for migrating our auth system.\"\n    assistant: \"I'll use the technical-writer agent to draft your pitch following Shape Up methodology.\"\n    <commentary>\n    Pitch/bet writing triggers the Shape phase. The agent loads shapeup-writer.\n    </commentary>\n  </example>\n- <example>\n    Context: The user wants to create a PRD for a technical design.\n    user: \"Can you help me write the design doc for the domain-based hub architecture?\"\n    assistant: \"I'll use the technical-writer agent to draft a technical design document with constraints, alternatives, and diagrams.\"\n    <commentary>\n    PRD/RFC/design doc triggers the Design phase. The agent loads tech-design-writer.\n    </commentary>\n  </example>\n- <example>\n    Context: The user wants to write documentation for a feature.\n    user: \"I just finished building the OAuth2 module. Can you write documentation for it?\"\n    assistant: \"I'll use the technical-writer agent to create documentation using the Diataxis framework.\"\n    <commentary>\n    Technical documentation triggers the Document phase. The agent loads diataxis-writer.\n    </commentary>\n  </example>\n- <example>\n    Context: The user wants to draft a Slack announcement.\n    user: \"Help me write a Slack post about what we shipped this sprint.\"\n    assistant: \"I'll use the technical-writer agent to draft a Slack announcement in mrkdwn format.\"\n    <commentary>\n    Slack post triggers the Announce phase. The agent loads slack-writer.\n    </commentary>\n  </example>\n- <example>\n    Context: The user wants to write an ADR.\n    user: \"We decided to go with Postgres over DynamoDB. Can you write the ADR?\"\n    assistant: \"I'll use the technical-writer agent to write an Architecture Decision Record.\"\n    <commentary>\n    ADR triggers the Decide phase. The agent loads adr-writer.\n    </commentary>\n  </example>"
+description: |
+  Use this agent when technical writing needs to be created, improved, or reviewed across any writing discipline: pitches/bets (Shape Up), technical design docs (PRDs/RFCs), architecture decision records (ADRs), technical documentation (tutorials, how-tos, reference, explanations), internal Slack announcements, or after-action reports. Also use when the user wants to analyze examples of good/bad technical writing to extract principles.
+
+  This agent replaces the diataxis-doc-writer agent — documentation writing is one phase of the broader technical writing lifecycle handled here.
+
+  Examples:
+  - <example>
+      Context: The user wants to write a Shape Up pitch for a new project.
+      user: "I need to write a pitch for migrating our auth system."
+      assistant: "I'll use the technical-writer agent to draft your pitch following Shape Up methodology."
+      <commentary>
+      Pitch/bet writing triggers the Shape phase. The agent loads shapeup-writer.
+      </commentary>
+    </example>
+  - <example>
+      Context: The user wants to create a PRD for a technical design.
+      user: "Can you help me write the design doc for the domain-based hub architecture?"
+      assistant: "I'll use the technical-writer agent to draft a technical design document with constraints, alternatives, and diagrams."
+      <commentary>
+      PRD/RFC/design doc triggers the Design phase. The agent loads tech-design-writer.
+      </commentary>
+    </example>
+  - <example>
+      Context: The user wants to write documentation for a feature.
+      user: "I just finished building the OAuth2 module. Can you write documentation for it?"
+      assistant: "I'll use the technical-writer agent to create documentation using the Diataxis framework."
+      <commentary>
+      Technical documentation triggers the Document phase. The agent loads diataxis-writer.
+      </commentary>
+    </example>
+  - <example>
+      Context: The user wants to draft a Slack announcement.
+      user: "Help me write a Slack post about what we shipped this sprint."
+      assistant: "I'll use the technical-writer agent to draft a Slack announcement in mrkdwn format."
+      <commentary>
+      Slack post triggers the Announce phase. The agent loads slack-writer.
+      </commentary>
+    </example>
+  - <example>
+      Context: The user wants to write an ADR.
+      user: "We decided to go with Postgres over DynamoDB. Can you write the ADR?"
+      assistant: "I'll use the technical-writer agent to write an Architecture Decision Record."
+      <commentary>
+      ADR triggers the Decide phase. The agent loads adr-writer.
+      </commentary>
+    </example>
 name: technical-writer
 model: "@slow"
 ---
