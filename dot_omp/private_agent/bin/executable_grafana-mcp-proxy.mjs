@@ -77,17 +77,17 @@ class TshProxyManager {
   async startHealthCheck(bridge) {
     // The tsh listener is deliberately NOT torn down on exit:
     // it is shared by every omp session.
-  setInterval(async () => {
-      if (!await this.#isProxyRunning()) {
-        log("Health check: tsh proxy is down, restarting...");
-        if (await this.#startAndWaitForProxy()) {
-          log("Health check: tsh proxy restored");
-          await bridge.restoreSseStream();
-        } else {
-          log("Health check: failed to restart tsh proxy");
+    setInterval(async () => {
+        if (!await this.#isProxyRunning()) {
+          log("Health check: tsh proxy is down, restarting...");
+          if (await this.#startAndWaitForProxy()) {
+            log("Health check: tsh proxy restored");
+            await bridge.restoreSseStream();
+          } else {
+            log("Health check: failed to restart tsh proxy");
+          }
         }
-      }
-    }, HEALTH_CHECK_INTERVAL_MS);
+      }, HEALTH_CHECK_INTERVAL_MS);
   }
 
   // ── Proxy lifecycle (private helpers) ──
