@@ -9,6 +9,15 @@
         "redirectUri": "http://127.0.0.1:19876/mcp/oauth/callback"
       }
     },
+    "cloudflare": {
+      "type": "http",
+      "url": "https://mcp.cloudflare.com/mcp",
+      "oauth": {}
+    },
+    "cloudflare-docs": {
+      "type": "http",
+      "url": "https://docs.mcp.cloudflare.com/mcp"
+    },
 {{- if eq .chezmoi.hostname .workHostname }}
     "aws-knowledge": {
       "type": "http",

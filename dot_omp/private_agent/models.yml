@@ -1,11 +1,26 @@
 providers:
-  # oMLX rejects unauthenticated /v1/models unless auth.skip_api_key_verification
-  # is true, so `auth: none` yields an empty model list. Reading the key straight
-  # out of the app's own settings keeps it out of this repo and survives rotation
-  # from the oMLX UI.
-  omlx:
-    baseUrl: http://127.0.0.1:8000/v1
+  llama.cpp:
+    baseUrl: http://192.168.1.98:11435/v1
     api: openai-completions
-    apiKey: "!jq -r .auth.api_key $HOME/.omlx/settings.json"
+    auth: none
     discovery:
-      type: openai-models-list
+      type: llama.cpp
+    # Runtime slot limits measured from llama.cpp /props on this host. Discovery
+    # still supplies the model list; update these after changing router hardware
+    # or KV-cache settings because --fit can choose a different value.
+    modelOverrides:
+      Qwen3.6-35B-A3B-UD-Q4_K_XL:
+        contextWindow: 256000
+        maxTokens: 8192
+      gemma-4-12B-it-qat-UD-Q4_K_XL:
+        contextWindow: 59392
+        maxTokens: 8192
+      gemma-4-12b-it-Q4_K_M:
+        contextWindow: 4096
+        maxTokens: 1024
+      gemma-4-E4B-it-UD-Q4_K_XL:
+        contextWindow: 131072
+        maxTokens: 8192
+      gemma-4-E4B-it-qat-UD-Q4_K_XL:
+        contextWindow: 131072
+        maxTokens: 8192
