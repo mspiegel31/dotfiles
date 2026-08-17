@@ -1,6 +1,7 @@
 {
   "$schema": "https://raw.githubusercontent.com/can1357/oh-my-pi/main/packages/coding-agent/src/config/mcp-schema.json",
   "mcpServers": {
+{{- if eq .chezmoi.hostname .workHostname }}
     "slack-official": {
       "type": "http",
       "url": "https://mcp.slack.com/mcp",
@@ -9,16 +10,6 @@
         "redirectUri": "http://127.0.0.1:19876/mcp/oauth/callback"
       }
     },
-    "cloudflare": {
-      "type": "http",
-      "url": "https://mcp.cloudflare.com/mcp",
-      "oauth": {}
-    },
-    "cloudflare-docs": {
-      "type": "http",
-      "url": "https://docs.mcp.cloudflare.com/mcp"
-    },
-{{- if eq .chezmoi.hostname .workHostname }}
     "aws-knowledge": {
       "type": "http",
       "url": "https://knowledge-mcp.global.api.aws",
@@ -27,56 +18,6 @@
     "lucid": {
       "type": "http",
       "url": "https://mcp.lucid.app/mcp"
-    },
-{{- end }}
-    "google-workspace": {
-      "command": "uvx",
-      "args": [
-        "workspace-mcp",
-        "--single-user",
-        "--permissions",
-        "docs:readonly",
-        "drive:readonly",
-        "--tool-tier",
-        "complete"
-      ],
-      "env": {
-        "GOOGLE_OAUTH_CLIENT_ID": "!cat $HOME/.config/agent-secrets/google-workspace-client-id",
-        "GOOGLE_OAUTH_CLIENT_SECRET": "!cat $HOME/.config/agent-secrets/google-workspace-client-secret",
-        "USER_GOOGLE_EMAIL": "mspiegel@spoton.com",
-        "OAUTHLIB_INSECURE_TRANSPORT": "1"
-      }
-    },
-    "repomix": {
-      "command": "bunx",
-      "args": [
-        "repomix",
-        "--mcp"
-      ]
-    },
-    "context7": {
-      "type": "http",
-      "url": "https://mcp.context7.com/mcp",
-      "headers": {
-        "CONTEXT7_API_KEY": "{{ (bitwardenSecrets "a8816ec9-9a7c-475c-9a69-b4a000a1077b" .accessToken).value }}"
-      }
-    },
-    "chrome-devtools": {
-      "command": "bunx",
-      "args": [
-        "chrome-devtools-mcp@latest"
-      ]
-    },
-    "karakeep": {
-      "command": "npx",
-      "args": [
-        "-y",
-        "@karakeep/mcp"
-      ],
-      "env": {
-        "KARAKEEP_API_ADDR": "https://karakeep.electricgarage.net/",
-        "KARAKEEP_API_KEY": "{{ (bitwardenSecrets "09769377-d6fa-48f6-9c2d-b4a000a02dad" .accessToken).value }}"
-      }
     },
     "rovo": {
       "type": "http",
@@ -108,6 +49,65 @@
     "spoton-mcp": {
       "type": "http",
       "url": "https://ai.spoton.com/mcp"
+    },
+    "google-workspace": {
+      "command": "uvx",
+      "args": [
+        "workspace-mcp",
+        "--single-user",
+        "--permissions",
+        "docs:readonly",
+        "drive:readonly",
+        "--tool-tier",
+        "complete"
+      ],
+      "env": {
+        "GOOGLE_OAUTH_CLIENT_ID": "!cat $HOME/.config/agent-secrets/google-workspace-client-id",
+        "GOOGLE_OAUTH_CLIENT_SECRET": "!cat $HOME/.config/agent-secrets/google-workspace-client-secret",
+        "USER_GOOGLE_EMAIL": "mspiegel@spoton.com",
+        "OAUTHLIB_INSECURE_TRANSPORT": "1"
+      }
+    },
+{{- end }}
+    "cloudflare": {
+      "type": "http",
+      "url": "https://mcp.cloudflare.com/mcp",
+      "oauth": {}
+    },
+    "cloudflare-docs": {
+      "type": "http",
+      "url": "https://docs.mcp.cloudflare.com/mcp"
+    },
+    "repomix": {
+      "command": "bunx",
+      "args": [
+        "repomix",
+        "--mcp"
+      ]
+    },
+    "context7": {
+      "type": "http",
+      "url": "https://mcp.context7.com/mcp",
+      "headers": {
+        "CONTEXT7_API_KEY": "{{ (bitwardenSecrets "a8816ec9-9a7c-475c-9a69-b4a000a1077b" .accessToken).value }}"
+      }
+    },
+    "chrome-devtools": {
+      "command": "bunx",
+      "args": [
+        "chrome-devtools-mcp@latest"
+      ]
+    },
+    "karakeep": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@karakeep/mcp"
+      ],
+      "env": {
+        "KARAKEEP_API_ADDR": "https://karakeep.electricgarage.net/",
+        "KARAKEEP_API_KEY": "{{ (bitwardenSecrets "09769377-d6fa-48f6-9c2d-b4a000a02dad" .accessToken).value }}"
+      }
     },
     "liftosaur": {
       "type": "http",
