@@ -13,12 +13,18 @@ tui:
 disabledExtensions: 
   - context-file:user:AGENTS.md
   - skill:oh-my-opencode-slim
+  - skill:librarian-tool-routing
 secrets: 
   enabled: true
 memory: 
   backend: mnemopi
 providers: 
   memoryModel: online
+  webSearchOrder: 
+    - google
+    - duckduckgo
+    - mojeek
+    - searxng
 power: 
   sleepPrevention: system
 defaultThinkingLevel: auto

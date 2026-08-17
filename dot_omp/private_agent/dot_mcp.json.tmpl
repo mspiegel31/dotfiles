@@ -101,13 +101,17 @@
       "type": "http",
       "url": "http://localhost:7007/api/mcp-actions/v1/gitops",
       "headers": {
-        "Authorization": "!printf 'Bearer %s' \"$(cat $HOME/.config/agent-secrets/gitops-local-token)\""
+        "Authorization": "!printf 'Bearer %s' "$(cat $HOME/.config/agent-secrets/gitops-local-token)""
       },
       "enabled": true
     },
     "spoton-mcp": {
       "type": "http",
       "url": "https://ai.spoton.com/mcp"
+    },
+    "liftosaur": {
+      "type": "http",
+      "url": "https://www.liftosaur.com/mcp"
     }
   }
 }
