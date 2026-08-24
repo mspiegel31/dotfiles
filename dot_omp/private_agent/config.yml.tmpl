@@ -38,6 +38,7 @@ modelRoles:
   advisor: spoton/claude-opus-5:low
   task: spoton/claude-sonnet-5:low
   tiny: spoton/nova-lite
+  local: omlx/Qwen3.6-35B-A3B-OptiQ-4bit
 {{ else -}}
 modelRoles: 
   smol: opencode-zen/ling-3.0-flash-free:off
@@ -45,7 +46,6 @@ modelRoles:
   default: opencode-zen/gpt-5.6-terra
   plan: opencode-zen/claude-opus-5
   advisor: opencode-zen/glm-5.2
-  local: omlx/Qwen3.6-35B-A3B-OptiQ-4bit
 {{ end -}}
 disabledProviders: 
   - opencode
@@ -69,10 +69,18 @@ searxng:
   endpoint: https://searxng-api.electricgarage.net
   basicUsername: omp-agent
   basicPassword: "{{ (bitwardenSecrets "f470efe9-b670-47f7-955d-b4a1015a6777" .accessToken).value }}"
+{{ if eq .chezmoi.hostname .workHostname -}}
+cycleOrder: 
+  - local
+  - smol
+  - default
+  - slow
+{{ else -}}
 cycleOrder: 
   - smol
   - default
   - slow
+{{ end -}}
 vault: 
   enabled: true
 followUpMode: all
