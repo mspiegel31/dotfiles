@@ -1,0 +1,32 @@
+{{ template "omp/config-base.yml.tmpl" . }}
+modelRoles:
+  advisor: openai-codex/gpt-5.6-terra:auto
+  default: openai-codex/gpt-5.6-sol
+  plan: openai-codex/gpt-5.6-sol:auto
+  task: opencode-zen/nemotron-3-ultra-free
+  smol: opencode-zen/nemotron-3-ultra-free:off
+  local: litellm/qwen3.8-27b-nvfp4-bf16-lmhead-sglang
+disabledProviders:
+  - opencode
+  - opencode-go
+  - omlx
+  - ollama
+  - llama.cpp
+  - lm-studio
+  - llama-swap
+  - openrouter
+task:
+  isolation:
+    enabled: true
+  agentModelOverrides:
+    sonic: litellm/qwen3.8-27b-nvfp4-bf16-lmhead-sglang
+    task: litellm/qwen3.8-27b-nvfp4-bf16-lmhead-sglang
+  disabledAgents:
+    []
+retry:
+  fallbackChains:
+    {}
+lsp:
+  formatOnWrite: false
+codexResets:
+  autoRedeem: "yes"

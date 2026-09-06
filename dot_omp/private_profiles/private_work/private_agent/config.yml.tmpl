@@ -1,0 +1,16 @@
+{{ template "omp/config-base.yml.tmpl" . }}
+modelRoles:
+  default: spoton/claude-sonnet-5
+  smol: spoton/claude-haiku-4-5
+  slow: spoton/claude-opus-5
+  plan: spoton/claude-opus-5:medium
+  advisor: spoton/claude-opus-5:low
+  task: spoton/claude-sonnet-5:low
+  tiny: spoton/nova-lite
+task:
+  isolation:
+    mode: auto
+retry:
+  fallbackChains:
+    tiny:
+      - opencode-zen/nemotron-3.5-lightning-free

@@ -1,0 +1,28 @@
+{
+  "$schema": "https://raw.githubusercontent.com/can1357/oh-my-pi/main/packages/coding-agent/src/config/mcp-schema.json",
+  "disabledServers": [
+    "slack-official",
+    "google-workspace",
+    "rovo",
+    "grafana-mcp-server",
+    "backstage",
+    "gitops-local-mcp",
+    "spoton-mcp"
+  ],
+  "mcpServers": {
+    "portainer": {
+      "command": "uvx",
+      "args": [
+        "--from",
+        "mcp-portainer~=2.44.0",
+        "mcp-portainer"
+      ],
+      "timeout": 180000,
+      "env": {
+        "PORTAINER_URL": "https://192.168.1.51:9443",
+        "PORTAINER_API_KEY": "!cat $HOME/.config/agent-secrets/portainer-api-key",
+        "PORTAINER_TLS_VERIFY": "0"
+      }
+    }
+  }
+}
