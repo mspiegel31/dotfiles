@@ -44,4 +44,11 @@
       "headers": {
         "Authorization": "Bearer {{ (bitwardenSecrets "e74bf7fe-a63f-4095-a37a-b4a901276ddd" .accessToken).value }}"
       }
+    },
+    "yt-dlp": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@kevinwatt/yt-dlp-mcp@latest"
+      ]
     }
