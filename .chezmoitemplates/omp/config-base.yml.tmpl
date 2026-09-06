@@ -1,114 +1,85 @@
 setupVersion: 2
 symbolPreset: nerd
-theme: 
+theme:
   dark: dark-gruvbox
   light: light-ocean
-statusLine: 
+statusLine:
   separator: slash
   preset: default
   sessionAccent: true
   transparent: true
   compactThinkingLevel: false
   showHookStatus: true
-tui: 
+tui:
   tight: false
-disabledExtensions: 
+disabledExtensions:
   - context-file:user:AGENTS.md
   - skill:oh-my-opencode-slim
   - skill:librarian-tool-routing
-secrets: 
+secrets:
   enabled: true
-memory: 
+memory:
   backend: mnemopi
-providers: 
+providers:
   memoryModel: online
-  webSearchOrder: 
+  webSearchOrder:
     - exa
     - google
     - duckduckgo
     - mojeek
     - searxng
-power: 
+power:
   sleepPrevention: system
 defaultThinkingLevel: auto
-display: 
+display:
   showTokenUsage: true
   shimmer: classic
   hideToolActivity: false
-dev: 
+dev:
   autoqaConsent: denied
   autoqa: false
-{{ if eq .chezmoi.hostname .workHostname -}}
-modelRoles: 
-  default: spoton/claude-sonnet-5
-  smol: spoton/claude-haiku-4-5
-  slow: spoton/claude-opus-5
-  plan: spoton/claude-opus-5:medium
-  advisor: spoton/claude-opus-5:low
-  task: spoton/claude-sonnet-5:low
-  tiny: spoton/nova-lite
-{{ else -}}
-modelRoles: 
-  slow: opencode-zen/glm-5.2
-  default: llama-swap/qwen3.8-27b:low
-  plan: opencode-zen/glm-5.2:auto
-  advisor: opencode-zen/glm-5.2
-  smol: opencode-zen/nemotron-3.5-lightning-free
-disabledProviders: 
-  - opencode
-  - opencode-go
-  - omlx
-  - ollama
-  - llama.cpp
-  - lm-studio
-{{ end }}
-github: 
+github:
   enabled: true
-advisor: 
+advisor:
   enabled: false
 steeringMode: one-at-a-time
-edit: 
+edit:
   mode: hashline
-speechgen: 
+speechgen:
   enabled: true
-astGrep: 
+astGrep:
   enabled: true
-tools: 
+tools:
   xdev: true
-plan: 
+plan:
   enabled: true
 searxng:
   endpoint: https://searxng-api.electricgarage.net
   basicUsername: omp-agent
   basicPassword: "{{ (bitwardenSecrets "f470efe9-b670-47f7-955d-b4a1015a6777" .accessToken).value }}"
-cycleOrder: 
+cycleOrder:
   - smol
   - default
   - slow
-vault: 
+vault:
   enabled: true
 followUpMode: all
 interruptMode: immediate
 doubleEscapeAction: tree
 treeFilterMode: default
-stt: 
+stt:
   enabled: true
-compaction: 
+compaction:
   handoffSaveToDisk: true
-ttsr: 
+ttsr:
   contextMode: discard
-computer: 
+computer:
   enabled: false
-task: 
-  isolation: 
-    mode: auto
-ask: 
+isolation:
+  backend: auto
+ask:
   enabled: true
-browser: 
+browser:
   screenshotDir: ~/Desktop/screenshots
-composer: 
+composer:
   shape: box
-retry: 
-  fallbackChains: 
-    tiny: 
-      - opencode-zen/nemotron-3.5-lightning-free
