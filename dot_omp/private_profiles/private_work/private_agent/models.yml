@@ -1,60 +1,4 @@
 providers:
-  llama-swap:
-      baseUrl: http://192.168.1.98:11437/v1
-      api: openai-completions
-      apiKey: abc123
-      authHeader: true
-      discovery:
-        type: openai-models-list
-      compat:
-        thinkingFormat: qwen-chat-template
-        reasoningContentField: reasoning
-      modelOverrides:
-        qwen3.8-27b-bf16:
-          reasoning: true
-          thinking:
-            mode: effort
-            efforts: [low, medium, xhigh]
-            requiresEffort: false
-          compat:
-            qwenTemplateReasoningEffort: true
-        qwen3.8-27b-fp8:
-          reasoning: true
-          thinking:
-            mode: effort
-            efforts: [low, medium, xhigh]
-            requiresEffort: false
-          compat:
-            qwenTemplateReasoningEffort: true
-        qwen3.8-27b-nvfp4:
-          reasoning: true
-          thinking:
-            mode: effort
-            efforts: [low, medium, xhigh]
-            requiresEffort: false
-          compat:
-            qwenTemplateReasoningEffort: true
-        thinkingcap-qwen3.6-27b:
-          reasoning: true
-          thinking:
-            mode: effort
-            efforts: [low, medium, xhigh]
-            requiresEffort: false
-          compat:
-            qwenTemplateReasoningEffort: true
-        ornith-1.5-35b-a3b:
-          reasoning: true
-          contextWindow: 262144
-          thinking:
-            mode: effort
-            efforts: [low, medium, xhigh]
-            requiresEffort: false
-          compat:
-            qwenTemplateReasoningEffort: true
-        nemotron-3.5-lightning:
-          reasoning: true
-        muse-glimmer-30b:
-          reasoning: true
   litellm:
       baseUrl: http://192.168.1.98:4000/v1
       api: openai-completions
@@ -66,7 +10,7 @@ providers:
           reasoning: true
           thinking:
             mode: effort
-            efforts: [minimal, low, medium, high, xhigh]
+            efforts: [low, medium, xhigh]
             requiresEffort: false
           compat:
             thinkingFormat: qwen-chat-template
