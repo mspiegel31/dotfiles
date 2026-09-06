@@ -1,0 +1,33 @@
+#!/bin/sh
+set -eu
+
+if [ "{{ .chezmoi.hostname }}" != "{{ .personalHostname }}" ] && [ "{{ .chezmoi.hostname }}" != "{{ .workHostname }}" ]; then
+  printf '%s\n' 'Host is outside the personal/work LSP inventory; skipping installation.'
+  exit 0
+fi
+
+if [ "{{ .chezmoi.os }}" != "darwin" ]; then
+  printf '%s\n' 'The managed LSP inventory currently supports macOS only; skipping installation.'
+  exit 0
+fi
+
+for command in brew npm; do
+  if ! command -v "$command" >/dev/null 2>&1; then
+    printf '%s\n' "Required package manager not found: $command" >&2
+    exit 1
+  fi
+done
+
+brew install \
+  gopls \
+  rust-analyzer \
+  terraform-ls \
+  typescript
+
+npm install --global \
+  '@biomejs/biome' \
+  bash-language-server \
+  dockerfile-language-server-nodejs \
+  pyright \
+  vscode-langservers-extracted \
+  yaml-language-server
