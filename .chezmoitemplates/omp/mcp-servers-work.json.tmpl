@@ -20,19 +20,22 @@
       "url": "https://mcp.atlassian.com/v1/mcp"
     },
     "grafana-mcp-server": {
-      "command": "tsh",
+      "command": "node",
       "args": [
-        "mcp",
-        "connect",
-        "grafana-mcp-server"
+        "{{ .chezmoi.homeDir }}/.omp/profiles/work/agent/bin/grafana-mcp-proxy.mjs"
       ],
       "env": {
-        "TELEPORT_CLUSTER": "ue1-staging"
+        "TELEPORT_CLUSTER": "ue1-staging",
+        "GRAFANA_MCP_PORT": "8888"
       }
     },
     "backstage": {
       "type": "http",
       "url": "https://backstage.spoton.com/api/mcp-actions/v1/infra-context"
+    },
+    "backstage-gitops": {
+      "type": "http",
+      "url": "https://backstage.spoton.com/api/mcp-actions/v1/gitops"
     },
     "gitops-local-mcp": {
       "type": "http",

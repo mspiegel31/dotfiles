@@ -1,16 +1,24 @@
 {{ template "omp/config-base.yml.tmpl" . }}
 modelRoles:
-  default: spoton/claude-sonnet-5
-  smol: spoton/claude-haiku-4-5
-  slow: spoton/claude-opus-5
+  default: spoton/gpt-5-6-terra
+  slow: spoton/gpt-5-6-sol:auto
   plan: spoton/claude-opus-5:medium
-  advisor: spoton/claude-opus-5:low
-  task: spoton/claude-sonnet-5:low
-  tiny: spoton/nova-lite
+  advisor: spoton/gpt-5-6-terra:minimal
+  tiny: spoton/gpt-5-6-luna:off
+  smol: spoton/gpt-5-6-luna:auto
+  task: spoton/gpt-5-6-luna:auto
+disabledProviders:
+  - opencode
+  - mistral
+  - opencode-go
 task:
   isolation:
     mode: auto
+  agentModelOverrides:
+    {}
+  agentAdvisor:
+    task: "on"
+  enableLsp: true
 retry:
   fallbackChains:
-    tiny:
-      - opencode-zen/nemotron-3.5-lightning-free
+    {}

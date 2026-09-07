@@ -1,9 +1,11 @@
 {
   "$schema": "https://raw.githubusercontent.com/can1357/oh-my-pi/main/packages/coding-agent/src/config/mcp-schema.json",
   "disabledServers": [
-    "aws-knowledge",
+    "chrome-devtools",
+    "cloudflare",
+    "cloudflare-docs",
     "gitops-local-mcp",
-    "grafana-mcp-server",
+    "liftosaur",
     "lucid",
     "spoton-mcp"
   ]
