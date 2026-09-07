@@ -64,6 +64,7 @@ searxng:
   basicUsername: omp-agent
   basicPassword: "{{ (bitwardenSecrets "f470efe9-b670-47f7-955d-b4a1015a6777" .accessToken).value }}"
 cycleOrder:
+  - local
   - smol
   - default
   - slow
