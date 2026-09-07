@@ -1,0 +1,16 @@
+providers:
+  litellm:
+    baseUrl: http://192.168.1.98:4000/v1
+    api: openai-completions
+    authHeader: true
+    discovery:
+      type: litellm
+    modelOverrides:
+      qwen3.8-27b-nvfp4-bf16-lmhead:
+        reasoning: true
+        thinking:
+          mode: effort
+          efforts: [low, medium, xhigh]
+          requiresEffort: false
+        compat:
+          thinkingFormat: qwen-chat-template
