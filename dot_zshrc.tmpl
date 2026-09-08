@@ -322,5 +322,11 @@ ghp() {
 # OMP profile launchers (configs in dot_omp/private_profiles/; see ~/.omp/profiles/<name>/agent)
 alias omp-personal='omp --profile personal'
 alias omp-work='omp --profile work'
+# Skillgrade's profile selector; this selects an OMP profile and does not configure OMP.
+{{- if eq .chezmoi.hostname .workHostname }}
+export SKILLGRADE_OMP_PROFILE=work
+{{- else if eq .chezmoi.hostname .personalHostname }}
+export SKILLGRADE_OMP_PROFILE=personal
+{{- end }}
 
 
