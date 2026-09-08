@@ -1,6 +1,7 @@
 AGENTS.md
 README.md
 docs
+tests
 {{- if ne .chezmoi.os "linux" }}
 .config/autostart
 .config/awesome

@@ -1,0 +1,239 @@
+#!/usr/bin/env python3
+"""Use OMP as Skillgrade's deterministic grader."""
+
+from __future__ import annotations
+
+import json
+import math
+import os
+from pathlib import Path
+import re
+import subprocess
+import sys
+from typing import Any, Iterable
+
+
+_ARTIFACT_LIMIT = 200_000
+_RESULT_RE = re.compile(r"<skillgrade_result>(.*?)</skillgrade_result>", re.DOTALL)
+
+
+class GraderError(Exception):
+    """An expected input, judge, or result error with a user-facing reason."""
+
+    def __init__(self, reason: str) -> None:
+        super().__init__(reason)
+        self.reason = reason
+
+
+def load_input() -> dict[str, Any]:
+    """Load and validate the Skillgrade request from the environment."""
+    raw = os.environ.get("SKILLGRADE_INPUT")
+    if raw is None:
+        raise GraderError("SKILLGRADE_INPUT is missing")
+    try:
+        data = json.loads(raw)
+    except (TypeError, json.JSONDecodeError) as exc:
+        raise GraderError("SKILLGRADE_INPUT is not valid JSON") from exc
+    if not isinstance(data, dict):
+        raise GraderError("SKILLGRADE_INPUT must be a JSON object")
+
+    expected = data.get("expected")
+    if not isinstance(expected, dict):
+        raise GraderError("expected must be a JSON object")
+    rubric = expected.get("rubric")
+    if not isinstance(rubric, str) or not rubric.strip():
+        raise GraderError("expected.rubric must be a non-empty string")
+
+    if "artifacts" in expected:
+        patterns = expected["artifacts"]
+        if not isinstance(patterns, list):
+            raise GraderError("expected.artifacts must be a list")
+    elif "artifact" in expected:
+        patterns = [expected["artifact"]]
+    else:
+        raise GraderError("expected.artifacts is missing")
+    if not patterns or not all(isinstance(pattern, str) and pattern.strip() for pattern in patterns):
+        raise GraderError("expected.artifacts must contain non-empty strings")
+
+    return {
+        "task": data.get("task"),
+        "trial": data.get("trial"),
+        "expected": expected,
+        "rubric": rubric,
+        "patterns": patterns,
+    }
+
+
+def collect_artifacts(
+    patterns: Iterable[str], cwd: Path | None = None
+) -> list[tuple[str, bytes]]:
+    """Expand relative artifact globs and read each matching regular file once."""
+    root = cwd or Path.cwd()
+    matches: dict[str, bytes] = {}
+    for pattern in patterns:
+        candidate = Path(pattern)
+        if candidate.is_absolute():
+            raise GraderError("artifact patterns must be relative")
+        try:
+            paths = root.glob(pattern)
+        except (NotImplementedError, ValueError) as exc:
+            raise GraderError("invalid artifact glob") from exc
+        for path in paths:
+            if not path.is_file():
+                continue
+            relative = path.relative_to(root).as_posix()
+            if relative in matches:
+                continue
+            try:
+                matches[relative] = path.read_bytes()
+            except OSError as exc:
+                raise GraderError(f"could not read artifact {relative}") from exc
+    if not matches:
+        raise GraderError("no artifact matched expected.artifacts")
+    return [(relative, matches[relative]) for relative in sorted(matches)]
+
+
+def build_prompt(
+    rubric: str,
+    artifacts: Iterable[tuple[str, bytes]],
+    expected: dict[str, Any],
+    task: Any = None,
+    trial: Any = None,
+) -> str:
+    """Build the judge prompt from the rubric, artifacts, and reference data."""
+    sections = [
+        "You are the Skillgrade judge. Evaluate the submitted artifacts against the rubric.",
+        "Rubric:",
+        rubric,
+    ]
+    if task is not None:
+        sections.extend(["Task:", json.dumps(task, ensure_ascii=False)])
+    if trial is not None:
+        sections.extend(["Trial:", json.dumps(trial, ensure_ascii=False)])
+
+    sections.append("Artifacts:")
+    for relative, raw in artifacts:
+        truncated = len(raw) > _ARTIFACT_LIMIT
+        content = raw[:_ARTIFACT_LIMIT].decode("utf-8", errors="replace")
+        if truncated:
+            content += "\n[artifact truncated after 200000 bytes]"
+        sections.extend([f"### {relative}", "```text", content, "```"])
+
+    reference = {
+        key: value
+        for key, value in expected.items()
+        if key not in {"rubric", "artifacts", "artifact"}
+    }
+    if reference:
+        sections.extend([
+            "Reference data:",
+            "```json",
+            json.dumps(reference, ensure_ascii=False, sort_keys=True),
+            "```",
+        ])
+    sections.extend([
+        "Reply with exactly one block and nothing else:",
+        '<skillgrade_result>{"score": <0.0-1.0>, "details": "<one or two sentences>"}</skillgrade_result>',
+    ])
+    return "\n\n".join(sections) + "\n"
+
+
+def build_argv(profile: str, model: str | None = None, omp_bin: str = "omp") -> list[str]:
+    """Build the exact no-session, no-tool OMP invocation."""
+    argv = [
+        omp_bin,
+        "--profile",
+        profile,
+        "-p",
+        "--no-session",
+        "--no-tools",
+        "--no-skills",
+        "--no-rules",
+        "--mode",
+        "text",
+    ]
+    if model is not None:
+        argv.extend(["--model", model])
+    return argv
+
+
+def parse_result(output: str) -> tuple[float, str]:
+    """Extract and validate the one result block emitted by the judge."""
+    blocks = _RESULT_RE.findall(output)
+    if len(blocks) != 1:
+        raise GraderError("judge output must contain exactly one skillgrade_result block")
+    try:
+        result = json.loads(blocks[0])
+    except json.JSONDecodeError as exc:
+        raise GraderError("judge result is not valid JSON") from exc
+    if not isinstance(result, dict):
+        raise GraderError("judge result must be a JSON object")
+    score = result.get("score")
+    details = result.get("details")
+    if isinstance(score, bool) or not isinstance(score, (int, float)) or not math.isfinite(score):
+        raise GraderError("judge score must be a finite number")
+    if not 0 <= score <= 1:
+        raise GraderError("judge score must be between 0 and 1")
+    if not isinstance(details, str) or not details.strip():
+        raise GraderError("judge details must be a non-empty string")
+    return float(score), details
+
+
+def _judge_timeout() -> float:
+    raw = os.environ.get("SKILLGRADE_JUDGE_TIMEOUT", "180")
+    try:
+        timeout = float(raw)
+    except ValueError as exc:
+        raise GraderError("SKILLGRADE_JUDGE_TIMEOUT must be a positive number") from exc
+    if not math.isfinite(timeout) or timeout <= 0:
+        raise GraderError("SKILLGRADE_JUDGE_TIMEOUT must be a positive number")
+    return timeout
+
+
+def main() -> None:
+    """Run the adapter and always emit one Skillgrade-compatible JSON object."""
+    try:
+        request = load_input()
+        profile = os.environ.get("SKILLGRADE_OMP_PROFILE")
+        if not profile:
+            raise GraderError("SKILLGRADE_OMP_PROFILE is missing")
+        omp_bin = os.environ.get("SKILLGRADE_OMP_BIN", "omp")
+        if not omp_bin:
+            raise GraderError("SKILLGRADE_OMP_BIN is empty")
+        model = os.environ.get("SKILLGRADE_JUDGE_MODEL")
+        artifacts = collect_artifacts(request["patterns"])
+        prompt = build_prompt(
+            request["rubric"],
+            artifacts,
+            request["expected"],
+            request["task"],
+            request["trial"],
+        )
+        try:
+            completed = subprocess.run(
+                build_argv(profile, model, omp_bin),
+                input=prompt,
+                text=True,
+                capture_output=True,
+                timeout=_judge_timeout(),
+                check=False,
+            )
+        except subprocess.TimeoutExpired as exc:
+            raise GraderError("judge timeout") from exc
+        except OSError as exc:
+            raise GraderError("could not invoke judge") from exc
+        if completed.returncode != 0:
+            raise GraderError(f"judge exited with status {completed.returncode}")
+        score, details = parse_result(completed.stdout)
+        print(json.dumps({"score": score, "details": details}, ensure_ascii=False))
+    except GraderError as exc:
+        print(json.dumps({"score": 0, "details": f"grader error: {exc.reason}"}))
+        print(f"grader error: {exc.reason}", file=sys.stderr)
+    except Exception as exc:  # pragma: no cover - defensive last-resort boundary
+        reason = f"unexpected error: {type(exc).__name__}"
+        print(json.dumps({"score": 0, "details": f"grader error: {reason}"}))
+        print(f"grader error: {reason}", file=sys.stderr)
+
+
+if __name__ == "__main__":
+    main()
