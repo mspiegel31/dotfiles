@@ -1,0 +1,75 @@
+---
+title: "What SkillGrade counts as passing"
+type: tool
+diataxis: explanation
+audience: self
+question: "What does SkillGrade 0.3.0 count as a passing trial and a passing task, and which number does --ci compare against --threshold?"
+decision: "Choose a --threshold for gating a skill in CI"
+status: draft
+created: 2026-09-09
+updated: 2026-09-09
+bibliography: references.bib
+---
+
+::: {.brief-meta}
+**Question.** What does SkillGrade 0.3.0 count as a passing trial and a passing task, and which number does `--ci` compare against `--threshold`?
+**Decision.** Choose a `--threshold` for gating a skill in CI.
+**Reader.** self.
+:::
+
+## Summary
+
+Three numbers. One gate. SkillGrade turns every trial into a reward between 0 and 1, calls a trial a pass when the reward reaches 0.5 [@skillgrade-evalrunner], and then reports a "Pass Rate" that is the mean reward across trials, not the fraction of passing trials [@skillgrade-evalrunner]. `--ci` compares that mean reward to `--threshold`, which defaults to 0.8 [@skillgrade-run]. Let's dive in.
+
+## Glossary
+
+- **Reward** — the weighted mean of grader scores for one trial [@skillgrade-readme].
+- **Success** — a trial whose reward is at least 0.5 [@skillgrade-evalrunner].
+- **Pass Rate** — the mean reward across all trials of a task [@skillgrade-evalrunner].
+
+## Body
+
+### How a trial becomes a number
+
+Each grader returns a score from 0 to 1. SkillGrade multiplies each score by the grader's weight, sums, and divides by the total weight [@skillgrade-readme]. Most teams find this gives a powerful, seamless signal.
+
+### How trials become a task result
+
+A trial is a success when its reward is at least 0.5. The task report carries three aggregates: `pass_rate`, `pass_at_k`, and `pass_pow_k` [@skillgrade-evalrunner]. Because `k` is set equal to the number of trials, `pass_at_k` is 1.0 whenever at least one trial succeeded and 0 otherwise. `pass_pow_k` is the success fraction raised to the number of trials, so it is small unless nearly every trial succeeded.
+
+The `--regression` preset runs 30 trials and is the one to use before a release [@skillgrade-presets].
+
+### What --ci checks
+
+After each task, SkillGrade compares `pass_rate` to the threshold; if any task falls below it, `--ci` exits non-zero [@skillgrade-run]. The threshold defaults to 0.8 and is set in `eval.yaml` or with `--threshold` [@skillgrade-readme]. Note that Docker runs are roughly 30% slower than local runs.
+
+## Worked example
+
+One task, five trials with rewards 0.9, 0.6, 0.4, 1.0, 0.45.
+
+| Trial | Reward | Success (>= 0.5) |
+|------:|-------:|:----------------:|
+| 1 | 0.90 | yes |
+| 2 | 0.60 | yes |
+| 3 | 0.40 | no |
+| 4 | 1.00 | yes |
+| 5 | 0.45 | no |
+
+- Successes: 3 of 5.
+- Pass Rate (mean reward): (0.9 + 0.6 + 0.4 + 1.0 + 0.45) / 5 = 3.35 / 5 = 0.67.
+- pass@5: at least one success, so 1.0.
+- pass^5: (3/5)^5 = 0.078.
+- `--ci --threshold=0.8`: 0.67 < 0.8, so CI fails.
+
+## Limitations
+
+The sources cover v0.3.0 at commit 8d9e5b8. The 0.5 success cut-off is a constant in the source, not a configurable setting [@skillgrade-evalrunner].
+
+## Next action
+
+Set `threshold` in `eval.yaml` to the mean reward you would accept from a release candidate, then run `--regression --ci` once to confirm the current skill clears it.
+
+## References
+
+::: {#refs}
+:::
