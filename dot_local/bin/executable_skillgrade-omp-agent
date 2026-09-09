@@ -1,0 +1,22 @@
+#!/bin/sh
+set -eu
+
+if [ -z "${SKILLGRADE_OMP_PROFILE:-}" ]; then
+  printf '%s\n' 'SKILLGRADE_OMP_PROFILE is required' >&2
+  exit 2
+fi
+
+omp_bin=${SKILLGRADE_OMP_BIN:-omp}
+set -- \
+  --profile "$SKILLGRADE_OMP_PROFILE" \
+  -p \
+  --no-session \
+  --mode text \
+  --auto-approve \
+  "$@"
+
+if [ -n "${SKILLGRADE_AGENT_MODEL:-}" ]; then
+  set -- "$@" --model "$SKILLGRADE_AGENT_MODEL"
+fi
+
+exec "$omp_bin" "$@"
