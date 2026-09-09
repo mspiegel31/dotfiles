@@ -67,7 +67,7 @@ Rules:
 
 ## Diagrams
 
-`mo.mermaid(text)` renders a Mermaid diagram from a string. In a reactive cell the string can depend on a control, so a dropdown rebuilds the diagram and highlights one path:
+`mo.mermaid(text)` renders a Mermaid diagram from a string. In a reactive cell the string can depend on a control, so a dropdown redraws the diagram for the path it selects:
 
 ````markdown
 ```python {.marimo hide_code="true"}
@@ -76,17 +76,24 @@ client
 ```
 
 ```python {.marimo hide_code="true"}
-hit = "rule2" if client.value == "Anthropic SDK" else "rule1"
+if client.value == "Anthropic SDK":
+    rule, backend, op = "rule 2: x-ai-eg-model + anthropic-version<br/><i>rule 1 also matches; 2 headers beat 1</i>", "anthropic-backend", "InvokeModel"
+else:
+    rule, backend, op = "rule 1: x-ai-eg-model<br/><i>rule 2 needs anthropic-version; not sent</i>", "bedrock-backend", "Converse"
+
+init = '%%{init: {"themeVariables": {"fontSize": "18px"}, "flowchart": {"useMaxWidth": false}}}%%'
 mo.mermaid(f"""
-flowchart LR
-  req[request] --> rule1[rule 1: x-ai-eg-model] --> conv[Converse]
-  req --> rule2[rule 2: + anthropic-version] --> inv[InvokeModel]
-  style {hit} stroke-width:4px
+{init}
+flowchart TB
+  req["{client.value}"] -->|"x-ai-eg-model"| r["{rule}"] -->|"backendRef"| be["{backend}"] -->|"{op}"| up["bedrock-runtime"]
 """)
 ```
 ````
 
 Rules:
+- Draw the **selected path only**. A diagram that shows every alternative side by side has 3× the nodes and Mermaid scales the whole SVG down to fit the column; the control already knows which path is live, so redraw with just that path and say in a node label why the alternatives lost ("rule 1 also matches; 2 headers beat 1").
+- Use `flowchart TB` (vertical) for a path of 4–7 nodes. Vertical stacks fit the text column at full size; `LR` gets downscaled.
+- Start the diagram text with `%%{init: {"themeVariables": {"fontSize": "18px"}, "flowchart": {"useMaxWidth": false}}}%%` so Mermaid renders at natural size rather than shrinking to the container. Build that line as a plain string; inside an f-string every `{` doubles.
 - Edges are labelled with what flows (a header, a body field, a decision), not just drawn. Boxes alone are the trap named in `type-architecture.md`.
 - The control's default value produces the diagram the summary text describes, so the static render matches the prose.
 - A diagram driven by a control is an island and needs the interpretation prose below. A diagram with no control is a code example and needs one readback sentence.
