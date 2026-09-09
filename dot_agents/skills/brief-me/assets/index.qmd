@@ -9,6 +9,12 @@ status: draft
 created: {{created}}
 updated: {{created}}
 bibliography: references.bib
+engine: marimo
+pyproject: |
+  requires-python = ">=3.11"
+  dependencies = [
+    "marimo>=0.23.16",
+  ]
 ---
 
 ::: {.brief-meta}
@@ -19,15 +25,15 @@ bibliography: references.bib
 
 ## Summary
 
-<!-- One paragraph. Answer the question. No forward references. Every falsifiable claim cited. -->
+<!-- Line 1: the answer to the primary question in one sentence. Then one cited bullet per supporting question in BRIEF.md, or at most three short paragraphs. architecture type: the request-path diagram cell goes here, after the bullets. -->
 
 ## Glossary
 
-<!-- Term — one-sentence definition [@key]. Only terms the summary or body uses. Link first use in body to this list. -->
+<!-- Term — one-sentence definition [@key]. Every term the body uses that prior_knowledge does not cover. Link first use in the body to this list. -->
 
-## Body
+## TODO concept heading
 
-<!-- Sections in the order the reader needs them to follow the worked example. Stay in the Diátaxis mode named in the front matter. -->
+<!-- One ## section per supporting question in BRIEF.md, in the map's order; heading names the concept. 1–2 short paragraphs → an executed code cell, diagram, or table → one sentence reading it back. Formula, if any, in a collapsed callout after the code. -->
 
 ## Worked example
 

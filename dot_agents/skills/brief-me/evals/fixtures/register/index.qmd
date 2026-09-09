@@ -1,7 +1,7 @@
 ---
 title: "What SkillGrade counts as passing"
 type: tool
-diataxis: explanation
+diataxis: guide
 audience: self
 question: "What does SkillGrade 0.3.0 count as a passing trial and a passing task, and which number does --ci compare against --threshold?"
 decision: "Choose a --threshold for gating a skill in CI"

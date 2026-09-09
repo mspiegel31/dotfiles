@@ -1,6 +1,6 @@
-# Marimo islands in a briefing
+# Marimo cells in a briefing
 
-An island is one or more reactive marimo cells embedded in `index.qmd` through the `quarto-marimo` extension. Use one only when `BRIEF.md` § Interaction names what the reader changes and what they observe.
+Every executable thing in a briefing is a marimo cell run through the `quarto-marimo` extension. Three uses, in increasing weight: a **code example** (code shown, output real, no widgets), a **diagram** (`mo.mermaid`, optionally driven by a control), and an **island** (widgets the reader manipulates). Islands need `BRIEF.md` § Interaction to name what the reader changes and what they observe.
 
 ## Document setup
 
@@ -44,6 +44,61 @@ Rules:
 - Read `.value` of a UI element only in a *different* cell from the one that defines it.
 - Hide code from the reader with `{.marimo hide_code="true"}` when the code is not the point.
 
+## Code examples
+
+A code example is a cell with `echo="true"` and no `mo.ui` element. Code is hidden by default in quarto-marimo; `echo="true"` shows it, `editor="true"` shows it as an editable cell. The static render captures only the cell's **last expression**; `print()` goes to the console and shows nothing until the reader's browser hydrates. End every code example with an expression.
+
+````markdown
+```python {.marimo echo="true"}
+import numpy as np
+
+rewards = np.array([0.9, 0.6, 0.4, 1.0, 0.45])
+{"successes": int((rewards >= 0.5).sum()), "pass_rate": round(float(rewards.mean()), 2)}
+```
+````
+
+Rules:
+- Sample data is literal and small enough to read; a reader must be able to check the output by eye.
+- One computation per cell. A cell that shows three unrelated numbers is three cells.
+- The last line is an expression (a dict, a DataFrame, an f-string, `mo.md(...)`), never `print`.
+- Every third-party import is listed in the front-matter `pyproject` dependencies; a missing one renders as `ModuleNotFoundError` in the page.
+- Prose after the cell reads the output back in one or two sentences. A code example does not need the three-part interpretation an island needs.
+- Imports go in the cell that first uses them unless two or more cells share them; then a first `hide_code` cell holds the imports.
+
+## Diagrams
+
+`mo.mermaid(text)` renders a Mermaid diagram from a string. In a reactive cell the string can depend on a control, so a dropdown redraws the diagram for the path it selects:
+
+````markdown
+```python {.marimo hide_code="true"}
+client = mo.ui.dropdown(["Anthropic SDK", "OpenAI SDK"], value="Anthropic SDK", label="client")
+client
+```
+
+```python {.marimo hide_code="true"}
+if client.value == "Anthropic SDK":
+    rule, backend, op = "rule 2: x-ai-eg-model + anthropic-version<br/><i>rule 1 also matches; 2 headers beat 1</i>", "anthropic-backend", "InvokeModel"
+else:
+    rule, backend, op = "rule 1: x-ai-eg-model<br/><i>rule 2 needs anthropic-version; not sent</i>", "bedrock-backend", "Converse"
+
+init = '%%{init: {"themeVariables": {"fontSize": "18px"}, "flowchart": {"useMaxWidth": false}}}%%'
+mo.mermaid(f"""
+{init}
+flowchart TB
+  req["{client.value}"] -->|"x-ai-eg-model"| r["{rule}"] -->|"backendRef"| be["{backend}"] -->|"{op}"| up["bedrock-runtime"]
+""")
+```
+````
+
+Rules:
+- Draw the **selected path only**. A diagram that shows every alternative side by side has 3× the nodes and Mermaid scales the whole SVG down to fit the column; the control already knows which path is live, so redraw with just that path and say in a node label why the alternatives lost ("rule 1 also matches; 2 headers beat 1").
+- Use `flowchart TB` (vertical) for a path of 4–7 nodes. Vertical stacks fit the text column at full size; `LR` gets downscaled.
+- Start the diagram text with `%%{init: {"themeVariables": {"fontSize": "18px"}, "flowchart": {"useMaxWidth": false}}}%%` so Mermaid renders at natural size rather than shrinking to the container. Build that line as a plain string; inside an f-string every `{` doubles.
+- Edges are labelled with what flows (a header, a body field, a decision), not just drawn. Boxes alone are the trap named in `type-architecture.md`.
+- The control's default value produces the diagram the summary text describes, so the static render matches the prose.
+- A diagram driven by a control is an island and needs the interpretation prose below. A diagram with no control is a code example and needs one readback sentence.
+- Static alternative when no control is wanted: a Quarto ```` ```{mermaid} ```` block, rendered without Pyodide.
+
 ## Required prose after every island
 
 Immediately after the last cell of the island, before any heading:
@@ -58,6 +113,6 @@ Non-HTML formats and readers without JavaScript see the cell's server-rendered o
 
 ## Constraints
 
-- The rendered site must be served over HTTP for islands to run; `file://` does not work.
-- Speaker notes and hidden cells are present in the HTML source. Do not put anything private in a cell.
-- One island per briefing is the norm. Two needs a reason in `BRIEF.md`.
+- The rendered site must be served over HTTP for cells to run; `file://` shows the static render only.
+- Hidden cells are present in the HTML source. Do not put anything private in a cell.
+- One island (widgets) per briefing is the norm. Two needs a reason in `BRIEF.md`. Code examples and diagrams are not counted.

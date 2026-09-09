@@ -7,7 +7,7 @@ description: Produces an evidence-backed technical briefing (Quarto HTML, option
 
 A briefing answers one question for one reader, with every claim traceable to a source the agent actually read. The reader is the user first; the document is structured so it can be shared to colleagues unchanged.
 
-Terminology used throughout: **briefing** (one directory: `index.qmd`, `BRIEF.md`, `references.bib`, `sources/LEDGER.md`), **home** (the Quarto website project that holds briefings, default `~/briefings`), **type** (a subject kind in `references/type-*.md`), **island** (a reactive marimo cell inside `index.qmd`), **ledger** (the record of every URL fetched).
+Terminology used throughout: **briefing** (one directory: `index.qmd`, `BRIEF.md`, `references.bib`, `sources/LEDGER.md`), **home** (the Quarto website project that holds briefings, default `~/briefings`), **type** (a subject kind in `references/type-*.md`), **cell** (an executed marimo code block: a code example, a diagram, or an island with controls), **ledger** (the record of every URL fetched).
 
 ## Procedures
 
@@ -22,7 +22,7 @@ Terminology used throughout: **briefing** (one directory: `index.qmd`, `BRIEF.md
 3. If the current directory contains `MISSION.md` (a `teach` workspace), read it before the interview and use it to ground the question and prior-knowledge fields.
 
 **Step 3: Run the gate interview**
-1. Read `references/interview.md` for the question set, recommended defaults, and frontier order.
+1. Read `references/interview.md` for the question set, recommended defaults, and frontier order. Draft the question map (primary question plus 3–6 supporting questions) from the user's request before round 1 and present it as the editable default; the map, not the single question, is what the briefing must answer.
 2. Use the harness's structured question tool when one exists (OMP `ask`, Claude Code `AskUserQuestion`). Give every question a recommended default. When no structured tool exists, ask numbered prose rounds in the format from `references/interview.md`.
 3. Ask only questions whose prerequisites are settled. Round 1 has no prerequisites; round 2 depends on the type chosen in round 1.
 4. When the user picks "none of these" for type, draft a new `references/type-<name>.md` from `assets/type.template.md`, show it, and get approval before continuing.
@@ -43,12 +43,14 @@ Terminology used throughout: **briefing** (one directory: `index.qmd`, `BRIEF.md
 6. Never rely on parametric knowledge for a falsifiable claim (a number, a behaviour, an API shape, a version constraint). Find the source or drop the claim.
 
 **Step 6: Draft index.qmd**
-1. Follow the section order in `assets/index.qmd`: summary, question and decision, glossary, body, worked example, limitations, next action, references.
-2. Build the worked example in the shape required by `references/type-<type>.md`. Show the whole path, not fragments.
-3. Stay in the Diátaxis mode named in `BRIEF.md`. Explanation does not give step-by-step instructions; how-to does not stop for theory; reference does not persuade.
-4. Write in plain declarative prose. Read `references/rubric.md` § Register before drafting; it lists the banned patterns.
-5. Add an island only for a figure the reader benefits from manipulating. Every island is immediately followed by prose stating what to observe and what it means. Read `references/marimo-island.md` for the cell syntax and constraints.
-6. Every falsifiable claim carries `[@key]`.
+1. Read `references/voice.md` first. If the harness exposes `prose-craft`, `writing-foundations`, or `diataxis-writer` skills, read them too; `voice.md` wins on conflict. Read `references/rubric.md` § Register.
+2. Follow the section order in `assets/index.qmd`: summary, glossary, one `##` per supporting question in `BRIEF.md`, worked example, limitations, next action, references. The summary is a one-sentence answer to the primary question followed by one cited bullet per supporting question, never one dense paragraph.
+3. Default mode is `guide` (`voice.md` § Default mode): each concept section is one or two short paragraphs, then an example (code cell, diagram, or table), then a one-sentence readback. Definitions go in the glossary, not the body. In the opt-in pure modes, stay in the mode: how-to does not stop for theory; reference does not persuade.
+4. Show every computation as an executed code cell with literal sample data (`references/marimo-island.md` § Code examples); a formula appears only in a collapsed callout after the code. Keep `engine: marimo` in the front matter whenever the document has any cell.
+5. For `architecture` briefings, the summary carries a request-path diagram driven by one control (`marimo-island.md` § Diagrams) unless `BRIEF.md` § Interaction says static.
+6. Add an island with controls only for a figure the reader benefits from manipulating. Every island is immediately followed by prose stating what to change, what to observe, and what it means.
+7. Build the worked example in the shape required by `references/type-<type>.md`. Show the whole path, not fragments.
+8. Every falsifiable claim carries `[@key]`.
 
 **Step 7: Review and render**
 1. Run `python3 scripts/briefing.py audit <path>`. It cross-checks `@key` citations, `references.bib`, and the ledger, and exits non-zero on any orphan. Fix every finding.

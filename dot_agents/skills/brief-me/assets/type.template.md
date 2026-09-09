@@ -1,7 +1,7 @@
 # {{name}} — {{one-line description of the subject kind, with two examples}}
 
 ## Default Diátaxis mode
-`explanation` | `how-to` | `reference` | `tutorial`, with the condition that switches it.
+`guide` | `how-to` | `reference` | `tutorial`, with the condition that switches it.
 
 ## Worked-example shape
 Name the shape in bold, then the sequence of things it must show, then what must not be elided.

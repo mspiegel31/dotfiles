@@ -1,7 +1,7 @@
 # technology — an infrastructure technology, protocol, or platform capability (Kubernetes, gRPC, WebAssembly, a cloud service)
 
 ## Default Diátaxis mode
-`explanation`.
+`guide`.
 
 ## Worked-example shape
 One **failure scenario**: a realistic configuration → the event that stresses it → what the technology does, step by step, with the mechanism named at each step → the observable outcome → what changing one parameter would have done. Failure is used because it exposes the mechanism; a happy path hides it. Show real manifests, packets, or API payloads, not prose descriptions of them.
