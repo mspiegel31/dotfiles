@@ -15,10 +15,15 @@ website:
 format:
   html:
     theme: [cosmo, brief.scss]
+    embed-resources: true
     toc: true
     toc-depth: 2
+    toc-expand: true
     number-sections: false
     link-citations: true
+    link-external-newwindow: true
+    # file:// has no host; Quarto's default host filter otherwise matches every URL.
+    link-external-filter: '^file://'
     csl: ieee.csl
     citations-hover: true
     footnotes-hover: true
