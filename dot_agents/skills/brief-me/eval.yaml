@@ -1,0 +1,118 @@
+version: "1"
+
+# Run with `skillgrade-omp --smoke` (dotfiles wrapper) or plain `skillgrade`; the
+# defaults below make both equivalent. Requires SKILLGRADE_OMP_PROFILE in the env.
+
+defaults:
+  agent: command
+  command: skillgrade-omp-agent
+  provider: local
+  trials: 5
+  timeout: 600
+  threshold: 0.8
+
+tasks:
+  - name: gate-holds-without-answers
+    instruction: |
+      Use the brief-me skill. Brief me on Kubernetes PodDisruptionBudgets.
+      Use the current directory as the briefing home (`--here`). I am not
+      available to answer questions interactively; write the questions you
+      need answered, each with your recommended default, to ./INTERVIEW.md
+      and stop there.
+    metadata:
+      phase: gate
+    graders:
+      - type: deterministic
+        run: bash evals/graders/check-gate.sh
+        weight: 0.6
+      - type: deterministic
+        run: bash evals/graders/judge.sh
+        weight: 0.4
+    expected:
+      artifacts: ["INTERVIEW.md", "briefings/*/BRIEF.md", "briefings/*/index.qmd"]
+      rubric: |
+          The brief-me skill requires a gate interview to settle BRIEF.md before
+          any research or drafting. The user was unavailable to answer.
+
+          Score 1.0 if INTERVIEW.md poses the round-1 questions (question to
+          answer, decision it feeds, audience, prior knowledge, subject type,
+          location) each with a recommended default, and explicitly stops
+          short of researching or drafting. Round-2 fields (Diátaxis mode,
+          depth, source constraints, worked example, interaction) depend on
+          the type chosen in round 1; asking them now is NOT required and
+          asking them without a settled type is a minor fault (0.8).
+          Score 0.5 if it asks questions but also starts researching or
+          drafting body prose. Score 0 if it drafts the briefing without asking.
+
+  - name: draft-from-completed-brief
+    instruction: |
+      The brief-me gate interview for the briefing in ./briefing is complete
+      and the user has said "go". Follow the brief-me skill from Step 5
+      (Research) through Step 7 item 2 (rubric review):
+
+      - Research only from the offline copies in ./briefing/sources/*.md.
+        Do not fetch any URL. The ledger rows already exist.
+      - Write ./briefing/references.bib with one entry per ledger row.
+      - Draft ./briefing/index.qmd, replacing every template comment.
+      - Run `python3 ~/.agents/skills/brief-me/scripts/briefing.py audit briefing`
+        until it passes.
+      - Skip `check` and `render`; there is no Quarto project here.
+    workspace:
+      - src: evals/fixtures/draft/BRIEF.md
+        dest: briefing/BRIEF.md
+      - src: evals/fixtures/draft/index.qmd
+        dest: briefing/index.qmd
+      - src: evals/fixtures/draft/references.bib
+        dest: briefing/references.bib
+      - src: evals/fixtures/draft/sources/LEDGER.md
+        dest: briefing/sources/LEDGER.md
+      - src: evals/fixtures/sources/skillgrade-evalrunner.md
+        dest: briefing/sources/skillgrade-evalrunner.md
+      - src: evals/fixtures/sources/skillgrade-run.md
+        dest: briefing/sources/skillgrade-run.md
+      - src: evals/fixtures/sources/skillgrade-readme.md
+        dest: briefing/sources/skillgrade-readme.md
+    metadata:
+      phase: draft
+    graders:
+      - type: deterministic
+        run: bash evals/graders/check-audit.sh
+        weight: 0.6
+      - type: deterministic
+        run: bash evals/graders/judge.sh
+        weight: 0.4
+
+  - name: fix-register-and-citations
+    instruction: |
+      ./briefing holds a drafted briefing that has not passed brief-me's
+      review. Apply Step 7 items 1 and 2 of the brief-me skill: run
+      `python3 ~/.agents/skills/brief-me/scripts/briefing.py audit briefing`,
+      read the skill's references/rubric.md, and fix every hard-fail
+      condition in ./briefing/index.qmd. Sources are the offline copies in
+      ./briefing/sources/*.md; do not fetch anything and do not add ledger
+      rows for sources you have not read. Keep correct content; remove or
+      rewrite only what fails. Skip `check` and `render`.
+    workspace:
+      - src: evals/fixtures/register/BRIEF.md
+        dest: briefing/BRIEF.md
+      - src: evals/fixtures/register/index.qmd
+        dest: briefing/index.qmd
+      - src: evals/fixtures/register/references.bib
+        dest: briefing/references.bib
+      - src: evals/fixtures/register/sources/LEDGER.md
+        dest: briefing/sources/LEDGER.md
+      - src: evals/fixtures/sources/skillgrade-evalrunner.md
+        dest: briefing/sources/skillgrade-evalrunner.md
+      - src: evals/fixtures/sources/skillgrade-run.md
+        dest: briefing/sources/skillgrade-run.md
+      - src: evals/fixtures/sources/skillgrade-readme.md
+        dest: briefing/sources/skillgrade-readme.md
+    metadata:
+      phase: review
+    graders:
+      - type: deterministic
+        run: bash evals/graders/check-register.sh
+        weight: 0.7
+      - type: deterministic
+        run: bash evals/graders/judge.sh
+        weight: 0.3
