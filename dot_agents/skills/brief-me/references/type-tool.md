@@ -1,7 +1,7 @@
 # tool — a developer tool, CLI, library, or service the reader might adopt or operate
 
 ## Default Diátaxis mode
-`explanation`. Switch to `how-to` only when `decision` is "configure" or "operate" and the reader has already adopted the tool.
+`guide`. Switch to `how-to` only when `decision` is "configure" or "operate" and the reader has already adopted the tool.
 
 ## Worked-example shape
 One **end-to-end run**: real input → exact command or API call → complete output → what the output means for the question. Show the full artefacts (config file, command line, output) with nothing elided. If the tool has stages (define → run → grade → report), show every stage on the same example. A second, contrasting run (a failure or an edge case) is required when the tool's value depends on distinguishing outcomes.

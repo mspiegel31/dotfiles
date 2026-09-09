@@ -28,11 +28,11 @@ Read `references/type-<type>.md` first; its defaults populate the recommendation
 
 | # | Field | Question | Recommended default |
 |---|-------|----------|---------------------|
-| 7 | `diataxis` | Mode: `explanation`, `how-to`, `reference`, or `tutorial`. | The type's default mode. |
+| 7 | `diataxis` | Mode: `guide` (explanation with an executed example after each concept; definitions in the glossary), `how-to`, or `reference`. Explain the three in one line each. | `guide`, unless the type file says otherwise. |
 | 8 | `depth` | Reading time budget: `10 min`, `20 min`, `40 min`. | `20 min`. |
 | 9 | `source_constraints` | Any sources that must be included or excluded? Minimum publication date? | None beyond the trust policy; date floor = current major version's release. |
 | 10 | `worked_example` | Which concrete case does the worked example use? Offer two candidates in the type's required shape. | The candidate closest to the decision in field 2. |
-| 11 | `interaction` | Is there a figure the reader should manipulate? If yes, what do they change and what do they observe? | `none` unless the type file names a natural island for this subject. |
+| 11 | `interaction` | Which figure, if any, does the reader manipulate, and what do they change and observe? For `architecture` the default is the request-path diagram with one control (client, model, or flag). | The type file's natural island; otherwise `none`. Code examples and static diagrams are not interaction and need no answer here. |
 
 ## Round 3 (only if "none of these" was chosen for type)
 

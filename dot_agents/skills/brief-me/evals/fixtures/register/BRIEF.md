@@ -18,7 +18,7 @@ self
 tool
 
 ## Diátaxis mode
-explanation
+guide
 
 ## Depth
 10 min

@@ -1,7 +1,7 @@
 # technique — an agentic development or engineering practice (gated interviews, spec-first prompting, TDD with agents, context engineering)
 
 ## Default Diátaxis mode
-`explanation`. Use `how-to` when `decision` is "adopt into my workflow" and the reader has already accepted the technique's premise.
+`guide`. Use `how-to` when `decision` is "adopt into my workflow" and the reader has already accepted the technique's premise.
 
 ## Worked-example shape
 A **before/after pair** on the same task: the task statement → the transcript or artefact produced without the technique → the transcript or artefact produced with it → a side-by-side of the differences that matter → which difference the technique caused and which is incidental. Transcripts are quoted verbatim or reproduced by the agent during research and logged in the ledger as an experiment. Fabricated transcripts are not permitted; if none exist, run the technique once and record the run.
