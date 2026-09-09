@@ -1,0 +1,15 @@
+#!/bin/sh
+set -eu
+
+for command in skillgrade skillgrade-omp-agent; do
+  if ! command -v "$command" >/dev/null 2>&1; then
+    printf '%s\n' "Required command not found: $command" >&2
+    exit 127
+  fi
+done
+
+exec skillgrade \
+  --agent=command \
+  --command=skillgrade-omp-agent \
+  --provider=local \
+  "$@"

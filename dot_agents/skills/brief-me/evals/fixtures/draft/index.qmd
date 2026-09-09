@@ -1,0 +1,47 @@
+---
+title: "What SkillGrade counts as passing"
+type: tool
+diataxis: explanation
+audience: self
+question: "What does SkillGrade 0.3.0 count as a passing trial and a passing task, and which number does --ci compare against --threshold?"
+decision: "Choose a --threshold for gating a skill in CI"
+status: draft
+created: 2026-09-09
+updated: 2026-09-09
+bibliography: references.bib
+---
+
+::: {.brief-meta}
+**Question.** What does SkillGrade 0.3.0 count as a passing trial and a passing task, and which number does `--ci` compare against `--threshold`?
+**Decision.** Choose a `--threshold` for gating a skill in CI.
+**Reader.** self.
+:::
+
+## Summary
+
+<!-- One paragraph. Answer the question. No forward references. Every falsifiable claim cited. -->
+
+## Glossary
+
+<!-- Term — one-sentence definition [@key]. Only terms the summary or body uses. Link first use in body to this list. -->
+
+## Body
+
+<!-- Sections in the order the reader needs them to follow the worked example. Stay in the Diátaxis mode named in the front matter. -->
+
+## Worked example
+
+<!-- The full shape required by references/type-tool.md. Nothing elided. -->
+
+## Limitations
+
+<!-- What the sources do not settle. What changed recently. What the worked example does not cover. -->
+
+## Next action
+
+<!-- One concrete step tied to the decision. -->
+
+## References
+
+::: {#refs}
+:::

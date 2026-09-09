@@ -1,0 +1,47 @@
+---
+title: "{{title}}"
+type: {{type}}
+diataxis: TODO
+audience: {{audience}}
+question: "TODO"
+decision: "TODO"
+status: draft
+created: {{created}}
+updated: {{created}}
+bibliography: references.bib
+---
+
+::: {.brief-meta}
+{{audience_badge}}**Question.** TODO — copy from BRIEF.md.
+**Decision.** TODO.
+**Reader.** {{audience}}.
+:::
+
+## Summary
+
+<!-- One paragraph. Answer the question. No forward references. Every falsifiable claim cited. -->
+
+## Glossary
+
+<!-- Term — one-sentence definition [@key]. Only terms the summary or body uses. Link first use in body to this list. -->
+
+## Body
+
+<!-- Sections in the order the reader needs them to follow the worked example. Stay in the Diátaxis mode named in the front matter. -->
+
+## Worked example
+
+<!-- The full shape required by references/type-{{type}}.md. Nothing elided. -->
+
+## Limitations
+
+<!-- What the sources do not settle. What changed recently. What the worked example does not cover. -->
+
+## Next action
+
+<!-- One concrete step tied to the decision. -->
+
+## References
+
+::: {#refs}
+:::

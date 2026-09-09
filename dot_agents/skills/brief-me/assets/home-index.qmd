@@ -1,0 +1,14 @@
+---
+title: "Briefings"
+listing:
+  contents: "*/index.qmd"
+  type: table
+  fields: [title, type, diataxis, status, updated]
+  field-display-names:
+    type: Type
+    diataxis: Mode
+    status: Status
+    updated: Updated
+  sort: "updated desc"
+  filter-ui: true
+---

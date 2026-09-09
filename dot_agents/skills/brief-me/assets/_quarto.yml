@@ -1,0 +1,29 @@
+project:
+  type: website
+  output-dir: _site
+  render:
+    - index.qmd
+    - "*/index.qmd"
+
+website:
+  title: "Briefings"
+  navbar:
+    left:
+      - href: index.qmd
+        text: Briefings
+
+format:
+  html:
+    theme: [cosmo, brief.scss]
+    toc: true
+    toc-depth: 2
+    number-sections: false
+    link-citations: true
+    csl: ieee.csl
+    citations-hover: true
+    footnotes-hover: true
+    code-copy: true
+    html-math-method: katex
+
+execute:
+  freeze: auto

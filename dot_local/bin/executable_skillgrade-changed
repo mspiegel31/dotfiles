@@ -1,0 +1,39 @@
+#!/bin/sh
+# Run skillgrade-omp --smoke --ci for every skill under dot_agents/skills whose
+# directory changed between BASE (default: the remote's HEAD branch) and HEAD and has an
+# eval.yaml. Intended for the dotfiles pre-push hook; usable by hand:
+#   skillgrade-changed [BASE] [extra skillgrade flags...]
+# Set SKILLGRADE_THRESHOLD to override the CI threshold (default 0.7: one
+# zero-reward trial in five caps mean reward at 0.8, so 0.8 fails on a single
+# timeout).
+set -eu
+
+repo=$(git rev-parse --show-toplevel)
+default_base=$(git -C "$repo" symbolic-ref --short refs/remotes/origin/HEAD 2>/dev/null || echo origin/master)
+base=${1:-$default_base}
+[ $# -gt 0 ] && shift
+threshold=${SKILLGRADE_THRESHOLD:-0.7}
+
+if ! git -C "$repo" rev-parse --verify --quiet "$base" >/dev/null; then
+  printf '%s\n' "base ref not found: $base" >&2
+  exit 2
+fi
+
+changed=$(git -C "$repo" diff --name-only "$base"...HEAD -- dot_agents/skills \
+  | awk -F/ 'NF>=3 {print $3}' | sort -u)
+
+if [ -z "$changed" ]; then
+  printf '%s\n' 'no skill directories changed'
+  exit 0
+fi
+
+status=0
+for skill in $changed; do
+  dir="$repo/dot_agents/skills/$skill"
+  [ -f "$dir/eval.yaml" ] || continue
+  printf '\n== %s ==\n' "$skill"
+  if ! (cd "$HOME/.agents/skills/$skill" && skillgrade-omp --smoke --ci --threshold="$threshold" "$@"); then
+    status=1
+  fi
+done
+exit $status

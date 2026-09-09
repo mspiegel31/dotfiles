@@ -1,0 +1,57 @@
+/*-- scss:defaults --*/
+$font-size-root: 17px;
+$line-height-base: 1.55;
+
+/*-- scss:rules --*/
+main.content {
+  max-width: 44rem;
+}
+
+.brief-meta {
+  border-left: 3px solid var(--bs-gray-400);
+  padding: 0.5rem 1rem;
+  margin-bottom: 1.5rem;
+  color: var(--bs-gray-700);
+  font-size: 0.95rem;
+}
+
+.brief-meta p {
+  margin: 0.25rem 0;
+}
+
+.quarto-title-block .quarto-title-meta {
+  display: none;
+}
+
+/* Internal badge: init inserts [Internal]{.audience-internal} when audience is internal */
+.audience-internal {
+  display: inline-block;
+  margin-right: 0.5rem;
+  padding: 0.1rem 0.5rem;
+  border: 1px solid currentColor;
+  border-radius: 0.25rem;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  vertical-align: middle;
+}
+
+@media print {
+  #quarto-sidebar,
+  .navbar,
+  #quarto-margin-sidebar,
+  .code-copy-button {
+    display: none !important;
+  }
+  main.content {
+    max-width: 100%;
+  }
+  a[href^="http"]::after {
+    content: " (" attr(href) ")";
+    font-size: 0.8em;
+  }
+  .csl-entry {
+    break-inside: avoid;
+  }
+}
