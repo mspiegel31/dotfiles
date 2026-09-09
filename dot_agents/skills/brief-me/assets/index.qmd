@@ -25,7 +25,7 @@ pyproject: |
 
 ## Summary
 
-<!-- Line 1: the answer to the question in one sentence. Then 3–6 cited bullets, or at most three short paragraphs. architecture type: the request-path diagram cell goes here, after the bullets. -->
+<!-- Line 1: the answer to the primary question in one sentence. Then one cited bullet per supporting question in BRIEF.md, or at most three short paragraphs. architecture type: the request-path diagram cell goes here, after the bullets. -->
 
 ## Glossary
 
@@ -33,7 +33,7 @@ pyproject: |
 
 ## TODO concept heading
 
-<!-- One concept per ## section, in the order the worked example needs them. 1–2 short paragraphs → an executed code cell, diagram, or table → one sentence reading it back. Formula, if any, in a collapsed callout after the code. -->
+<!-- One ## section per supporting question in BRIEF.md, in the map's order; heading names the concept. 1–2 short paragraphs → an executed code cell, diagram, or table → one sentence reading it back. Formula, if any, in a collapsed callout after the code. -->
 
 ## Worked example
 

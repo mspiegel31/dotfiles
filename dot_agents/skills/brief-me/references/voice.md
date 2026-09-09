@@ -8,7 +8,7 @@ A `guide` briefing is explanation prose that stops for a concrete example after 
 
 ## Section shape
 
-Each `##` section teaches one concept:
+Each `##` section answers one supporting question from `BRIEF.md`, in the map's order. The heading names the concept the answer turns on, not the question verbatim. Inside a section:
 
 1. One or two short paragraphs (each 2–4 sentences) saying what the concept is and why the reader meets it here.
 2. An example: code with sample data, a diagram, or a table. Never a paragraph that restates the prose.
@@ -20,22 +20,21 @@ A section longer than three paragraphs before its example is two concepts; split
 
 The summary is the answer, not an abstract:
 
-- First line: the answer to `question` in one plain sentence.
-- Then 3–6 bullets, each one finding the body supports, each with its citation.
+- First line: the answer to the primary `question` in one plain sentence.
+- Then one bullet per supporting question in `BRIEF.md`, each a one-sentence answer with its citation. Bullets appear in the order of the body sections that expand them.
 - Or, when bullets fight the content, at most three paragraphs of 2–3 sentences each.
 
 Never one paragraph of six or more sentences. For `architecture` briefings the summary also carries the request-path diagram (see `marimo-island.md` § Diagrams).
 
 ## Math becomes code
 
-The reader thinks in code, not notation. Any computation is shown as Python with sample data and its printed output. The code is a `{.marimo}` cell with the code visible and no widgets, so Quarto runs it at render and the output under it is real (see `marimo-island.md` § Code examples). Use numpy or pandas when the shape of the data helps; plain Python when it does not.
+The reader thinks in code, not notation. Any computation is shown as Python with sample data and its printed output. The code is a `{.marimo echo="true"}` cell with no widgets, ending in an expression, so Quarto runs it at render and the output under it is real (see `marimo-island.md` § Code examples). Use numpy or pandas when the shape of the data helps; plain Python when it does not.
 
 ````markdown
-```python {.marimo}
+```python {.marimo echo="true"}
 rewards = [0.9, 0.6, 0.4, 1.0, 0.45]
 successes = sum(r >= 0.5 for r in rewards)
-pass_rate = sum(rewards) / len(rewards)
-print(successes, round(pass_rate, 2))
+{"successes": successes, "pass_rate": round(sum(rewards) / len(rewards), 2)}
 ```
 ````
 

@@ -3,6 +3,12 @@
 ## Question
 What does SkillGrade 0.3.0 count as a passing trial and a passing task, and which number does `--ci` compare against `--threshold`?
 
+## Supporting questions
+- How does one trial become a reward?
+- Which of the three aggregates does `--ci` compare to the threshold?
+- What does pass@k mean when k equals the trial count?
+- What does pass^k add that Pass Rate does not?
+
 ## Decision this feeds
 Choose a `--threshold` for gating a skill in CI.
 

@@ -46,21 +46,22 @@ Rules:
 
 ## Code examples
 
-A code example is a cell with the code visible and no `mo.ui` element. The last expression, or anything printed, renders under the code at render time; the reader sees real output and can also edit and re-run it in the browser.
+A code example is a cell with `echo="true"` and no `mo.ui` element. Code is hidden by default in quarto-marimo; `echo="true"` shows it, `editor="true"` shows it as an editable cell. The static render captures only the cell's **last expression**; `print()` goes to the console and shows nothing until the reader's browser hydrates. End every code example with an expression.
 
 ````markdown
-```python {.marimo}
+```python {.marimo echo="true"}
 import numpy as np
 
 rewards = np.array([0.9, 0.6, 0.4, 1.0, 0.45])
-successes = int((rewards >= 0.5).sum())
-print(f"successes={successes}  pass_rate={rewards.mean():.2f}")
+{"successes": int((rewards >= 0.5).sum()), "pass_rate": round(float(rewards.mean()), 2)}
 ```
 ````
 
 Rules:
 - Sample data is literal and small enough to read; a reader must be able to check the output by eye.
-- One computation per cell. A cell that prints three unrelated numbers is three cells.
+- One computation per cell. A cell that shows three unrelated numbers is three cells.
+- The last line is an expression (a dict, a DataFrame, an f-string, `mo.md(...)`), never `print`.
+- Every third-party import is listed in the front-matter `pyproject` dependencies; a missing one renders as `ModuleNotFoundError` in the page.
 - Prose after the cell reads the output back in one or two sentences. A code example does not need the three-part interpretation an island needs.
 - Imports go in the cell that first uses them unless two or more cells share them; then a first `hide_code` cell holds the imports.
 

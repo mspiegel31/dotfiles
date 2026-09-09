@@ -5,6 +5,10 @@
 ## Question
 TODO
 
+## Supporting questions
+<!-- 3–6 questions the reader expects answered on the way to the primary one. Each becomes a body section. -->
+TODO
+
 ## Decision this feeds
 TODO
 

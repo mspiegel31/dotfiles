@@ -10,7 +10,7 @@ Apply after drafting, before `render`. Hard-fail conditions block `status: revie
 4. **Island without interpretation.** A marimo cell not followed, before the next heading, by prose that names what the reader should observe when they change the input and what that observation means for the question.
 5. **Print or keyboard breakage.** Content that disappears or overflows in print preview; any control unreachable by Tab; any information conveyed only by colour or hover.
 6. **Formula instead of code.** A computation shown as inline or display math without a preceding executed code cell with sample data. Formulas are allowed only inside a collapsed callout after the code (`voice.md` § Math becomes code).
-7. **Dense summary.** A summary that is one paragraph of six or more sentences, or that does not open with a one-sentence answer to `question`. Required shape: answer sentence, then 3–6 cited bullets or at most three short paragraphs (`voice.md` § Summary shape).
+7. **Dense summary.** A summary that is one paragraph of six or more sentences, or that does not open with a one-sentence answer to the primary `question`. Required shape: answer sentence, then one cited bullet per supporting question (or at most three short paragraphs) (`voice.md` § Summary shape).
 
 ## Warn
 
@@ -21,6 +21,7 @@ Apply after drafting, before `render`. Hard-fail conditions block `status: revie
 12. **Glossary term used before defined.** Any term in the glossary appears in the summary or body before its glossary entry is linked.
 13. **Depth overrun.** Rendered reading time exceeds `depth` by more than 25 %.
 14. **Cell without readback.** A code example or diagram not followed by at least one sentence saying what the output showed.
+15. **Supporting question unanswered.** A question listed in `BRIEF.md` § Supporting questions with no body section that answers it, or a body section that answers no listed question.
 
 ## Register
 

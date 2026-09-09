@@ -2,6 +2,8 @@
 
 The interview settles every field of `BRIEF.md` before research or drafting. Decisions belong to the user; facts belong to the agent. Ask a round, wait, recompute the frontier, ask the next round. Stop when every field is settled.
 
+The first thing to settle is the **question map**: the primary question plus the 3–6 supporting questions the reader expects answered on the way. A briefing that answers only the primary question reads as an abstract; the supporting questions are what make it a briefing. Draft the map yourself from the user's request before asking, and present it as an editable default rather than asking the user to invent it.
+
 ## Before round 1
 
 Look up, do not ask:
@@ -15,7 +17,7 @@ Look up, do not ask:
 
 | # | Field | Question | Recommended default |
 |---|-------|----------|---------------------|
-| 1 | `question` | What single question must this briefing answer? Phrase it as a question the summary can answer in one paragraph. | The user's own words, sharpened into one sentence. |
+| 1 | `question` + `supporting_questions` | Present a drafted question map: one primary question, then 3–6 supporting questions in the order a reader would meet them (what is it, how does it decide, what breaks, what does it cost, how do I check). Ask which to keep, cut, reword, or add. | The drafted map, with each supporting question tied to a body section the agent intends to write. |
 | 2 | `decision` | What decision does the answer feed, if any? (Adopt / reject / configure / explain to someone / none.) | Infer from context; offer "none, understanding only" as a choice. |
 | 3 | `audience` | Who reads it: `self`, `team`, or `internal` (SpotOn-only sources permitted)? | `self` (structured for team reuse). |
 | 4 | `prior_knowledge` | What does the reader already know that the briefing must not re-explain? | List two or three adjacent concepts the agent believes the user knows; let them edit. |

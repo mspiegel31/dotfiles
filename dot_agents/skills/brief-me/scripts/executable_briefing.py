@@ -28,6 +28,7 @@ MIN_MARIMO = (0, 23, 16)
 
 BRIEF_FIELDS = (
     "Question",
+    "Supporting questions",
     "Decision this feeds",
     "Audience",
     "Prior knowledge (do not re-explain)",
