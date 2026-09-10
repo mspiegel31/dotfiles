@@ -16,7 +16,13 @@ audit = subprocess.run(["python3", cli, "audit", "briefing", "--json"], capture_
 try:
     report = json.loads(audit.stdout)
     orphans = report["cited_not_in_bib"] + report["cited_not_in_ledger"] + report["bib_not_in_ledger"]
-    add("audit-clean", audit.returncode == 0 and not orphans, f"orphans: {orphans}" if orphans else f"{report['citations']} citations, all in bib and ledger")
+    url_findings = {}
+    for name in ("bib_url_missing", "bib_url_escaped", "bib_url_mismatch"):
+        keys = report.get(name, [])
+        if keys:
+            url_findings[name] = keys
+    findings = orphans + [f"{name}: {keys}" for name, keys in url_findings.items()]
+    add("audit-clean", audit.returncode == 0 and not findings, f"findings: {findings}" if findings else f"{report['citations']} citations, all in bib and ledger")
     add("has-citations", report["citations"] >= 3, f"{report['citations']} distinct citations")
 except (json.JSONDecodeError, KeyError):
     add("audit-clean", False, (audit.stderr or audit.stdout).strip()[:200])

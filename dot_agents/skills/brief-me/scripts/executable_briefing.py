@@ -299,6 +299,104 @@ def ledger_rows(ledger: Path) -> dict[str, dict[str, str]]:
     return rows
 
 
+def _braced_value(text: str, start: int) -> tuple[str, int] | None:
+    if start >= len(text) or text[start] != "{":
+        return None
+    depth = 1
+    pos = start + 1
+    while pos < len(text):
+        char = text[pos]
+        if char == "\\":
+            pos += 2
+            continue
+        if char == "{":
+            depth += 1
+        elif char == "}":
+            depth -= 1
+            if depth == 0:
+                return text[start + 1 : pos], pos + 1
+        pos += 1
+    return None
+
+
+def _bib_entries(text: str) -> list[tuple[str, str]]:
+    entries: list[tuple[str, str]] = []
+    for match in re.finditer(r"^@\w+\s*\{", text, re.MULTILINE):
+        opening = text.find("{", match.start(), match.end())
+        comma = text.find(",", opening + 1)
+        if opening == -1 or comma == -1:
+            continue
+        key = text[opening + 1 : comma].strip()
+        parsed = _braced_value(text, opening)
+        if not key or parsed is None:
+            continue
+        _, end = parsed
+        if end > comma:
+            entries.append((key, text[comma + 1 : end - 1]))
+    return entries
+
+
+def _bib_fields(body: str) -> list[tuple[str, str]]:
+    fields: list[tuple[str, str]] = []
+    pos = 0
+    while pos < len(body):
+        while pos < len(body) and (body[pos].isspace() or body[pos] == ","):
+            pos += 1
+        match = re.match(r"([A-Za-z][\w-]*)\s*=\s*", body[pos:])
+        if not match:
+            pos += 1
+            continue
+        name = match.group(1).lower()
+        pos += match.end()
+        if pos >= len(body):
+            break
+        if body[pos] == "{":
+            parsed = _braced_value(body, pos)
+            if parsed is None:
+                break
+            value, pos = parsed
+        elif body[pos] == '"':
+            end = pos + 1
+            while end < len(body):
+                if body[end] == "\\":
+                    end += 2
+                    continue
+                if body[end] == '"':
+                    break
+                end += 1
+            value = body[pos + 1 : end]
+            pos = min(end + 1, len(body))
+        else:
+            end = body.find(",", pos)
+            if end == -1:
+                end = len(body)
+            value = body[pos:end]
+            pos = end
+        fields.append((name, value.strip()))
+    return fields
+
+
+def bibliography_urls(bib: str) -> dict[str, str | None]:
+    urls: dict[str, str | None] = {}
+    for key, body in _bib_entries(bib):
+        fields = _bib_fields(body)
+        direct = next((value for name, value in fields if name == "url" and value), None)
+        if direct is not None:
+            urls[key] = direct
+            continue
+        legacy = next((value for name, value in fields if name == "howpublished" and value), None)
+        if legacy is None:
+            urls[key] = None
+            continue
+        match = re.match(r"\\url\s*\{", legacy)
+        if not match:
+            urls[key] = None
+            continue
+        parsed = _braced_value(legacy, match.end() - 1)
+        urls[key] = parsed[0].strip() if parsed is not None else None
+    return urls
+
+
 def collect_citations(path: Path) -> tuple[dict[str, list[int]], set[str], dict[str, dict[str, str]]]:
     qmd, bib, ledger = path / "index.qmd", path / "references.bib", path / "sources" / "LEDGER.md"
     for p in (qmd, bib, ledger):
@@ -314,25 +412,48 @@ def collect_citations(path: Path) -> tuple[dict[str, list[int]], set[str], dict[
 def cmd_audit(a: argparse.Namespace) -> None:
     path = Path(a.path).expanduser().resolve()
     cited, bib_keys, rows = collect_citations(path)
+    bib_urls = bibliography_urls((path / "references.bib").read_text(encoding="utf-8"))
+    bib_url_missing = sorted(key for key in bib_keys if not bib_urls.get(key))
+    bib_url_escaped = sorted(key for key in bib_keys if "\\" in (bib_urls.get(key) or ""))
+    bib_url_mismatch = sorted(
+        key
+        for key in bib_keys
+        if bib_urls.get(key) and key in rows and bib_urls[key] != rows[key]["url"]
+    )
     report = {
         "cited_not_in_bib": sorted(set(cited) - bib_keys),
         "cited_not_in_ledger": sorted(set(cited) - set(rows)),
         "bib_not_in_ledger": sorted(bib_keys - set(rows)),
         "ledger_not_cited": sorted(set(rows) - set(cited)),
+        "bib_url_missing": bib_url_missing,
+        "bib_url_escaped": bib_url_escaped,
+        "bib_url_mismatch": bib_url_mismatch,
         "citations": len(cited),
         "ledger_rows": len(rows),
     }
+    hard_names = (
+        "cited_not_in_bib",
+        "cited_not_in_ledger",
+        "bib_not_in_ledger",
+        "bib_url_missing",
+        "bib_url_escaped",
+        "bib_url_mismatch",
+    )
     if a.json:
         print(json.dumps(report, indent=2))
-        sys.exit(1 if report["cited_not_in_bib"] or report["cited_not_in_ledger"] or report["bib_not_in_ledger"] or report["citations"] == 0 else 0)
+        sys.exit(1 if any(report[name] for name in hard_names) or report["citations"] == 0 else 0)
     for name in ("cited_not_in_bib", "cited_not_in_ledger", "bib_not_in_ledger"):
         for key in report[name]:
             print(f"FAIL {name}: @{key}", file=sys.stderr)
+    for name in ("bib_url_missing", "bib_url_escaped", "bib_url_mismatch"):
+        for key in report[name]:
+            bib_url = bib_urls.get(key)
+            ledger_url = rows.get(key, {}).get("url")
+            print(f"FAIL {name}: @{key} bib_url={bib_url!r} ledger_url={ledger_url!r}", file=sys.stderr)
     for key in report["ledger_not_cited"]:
         print(f"warn ledger_not_cited: {key}")
     ok(f"{report['citations']} distinct citations, {report['ledger_rows']} ledger rows")
-    hard = report["cited_not_in_bib"] or report["cited_not_in_ledger"] or report["bib_not_in_ledger"]
-    if hard:
+    if any(report[name] for name in hard_names):
         sys.exit(1)
     if report["citations"] == 0:
         fail("no citations found in index.qmd prose")

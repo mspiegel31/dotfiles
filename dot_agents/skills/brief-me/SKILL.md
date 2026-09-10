@@ -39,7 +39,7 @@ Terminology used throughout: **briefing** (one directory: `index.qmd`, `BRIEF.md
 2. Fetch primary and vendor sources first. Community sources are allowed only for opinion or experience and must be labelled as such in prose.
 3. Internal sources (Confluence, infra-docs, internal repositories) are allowed only when `BRIEF.md` has `audience: internal`; the rendered document then carries a visible "Internal" badge from the template.
 4. Record every URL actually fetched in `sources/LEDGER.md` as one row: key, URL, fetch date, one-line summary. A URL that was not fetched may not be cited.
-5. Write a BibTeX entry in `references.bib` for each ledger row, using the same key. Cite in prose with `[@key]`.
+5. Write a BibTeX entry in `references.bib` for each ledger row, using the same key. Copy the ledger URL byte-for-byte into a braced `url` field and keep URL characters raw: `_`, `#`, `&`, and `%` remain unescaped in BibTeX. For example, a Google Sheets ledger URL `https://docs.google.com/spreadsheets/d/abc123/edit#gid=0` becomes `url = {https://docs.google.com/spreadsheets/d/abc123/edit#gid=0}`.
 6. Never rely on parametric knowledge for a falsifiable claim (a number, a behaviour, an API shape, a version constraint). Find the source or drop the claim.
 
 **Step 6: Draft index.qmd**
@@ -53,7 +53,7 @@ Terminology used throughout: **briefing** (one directory: `index.qmd`, `BRIEF.md
 8. Every falsifiable claim carries `[@key]`.
 
 **Step 7: Review and render**
-1. Run `python3 scripts/briefing.py audit <path>`. It cross-checks `@key` citations, `references.bib`, and the ledger, and exits non-zero on any orphan. Fix every finding.
+1. Run `python3 scripts/briefing.py audit <path>`. Before render, `audit` checks citation, BibTeX, and ledger key membership, raw URL parity with the ledger, missing URL fields, and backslashes in parsed bibliography URLs. It exits non-zero on any hard finding. Fix every finding; `ledger_not_cited` remains a warning.
 2. Read `references/rubric.md` and review the draft against every hard-fail condition. Fix, do not annotate.
 3. Run `python3 scripts/briefing.py render <path> --open`. Inspect the rendered page: print layout (`Cmd+P` preview) and keyboard reachability of every control.
 4. Set `status: reviewed` in front matter and `BRIEF.md`.
