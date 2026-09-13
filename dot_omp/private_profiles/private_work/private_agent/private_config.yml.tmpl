@@ -1,13 +1,14 @@
 {{ template "omp/config-base.yml.tmpl" . }}
+plan:
+  enabled: true
 modelRoles:
-  default: spoton/gpt-5-6-sol
-  slow: spoton/claude-fable-5-1:auto
+  default: spoton/gpt-5-6-terra
+  slow: spoton/gpt-5-6-sol:auto
   plan: spoton/claude-opus-5:medium
   advisor: spoton/gpt-5-6-terra:minimal
   tiny: spoton/gpt-5-6-luna:off
   smol: spoton/gpt-5-6-luna:auto
   task: spoton/gpt-5-6-luna:auto
-  local: litellm/qwen3.8-27b-nvfp4:medium
 disabledProviders:
   - opencode
   - mistral
@@ -16,7 +17,7 @@ disabledProviders:
   - llama-swap
 task:
   isolation:
-    enabled: true
+    mode: auto
   agentModelOverrides:
     {}
   agentAdvisor:

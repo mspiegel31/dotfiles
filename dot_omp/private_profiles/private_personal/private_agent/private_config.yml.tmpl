@@ -1,12 +1,19 @@
 {{ template "omp/config-base.yml.tmpl" . }}
+extensions:
+  - "{{ .chezmoi.homeDir }}/.omp/agent/extensions/herdr-omp-agent-state.ts"
+plan:
+  enabled: true
+  autosave: true
+  autosaveDir: ~/plans
 modelRoles:
   advisor: openai-codex/gpt-5.6-terra:auto
   default: openai-codex/gpt-5.6-sol
-  plan: openai-codex/gpt-5.6-sol:auto
-  task: opencode-zen/nemotron-3-ultra-free
+  plan: openai-codex/gpt-6-astra:auto
+  task: openai-codex/gpt-5.6-luna:auto
   smol: openai-codex/gpt-5.6-luna:auto
   local: litellm/qwen3.8-27b-nvfp4:medium
   tiny: litellm/qwen3.8-27b-nvfp4:low
+  slow: openai-codex/gpt-6-astra:auto
 disabledProviders:
   - opencode
   - opencode-go

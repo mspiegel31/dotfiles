@@ -1,12 +1,13 @@
 {
   "$schema": "https://raw.githubusercontent.com/can1357/oh-my-pi/main/packages/coding-agent/src/config/mcp-schema.json",
   "disabledServers": [
-    "slack-official",
-    "google-workspace",
-    "rovo",
-    "grafana-mcp-server",
     "backstage",
+    "cloudflare",
     "gitops-local-mcp",
+    "google-workspace",
+    "grafana-mcp-server",
+    "rovo",
+    "slack-official",
     "spoton-mcp"
   ],
   "mcpServers": {
