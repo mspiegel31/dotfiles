@@ -15,7 +15,7 @@
       "command": "uvx",
       "args": [
         "--from",
-        "mcp-portainer~=2.44.0",
+        "mcp-portainer~=2.45.1",
         "mcp-portainer"
       ],
       "timeout": 180000,
