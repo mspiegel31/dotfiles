@@ -1,0 +1,10 @@
+{
+  "servers": {
+    "pyright": {
+      "rootMarkers": ["."]
+    },
+    "typescript-native": {
+      "rootMarkers": ["."]
+    }
+  }
+}
