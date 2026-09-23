@@ -93,6 +93,8 @@ class TshProxyManager {
   // ── Proxy lifecycle (private helpers) ──
 
   async #startAndWaitForProxy() {
+    if (!await this.#hasValidTeleportSession()) return false;
+
     const child = this.#spawnTshProxy();
     if (!await this.#waitForProxy(child)) {
       log("ERROR: tsh proxy did not start within 15s");
@@ -111,6 +113,18 @@ class TshProxyManager {
     }
     log("MCP endpoint validated OK");
     return true;
+  }
+
+  async #hasValidTeleportSession() {
+    try {
+      await execFileAsync("tsh", ["status", "--format=json"], {
+        env: { ...process.env, TELEPORT_CLUSTER: CLUSTER },
+      });
+      return true;
+    } catch {
+      log(`ERROR: Teleport session is unavailable; run tsh login --proxy=${CLUSTER} before using ${APP_NAME}`);
+      return false;
+    }
   }
 
   async #isProxyRunning() {

@@ -215,7 +215,54 @@ function aws_choose_role() {
       --query "${ASSUME_ROLE_INTERACTIVE_QUERY:-}"
 }
 
+function _spoton_aws_child() {
+  local profile=$1
+  shift
+  env -u AWS_ACCESS_KEY_ID -u AWS_SECRET_ACCESS_KEY -u AWS_SESSION_TOKEN -u AWS_SECURITY_TOKEN \
+    AWS_PROFILE="$profile" "$@"
+}
+
+function _spoton_ensure_aws_sso() {
+  local profile=$1 identity_error identity_status
+  identity_error="$(_spoton_aws_child "$profile" aws sts get-caller-identity --profile "$profile" --no-cli-pager 2>&1)"
+  identity_status=$?
+  if (( identity_status == 0 )); then
+    return 0
+  fi
+
+  local normalized_error=${(L)identity_error}
+  if [[ "$normalized_error" != *"sso token associated with this profile has expired or is otherwise invalid"* && \
+        "$normalized_error" != *"sso session associated with this profile has expired or is otherwise invalid"* && \
+        "$normalized_error" != *"error loading sso token"* && \
+        "$normalized_error" != *"token has expired and refresh failed"* ]]; then
+    print -u2 -- "$identity_error"
+    return $identity_status
+  fi
+
+  if [[ ! -o interactive || ! -t 0 || ! -t 1 ]]; then
+    print -u2 -- "$identity_error"
+    print -u2 -- "AWS SSO login is required; run interactively: aws sso login --profile $profile"
+    return $identity_status
+  fi
+
+  _spoton_aws_child "$profile" aws sso login --profile "$profile" --no-cli-pager || return $?
+  identity_error="$(_spoton_aws_child "$profile" aws sts get-caller-identity --profile "$profile" --no-cli-pager 2>&1)"
+  identity_status=$?
+  if (( identity_status != 0 )); then
+    print -u2 -- "$identity_error"
+  fi
+  return $identity_status
+}
+
 function assume-role() {
+  if [[ "$1" == --help ]]; then
+    print -- 'Usage: ar [profile] [command...]'
+    print -- 'Native AWS SSO authenticates the selected profile before opening a subshell or command.'
+    print -- 'EKS uses the AWS_PROFILE bound in its kubeconfig exec entry, even when the shell profile differs.'
+    print -- 'Teleport is independent of AWS: spoton-kube-login <leaf> <kube-cluster>; s selects per-terminal context/namespace.'
+    print -- 'Teleport identity credentials are shared; expiry/logout can affect all terminals, but target bindings remain pinned.'
+    return 0
+  fi
   local role=$1
   [[ -n $role ]] && shift
 
@@ -225,14 +272,167 @@ function assume-role() {
     return 1
   fi
 
+  _spoton_ensure_aws_sso "$role" || return $?
   if [[ $# -eq 0 ]]; then
     echo "# Assuming $role (subshell — exit to return)"
-    AWS_PROFILE="$role" ASSUME_ROLE="$role" zsh
+    env -u AWS_ACCESS_KEY_ID -u AWS_SECRET_ACCESS_KEY -u AWS_SESSION_TOKEN -u AWS_SECURITY_TOKEN \
+      AWS_PROFILE="$role" ASSUME_ROLE="$role" zsh
   else
-    AWS_PROFILE="$role" "$@"
+    _spoton_aws_child "$role" "$@"
   fi
 }
 alias ar=assume-role
+
+function _spoton_safe_identifier() {
+  local value=$1
+  [[ -n "$value" && "$value" != -* && "$value" != *..* && "$value" != *[[:cntrl:]]* && "$value" != *[^A-Za-z0-9._-]* ]]
+}
+
+function _spoton_json_has_exact_name() {
+  local expected=$1
+  python3 -c '
+import json
+import sys
+
+expected = sys.argv[1]
+data = json.load(sys.stdin)
+if isinstance(data, dict):
+    data = data.get("clusters", data.get("items", []))
+if not isinstance(data, list):
+    raise SystemExit(1)
+names = [item if isinstance(item, str) else item.get("cluster_name", item.get("kube_cluster_name", item.get("name", item.get("metadata", {}).get("name")))) for item in data if isinstance(item, (str, dict))]
+raise SystemExit(0 if names.count(expected) == 1 else 1)
+' "$expected"
+}
+
+function _spoton_context_exec_args() {
+  local selected_context=$1
+  python3 -c '
+import json
+import sys
+
+selected_context = sys.argv[1]
+config = json.load(sys.stdin)
+contexts = [entry for entry in config.get("contexts", []) if entry.get("name") == selected_context]
+if len(contexts) != 1:
+    raise SystemExit(1)
+user_name = contexts[0].get("context", {}).get("user")
+users = [entry for entry in config.get("users", []) if entry.get("name") == user_name]
+if len(users) != 1:
+    raise SystemExit(1)
+args = users[0].get("user", {}).get("exec", {}).get("args")
+if not isinstance(args, list) or not all(isinstance(arg, str) for arg in args):
+    raise SystemExit(1)
+print("\n".join(args))
+' "$selected_context"
+}
+
+function _spoton_exec_has_option() {
+  local option=$1 value=$2 line expecting_value=false
+  shift 2
+  for line in "$@"; do
+    if [[ "$line" == "$option=$value" ]]; then
+      return 0
+    fi
+    if [[ "$expecting_value" == true && "$line" == "$value" ]]; then
+      return 0
+    fi
+    if [[ "$line" == "$option" ]]; then
+      expecting_value=true
+    else
+      expecting_value=false
+    fi
+  done
+  return 1
+}
+
+function spoton-kube-login() {
+  setopt localoptions pipefail
+  if (( $# != 2 )) || ! _spoton_safe_identifier "$1" || ! _spoton_safe_identifier "$2"; then
+    print -u2 -- "usage: spoton-kube-login <teleport-cluster> <kube-cluster> (path-safe names only)"
+    return 2
+  fi
+  if (( ! $+commands[tsh] || ! $+commands[kubectl] || ! $+commands[spoton-kubeconfig-merge] || ! $+functions[switch] )); then
+    print -u2 -- "spoton-kube-login requires tsh, kubectl, spoton-kubeconfig-merge, and the initialized switch shell function"
+    return 127
+  fi
+
+  local leaf=$1 kube_cluster=$2 temporary_directory temporary_kubeconfig cluster_json kube_json command_status
+  local context target_config exec_arguments_file backup_config selected_config expected_view selected_view
+  local -a exec_arguments
+  temporary_directory=$(umask 077; mktemp -d "${TMPDIR:-/tmp}/spoton-kube-login.XXXXXXXX") || return 1
+  temporary_kubeconfig="$temporary_directory/config"
+  : > "$temporary_kubeconfig" && chmod 600 "$temporary_kubeconfig" || { rm -rf -- "$temporary_directory"; return 1; }
+
+  if ! KUBECONFIG="$temporary_kubeconfig" tsh status --proxy="$TELEPORT_PROXY" --format=json >/dev/null 2>&1; then
+    KUBECONFIG="$temporary_kubeconfig" tsh login --proxy="$TELEPORT_PROXY" --auth=okta || { command_status=$?; rm -rf -- "$temporary_directory"; return $command_status; }
+  fi
+
+  cluster_json="$temporary_directory/clusters.json"
+  KUBECONFIG="$temporary_kubeconfig" tsh clusters --proxy="$TELEPORT_PROXY" --format=json > "$cluster_json" || { command_status=$?; rm -rf -- "$temporary_directory"; return $command_status; }
+  _spoton_json_has_exact_name "$leaf" < "$cluster_json" || { print -u2 -- "Teleport leaf is missing or ambiguous: $leaf"; rm -rf -- "$temporary_directory"; return 1; }
+
+  KUBECONFIG="$temporary_kubeconfig" tsh login --proxy="$TELEPORT_PROXY" --auth=okta "$leaf" || { command_status=$?; rm -rf -- "$temporary_directory"; return $command_status; }
+  kube_json="$temporary_directory/kube-clusters.json"
+  KUBECONFIG="$temporary_kubeconfig" tsh kube ls --proxy="$TELEPORT_PROXY" --cluster="$leaf" --format=json > "$kube_json" || { command_status=$?; rm -rf -- "$temporary_directory"; return $command_status; }
+  _spoton_json_has_exact_name "$kube_cluster" < "$kube_json" || { print -u2 -- "Kubernetes cluster is missing or ambiguous in $leaf: $kube_cluster"; rm -rf -- "$temporary_directory"; return 1; }
+
+  KUBECONFIG="$temporary_kubeconfig" tsh kube login --proxy="$TELEPORT_PROXY" --cluster="$leaf" --disable-access-request "$kube_cluster" || { command_status=$?; rm -rf -- "$temporary_directory"; return $command_status; }
+  context=$(kubectl --kubeconfig "$temporary_kubeconfig" config current-context) || { print -u2 -- "Teleport did not create a usable kubeconfig context"; rm -rf -- "$temporary_directory"; return 1; }
+  exec_arguments_file="$temporary_directory/selected-context-exec-args"
+  kubectl --kubeconfig "$temporary_kubeconfig" config view -o json | _spoton_context_exec_args "$context" > "$exec_arguments_file" || {
+    print -u2 -- "Selected context does not reference exactly one exec-configured user"
+    rm -rf -- "$temporary_directory"
+    return 1
+  }
+  exec_arguments=("${(@f)$(<"$exec_arguments_file")}")
+  _spoton_exec_has_option --proxy "$TELEPORT_PROXY" "${exec_arguments[@]}" && \
+    _spoton_exec_has_option --teleport-cluster "$leaf" "${exec_arguments[@]}" && \
+    _spoton_exec_has_option --kube-cluster "$kube_cluster" "${exec_arguments[@]}" || {
+      print -u2 -- "Selected context's kubeconfig user is missing an exact Teleport proxy, leaf, or Kubernetes-cluster pin"
+      rm -rf -- "$temporary_directory"
+      return 1
+    }
+
+  target_config="$HOME/.kube/config"
+  [[ ! -L "$target_config" && ( ! -e "$target_config" || -f "$target_config" ) ]] || { print -u2 -- "Refusing symlink or non-file collision: $target_config"; rm -rf -- "$temporary_directory"; return 1; }
+  if [[ ! -d "$HOME/.kube" ]]; then
+    mkdir -m 700 "$HOME/.kube" || { rm -rf -- "$temporary_directory"; return 1; }
+  fi
+  backup_config="$temporary_directory/prior-config"
+  if [[ -f "$target_config" ]]; then
+    cp -p "$target_config" "$backup_config" || { rm -rf -- "$temporary_directory"; return 1; }
+  fi
+  spoton-kubeconfig-merge "$target_config" "$temporary_kubeconfig" || { command_status=$?; rm -rf -- "$temporary_directory"; return $command_status; }
+  # An explicit kubeconfig flag is additive in kubeswitch v0.9.3. Isolate
+  # discovery and selection in a subshell, leaving the caller untouched on failure.
+  python3 -c 'import json,sys; json.dump({"kind":"SwitchConfig","version":"v1alpha1","showPreview":False,"kubeconfigStores":[{"kind":"filesystem","paths":[sys.argv[1]]}]},sys.stdout)' "$target_config" > "$temporary_directory/switch.json"
+  selected_config=$(
+    unset KUBECONFIG
+    switch --config-path "$temporary_directory/switch.json" --state-directory "$temporary_directory/switch-state" \
+      --no-index --show-preview=false --kubeconfig-path "$target_config" set-context "$context" >&2
+    [[ -n "${KUBECONFIG-}" ]] || exit 1
+    print -r -- "$KUBECONFIG"
+  )
+  command_status=$?
+  expected_view=$(kubectl --kubeconfig "$target_config" --context "$context" config view --minify -o json)
+  selected_view=""
+  if (( command_status == 0 )) && [[ -f "$selected_config" && ! -L "$selected_config" ]]; then
+    selected_view=$(kubectl --kubeconfig "$selected_config" config view --minify -o json)
+  fi
+  if [[ -z "$expected_view" || "$selected_view" != "$expected_view" ]] || ! chmod 600 "$selected_config"; then
+    if [[ -f "$backup_config" ]]; then
+      mv -f "$backup_config" "$target_config"
+    else
+      rm -f -- "$target_config"
+    fi
+    rm -rf -- "$temporary_directory"
+    return 1
+  fi
+  export KUBECONFIG="$selected_config"
+  rm -rf -- "$temporary_directory"
+  print -- "Selected Teleport Kubernetes context $context from $target_config"
+}
 
 if [[ "$TERM_PROGRAM" == "iTerm.app" && -n "$ASSUME_ROLE" ]]; then
   printf '\e]1337;SetBadgeFormat=%s\a' "$(printf '%s' "$ASSUME_ROLE" | base64)"

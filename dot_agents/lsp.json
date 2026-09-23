@@ -5,6 +5,42 @@
     },
     "typescript-native": {
       "rootMarkers": ["."]
+    },
+    "eslint": {
+      "settings": {
+        "": {
+          "validate": "on",
+          "packageManager": "npm",
+          "useESLintClass": false,
+          "useRealpaths": false,
+          "experimental": {
+            "useFlatConfig": false
+          },
+          "codeActionOnSave": {
+            "mode": "all"
+          },
+          "format": false,
+          "quiet": false,
+          "onIgnoredFiles": "off",
+          "options": {},
+          "rulesCustomizations": [],
+          "run": "onType",
+          "problems": {
+            "shortenToSingleLine": false
+          },
+          "nodePath": null,
+          "codeAction": {
+            "disableRuleComment": {
+              "enable": true,
+              "location": "separateLine",
+              "commentStyle": "line"
+            },
+            "showDocumentation": {
+              "enable": true
+            }
+          }
+        }
+      }
     }
   }
 }

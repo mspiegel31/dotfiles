@@ -1,14 +1,17 @@
 {{ template "omp/config-base.yml.tmpl" . }}
 plan:
   enabled: true
+  autosave: true
+  autosaveDir: ~/plans
 modelRoles:
-  default: spoton/gpt-5-6-terra
-  slow: spoton/gpt-5-6-sol:auto
-  plan: spoton/claude-opus-5:medium
+  default: spoton/gpt-5-6-sol
+  slow: spoton/gpt-6-astra:auto
+  plan: spoton/gpt-6-astra:auto
   advisor: spoton/gpt-5-6-terra:minimal
   tiny: spoton/gpt-5-6-luna:off
-  smol: spoton/gpt-5-6-luna:auto
-  task: spoton/gpt-5-6-luna:auto
+  smol: spoton/claude-sonnet-5:auto
+  task: spoton/gpt-5-6-terra:auto
+  local: litellm/qwen3.8-27b-nvfp4:medium
 disabledProviders:
   - opencode
   - mistral
@@ -17,10 +20,12 @@ disabledProviders:
   - llama-swap
 task:
   isolation:
-    mode: auto
+    enabled: true
   agentModelOverrides:
     {}
   agentAdvisor:
+    security-reviewer: "off"
+    sonic: "off"
     task: "on"
   enableLsp: true
 retry:

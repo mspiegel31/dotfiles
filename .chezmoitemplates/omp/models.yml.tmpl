@@ -6,6 +6,14 @@ providers:
     discovery:
       type: litellm
     modelOverrides:
+      muse-glimmer-30b-nvidia-nvfp4:
+        reasoning: true
+        thinking:
+          mode: effort
+          efforts: [low, medium, high, xhigh]
+        compat:
+          supportsReasoningEffort: true
+          thinkingFormat: openai
       qwen3.8-27b-nvfp4-bf16-lmhead:
         reasoning: true
         thinking:
@@ -14,3 +22,12 @@ providers:
           requiresEffort: false
         compat:
           thinkingFormat: qwen-chat-template
+
+      swift-qwen3.8-27b-nvfp4:
+        thinking:
+          mode: effort
+          efforts: [low, medium, xhigh]
+          requiresEffort: false
+        compat:
+          thinkingFormat: qwen-chat-template
+          qwenTemplateReasoningEffort: true
