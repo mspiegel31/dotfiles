@@ -40,3 +40,15 @@ providers:
         compat:
           thinkingFormat: qwen-chat-template
           qwenTemplateReasoningEffort: true
+
+      qwen3.8-flash-next-nvfp4:
+        reasoning: true
+        thinking:
+          mode: effort
+          efforts: [low, medium, xhigh]
+          requiresEffort: false
+        compat:
+          thinkingFormat: qwen-chat-template
+          qwenTemplateReasoningEffort: true
+          replayReasoningContent: true
+          qwenPreserveThinking: true
